@@ -1,329 +1,858 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn" class="h-full">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#123b75">
-<title>Main Loyalty Platform</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f4f7fc;color:#172b4d}
-header{background:linear-gradient(130deg,#10265b,#2868d7);color:white;padding:22px 16px}
-.wrap{max-width:1000px;margin:auto}
-.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.brand{font-size:22px;font-weight:bold}
-button,input,select{font:inherit}
-button{cursor:pointer;border:0;border-radius:9px;padding:11px 14px}
-.admin{background:white;color:#174ea6;font-weight:bold}
-main{max-width:1000px;margin:auto;padding:18px 14px 50px}
-.card{background:white;border:1px solid #e1e7f0;border-radius:15px;padding:18px;margin-bottom:16px}
-h1{font-size:25px}
-h2{font-size:21px}
-.muted{color:#667085;font-size:14px}
-input,select{width:100%;padding:12px;border:1px solid #ccd5e3;border-radius:9px;background:white}
-.search{margin:12px 0}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 22px}
-.filter{background:white;border:1px solid #dbe3f0}
-.filter.active{background:#174ea6;color:white}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.business{background:white;border:1px solid #e1e7f0;border-radius:14px;padding:18px;overflow-wrap:anywhere}
-.emoji{font-size:30px;margin-bottom:10px}
-.pill{font-size:12px;color:#174ea6;background:#eaf1ff;border-radius:20px;padding:5px 9px}
-.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
-.stat{background:#eaf1ff;padding:16px;border-radius:12px}
-.stat strong{display:block;font-size:27px;margin-top:8px;color:#174ea6}
-.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
-.field label{display:block;font-size:13px;font-weight:bold;margin-bottom:7px}
-.field.full{grid-column:1/-1}
-.primary{background:#174ea6;color:white}
-.secondary{background:#eaf1ff;color:#174ea6}
-.danger{background:#ffebeb;color:#b42318}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid #e5eaf2}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
-.hidden{display:none!important}
-.notice{padding:12px;background:#fff6df;border-radius:9px;font-size:13px;line-height:1.5}
-.empty{padding:22px;text-align:center;color:#667085;background:white;border-radius:10px}
-@media(max-width:520px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.brand{font-size:19px}.stats{grid-template-columns:1fr 1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>StampRewards - Customer Loyalty App</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Hind Siliguri"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f5ff',
+              100: '#e0ecff',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          },
+          keyframes: {
+            scan: {
+              '0%, 100%': { transform: 'translateY(0%)' },
+              '50%': { transform: 'translateY(220px)' },
+            }
+          },
+          animation: {
+            scan: 'scan 2.5s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .scanner-laser {
+      box-shadow: 0 0 12px 2px rgba(59, 130, 246, 0.85);
+    }
+  </style>
 </head>
-<body>
-<header>
- <div class="wrap top">
-  <div>
-   <div class="brand">⭐ Main Loyalty Platform</div>
-   <p style="margin:6px 0 0">One platform · Many businesses · More rewards</p>
-  </div>
-  <button class="admin" id="adminToggle" type="button">⚙️ Main Admin Panel</button>
- </div>
-</header>
 
-<main>
- <section id="homePage">
-  <div class="card">
-   <h1>Hello, Welcome! 👋</h1>
-   <p class="muted">Discover shopping malls, shops, restaurants and grocery stores.</p>
-   <input id="searchBox" class="search" type="search" placeholder="🔍 Search businesses...">
-   <div class="filters" id="filters">
-    <button class="filter active" data-category="All">All</button>
-    <button class="filter" data-category="Mall">Shopping Mall</button>
-    <button class="filter" data-category="Shop">Shop</button>
-    <button class="filter" data-category="Food">Food</button>
-    <button class="filter" data-category="Grocery">Grocery</button>
-   </div>
-   <h2>Our Business Partners</h2>
-   <p class="muted" id="count"></p>
-   <div class="grid" id="businessGrid"></div>
-  </div>
- </section>
+<body class="h-full bg-slate-900 text-slate-800 antialiased font-sans flex flex-col items-center justify-center p-0 sm:p-4 select-none">
 
- <section id="adminPage" class="hidden">
-  <div class="card">
-   <h1>⚙️ Main Admin Dashboard</h1>
-   <p class="muted">Manage your platform's business directory.</p>
-   <button type="button" class="secondary" id="backHome">← Back to Home</button>
-  </div>
-
-  <div class="notice">
-   Prototype only: this panel has no secure admin login. Business information is stored only in this browser. Do not enter customer personal information.
-  </div>
-
-  <div class="stats">
-   <div class="stat">Total Businesses<strong id="total">0</strong></div>
-   <div class="stat">Shopping Malls<strong id="malls">0</strong></div>
-   <div class="stat">Shops<strong id="shops">0</strong></div>
-   <div class="stat">Food & Grocery<strong id="other">0</strong></div>
-  </div>
-
-  <div class="card">
-   <h2 id="formTitle">➕ Add a Business</h2>
-   <form id="businessForm">
-    <input id="editId" type="hidden">
-    <div class="formgrid">
-     <div class="field">
-      <label for="businessName">Business Name *</label>
-      <input id="businessName" maxlength="80" required placeholder="e.g. Vishal Mega Mart">
-     </div>
-     <div class="field">
-      <label for="businessCategory">Category *</label>
-      <select id="businessCategory">
-       <option value="Mall">Shopping Mall</option>
-       <option value="Shop">Shop</option>
-       <option value="Food">Food & Restaurant</option>
-       <option value="Grocery">Grocery</option>
-      </select>
-     </div>
-     <div class="field">
-      <label for="businessLocation">Location</label>
-      <input id="businessLocation" maxlength="100" placeholder="Belonia, South Tripura">
-     </div>
-     <div class="field">
-      <label for="businessIcon">Emoji Icon</label>
-      <input id="businessIcon" maxlength="8" value="🏪">
-     </div>
-     <div class="field full">
-      <label for="businessDescription">Description</label>
-      <input id="businessDescription" maxlength="160" placeholder="Short business description">
-     </div>
+  <!-- Desktop Device Container / Mobile Frame Wrapper -->
+  <div id="appContainer" class="w-full h-full sm:h-[880px] sm:max-w-[420px] bg-slate-50 sm:rounded-[36px] shadow-2xl flex flex-col overflow-hidden relative border-0 sm:border-[8px] sm:border-slate-800">
+    
+    <!-- Top System Status Bar (Mobile feel) -->
+    <div class="w-full bg-white px-6 pt-3 pb-2 flex items-center justify-between text-xs font-semibold text-slate-800 z-30 shrink-0 border-b border-slate-100">
+      <span id="deviceClock">9:41</span>
+      <div class="flex items-center space-x-1.5 text-slate-700">
+        <i data-lucide="signal" class="w-3.5 h-3.5"></i>
+        <i data-lucide="wifi" class="w-3.5 h-3.5"></i>
+        <i data-lucide="battery" class="w-4 h-4 fill-current"></i>
+      </div>
     </div>
-    <div class="actions" style="margin-top:15px">
-     <button class="primary" id="saveButton" type="submit">Save Business</button>
-     <button class="secondary hidden" id="cancelEdit" type="button">Cancel Edit</button>
+
+    <!-- MAIN SCROLLABLE SCREENS CONTAINER -->
+    <main class="flex-1 overflow-y-auto relative bg-[#F8FAFC]">
+      
+      <!-- ================= 1. HOME SCREEN ================= -->
+      <section id="screen-home" class="screen-view pb-24">
+        <!-- Blue Header Background -->
+        <div class="bg-gradient-to-b from-brand-700 via-brand-600 to-brand-600 text-white px-5 pt-4 pb-14 rounded-b-[32px] shadow-sm relative">
+          <!-- User Greeting & Notifications -->
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h1 id="homeUserGreeting" class="text-2xl font-bold tracking-tight">Hello, Rahul</h1>
+              <p class="text-blue-100 text-xs font-medium mt-0.5">Collect Stamps • Get Rewards</p>
+            </div>
+            <button onclick="showToast('No new notifications today!')" class="w-10 h-10 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 flex items-center justify-center transition backdrop-blur-sm border border-white/20 relative">
+              <i data-lucide="bell" class="w-5 h-5 text-white"></i>
+              <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-400 rounded-full ring-2 ring-brand-700"></span>
+            </button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="relative mt-2">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input 
+              type="text" 
+              placeholder="Search malls, restaurants & shops" 
+              class="w-full bg-white text-slate-800 text-xs py-3 pl-10 pr-4 rounded-xl shadow-md outline-none focus:ring-2 focus:ring-blue-300 transition placeholder:text-slate-400"
+            />
+          </div>
+        </div>
+
+        <div class="px-4 -mt-9 space-y-5">
+          <!-- Vibrant Promotional Banner -->
+          <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-600 p-4 shadow-lg text-white">
+            <div class="relative z-10 max-w-[65%]">
+              <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-sm inline-block mb-1">Mega Offer</span>
+              <h3 class="text-base font-extrabold leading-snug">Shop More<br>Collect More<br><span class="text-amber-300 font-black">Get Rewards</span></h3>
+              <button onclick="switchTab('screen-scan')" class="mt-2.5 px-3.5 py-1.5 bg-amber-400 hover:bg-amber-300 text-slate-900 text-xs font-bold rounded-lg shadow-sm active:scale-95 transition flex items-center gap-1">
+                Scan to Earn <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+            <!-- Visual Graphic Elements -->
+            <div class="absolute right-2 -bottom-2 w-28 h-28 opacity-90 pointer-events-none">
+              <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-md">
+                <rect x="30" y="50" width="70" height="90" rx="8" fill="#ec4899" />
+                <rect x="75" y="35" width="85" height="110" rx="10" fill="#f59e0b" />
+                <path d="M 50 50 C 50 20, 80 20, 80 50" stroke="#fbcfe8" stroke-width="6" fill="none" />
+                <path d="M 100 35 C 100 5, 135 5, 135 35" stroke="#fef3c7" stroke-width="7" fill="none" />
+                <polygon points="120,80 128,98 148,100 133,114 137,133 120,123 103,133 107,114 92,100 112,98" fill="#ffffff" opacity="0.9" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Section: Our Partners (Configurable by Admin) -->
+          <div>
+            <div class="flex items-center justify-between mb-3 px-1">
+              <h2 class="text-sm font-bold text-slate-800">Our Partners</h2>
+              <span class="text-[11px] font-semibold text-brand-600 cursor-pointer hover:underline" onclick="switchTab('screen-stamps')">View Stamps</span>
+            </div>
+
+            <!-- Dynamic Partner List Container -->
+            <div id="partnersContainer" class="space-y-2.5">
+              <!-- Cards rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. QR SCAN SCREEN ================= -->
+      <section id="screen-scan" class="screen-view hidden min-h-full pb-24 flex flex-col bg-slate-900 text-white">
+        <!-- Top bar with Back button -->
+        <div class="px-4 py-3 flex items-center justify-between z-10 bg-slate-900/80 backdrop-blur-md">
+          <button onclick="switchTab('screen-home')" class="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 active:scale-95 transition">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </button>
+          <h2 class="text-base font-bold text-center">Scan QR</h2>
+          <button onclick="toggleTorch()" id="torchBtn" class="p-2 rounded-xl bg-white/10 text-white hover:bg-white/20 transition">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <!-- Camera Viewport & Scan Frame Area -->
+        <div class="relative w-full aspect-square max-h-[340px] flex items-center justify-center overflow-hidden bg-black">
+          <!-- Real Video Element (if permitted) -->
+          <video id="cameraVideo" autoplay playsinline class="absolute inset-0 w-full h-full object-cover hidden"></video>
+
+          <!-- Camera Placeholder / Background Graphic -->
+          <div id="cameraFallback" class="absolute inset-0 w-full h-full bg-gradient-to-b from-slate-800 to-slate-950 flex flex-col items-center justify-center text-slate-400 p-6 text-center">
+            <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-3">
+              <i data-lucide="camera" class="w-8 h-8 text-brand-500"></i>
+            </div>
+            <p class="text-xs text-slate-300">Camera preview will show here</p>
+            <button onclick="startCamera()" class="mt-3 px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-xs font-semibold rounded-lg text-white transition active:scale-95 shadow">
+              Open Device Camera
+            </button>
+          </div>
+
+          <!-- Viewfinder Frame with Target Corners -->
+          <div class="relative z-10 w-56 h-56 border-2 border-white/30 rounded-3xl p-3 flex flex-col justify-between">
+            <!-- Corners Visual Accent -->
+            <div class="absolute -top-1 -left-1 w-8 h-8 border-t-4 border-l-4 border-blue-400 rounded-tl-2xl"></div>
+            <div class="absolute -top-1 -right-1 w-8 h-8 border-t-4 border-r-4 border-blue-400 rounded-tr-2xl"></div>
+            <div class="absolute -bottom-1 -left-1 w-8 h-8 border-b-4 border-l-4 border-blue-400 rounded-bl-2xl"></div>
+            <div class="absolute -bottom-1 -right-1 w-8 h-8 border-b-4 border-r-4 border-blue-400 rounded-br-2xl"></div>
+
+            <!-- Central QR graphic badge -->
+            <div class="m-auto opacity-30">
+              <i data-lucide="qr-code" class="w-20 h-20 text-white"></i>
+            </div>
+
+            <!-- Animated Laser Scanning Line -->
+            <div class="absolute left-3 right-3 top-4 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent scanner-laser animate-scan"></div>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-300 text-center py-3 px-6 font-medium">
+          Point your camera at the QR code at the partner store to collect your stamp
+        </p>
+
+        <!-- Simulated Scan Button (Allows instantaneous testing) -->
+        <div class="px-6 pb-2">
+          <button onclick="simulateScanSuccess()" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white text-xs font-bold rounded-xl shadow-lg active:scale-95 transition flex items-center justify-center gap-2">
+            <i data-lucide="scan" class="w-4 h-4"></i> Simulate Successful Store Scan
+          </button>
+        </div>
+
+        <!-- White Card: "How it works?" Section -->
+        <div class="mt-auto bg-white text-slate-800 rounded-t-3xl p-5 shadow-inner">
+          <h3 class="text-sm font-bold text-slate-900 mb-3.5">How it works?</h3>
+          <div class="space-y-3.5 text-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-blue-100 text-brand-600 font-bold flex items-center justify-center shrink-0">1</div>
+              <div class="flex-1 text-slate-600 font-medium">Scan the QR code displayed at the store counter.</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-blue-100 text-brand-600 font-bold flex items-center justify-center shrink-0">2</div>
+              <div class="flex-1 text-slate-600 font-medium">Get your digital loyalty stamp added instantly.</div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-blue-100 text-brand-600 font-bold flex items-center justify-center shrink-0">3</div>
+              <div class="flex-1 text-slate-600 font-medium">Complete required stamps and unlock exciting rewards!</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. MY STAMPS SCREEN ================= -->
+      <section id="screen-stamps" class="screen-view hidden min-h-full pb-24 bg-[#F8FAFC]">
+        <!-- Top header -->
+        <div class="bg-white px-5 pt-4 pb-3 border-b border-slate-100">
+          <h1 class="text-xl font-bold text-slate-900">My Stamps</h1>
+          <p class="text-xs text-slate-500 mt-0.5">Collect 5 stamps to unlock a free reward gift voucher</p>
+
+          <!-- Toggle Pills: All Partners / Active Offers -->
+          <div class="flex items-center p-1 bg-slate-100 rounded-xl mt-3 text-xs font-semibold">
+            <button id="filterAll" onclick="filterStamps('all')" class="flex-1 py-1.5 rounded-lg bg-brand-600 text-white shadow-sm transition">
+              All Partners
+            </button>
+            <button id="filterActive" onclick="filterStamps('active')" class="flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition">
+              Active Offers
+            </button>
+          </div>
+        </div>
+
+        <!-- Stamp Progress Cards Container -->
+        <div class="p-4 space-y-3.5" id="stampsListContainer">
+          <!-- Populated dynamically via JavaScript -->
+        </div>
+      </section>
+
+      <!-- ================= 4. PROFILE SCREEN (WITH GPS & CAMERA) ================= -->
+      <section id="screen-profile" class="screen-view hidden min-h-full pb-28 bg-[#F8FAFC]">
+        <!-- Top Title Bar -->
+        <div class="bg-white px-5 pt-4 pb-3 border-b border-slate-100 flex items-center justify-between">
+          <h1 class="text-xl font-bold text-slate-900">Profile</h1>
+          <button onclick="showToast('Profile Settings is up-to-date')" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition">
+            <i data-lucide="settings" class="w-5 h-5"></i>
+          </button>
+        </div>
+
+        <div class="p-4 space-y-4">
+          <!-- Profile Card: Avatar + Upload/Capture -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex flex-col items-center text-center">
+            <div class="relative group">
+              <!-- Avatar Display -->
+              <div class="w-24 h-24 rounded-full overflow-hidden border-4 border-blue-100 shadow-md bg-slate-100 flex items-center justify-center">
+                <img id="avatarImage" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200&q=80" alt="Avatar" class="w-full h-full object-cover">
+              </div>
+
+              <!-- Camera Capture & Upload Buttons -->
+              <div class="absolute bottom-0 right-0 flex gap-1">
+                <button type="button" onclick="triggerProfileCamera()" title="Take Photo via Camera" class="w-7 h-7 bg-brand-600 hover:bg-brand-500 text-white rounded-full flex items-center justify-center shadow-lg active:scale-95 transition">
+                  <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                </button>
+                <label for="avatarUploadInput" title="Upload from Gallery" class="w-7 h-7 bg-slate-700 hover:bg-slate-600 text-white rounded-full flex items-center justify-center shadow-lg cursor-pointer active:scale-95 transition">
+                  <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                  <input type="file" id="avatarUploadInput" accept="image/*" class="hidden" onchange="handleAvatarUpload(event)">
+                </label>
+              </div>
+            </div>
+
+            <h2 id="profileNameDisplay" class="text-base font-bold text-slate-800 mt-3">Rahul Sharma</h2>
+            <p id="profilePhoneDisplay" class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+              <i data-lucide="phone" class="w-3 h-3 text-brand-600"></i> +91 98765 43210
+            </p>
+            <p id="profileEmailDisplay" class="text-xs text-slate-500 flex items-center gap-1 mt-0.5">
+              <i data-lucide="mail" class="w-3 h-3 text-brand-600"></i> rahul@example.com
+            </p>
+          </div>
+
+          <!-- Profile Input Form (User's specific fields: Name, Address, Phone, Gmail, Location) -->
+          <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+              <i data-lucide="user-check" class="w-4 h-4 text-brand-600"></i> Customer Details
+            </h3>
+
+            <form id="profileForm" onsubmit="saveUserProfile(event)" class="space-y-3.5">
+              <!-- Name Field -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Full Name</label>
+                <div class="relative">
+                  <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                  <input type="text" id="custName" value="Rahul Sharma" required class="w-full text-xs pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:outline-none text-slate-800">
+                </div>
+              </div>
+
+              <!-- Phone Field -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Mobile Number</label>
+                <div class="relative">
+                  <i data-lucide="phone" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                  <input type="tel" id="custPhone" value="+91 98765 43210" required class="w-full text-xs pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:outline-none text-slate-800">
+                </div>
+              </div>
+
+              <!-- Gmail / Email Field -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Gmail / Email Address</label>
+                <div class="relative">
+                  <i data-lucide="mail" class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                  <input type="email" id="custEmail" value="rahul@example.com" required class="w-full text-xs pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:outline-none text-slate-800">
+                </div>
+              </div>
+
+              <!-- Address Field -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Address / Landmark</label>
+                <div class="relative">
+                  <i data-lucide="home" class="w-4 h-4 text-slate-400 absolute left-3 top-3"></i>
+                  <textarea id="custAddress" rows="2" placeholder="House no, Street, Area..." class="w-full text-xs pl-9 pr-3 py-2 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:outline-none text-slate-800">Flat 4B, Emerald Green Residency, MG Road</textarea>
+                </div>
+              </div>
+
+              <!-- GPS / Current Location Field -->
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="text-xs font-semibold text-slate-700">Current GPS Location</label>
+                  <button type="button" onclick="detectGPSLocation()" class="text-[11px] font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 active:scale-95 transition">
+                    <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> Detect GPS
+                  </button>
+                </div>
+                <div class="relative">
+                  <i data-lucide="map-pin" class="w-4 h-4 text-rose-500 absolute left-3 top-1/2 -translate-y-1/2"></i>
+                  <input type="text" id="custLocation" readonly placeholder="Click 'Detect GPS' button" class="w-full text-xs pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700">
+                </div>
+                <p id="gpsCoordinates" class="text-[10px] text-slate-400 mt-1 pl-1">Coordinates: Not determined yet</p>
+              </div>
+
+              <!-- Save Changes Button -->
+              <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl shadow-md active:scale-98 transition flex items-center justify-center gap-1.5 mt-2">
+                <i data-lucide="check-circle" class="w-4 h-4"></i> Save Profile Details
+              </button>
+            </form>
+          </div>
+
+          <!-- Quick Links (Help, Terms, Logout) -->
+          <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 divide-y divide-slate-100 text-xs">
+            <button onclick="showToast('Help & Support ticket raised')" class="w-full py-2.5 flex items-center justify-between text-slate-700 hover:text-brand-600 transition">
+              <span class="flex items-center gap-2.5"><i data-lucide="help-circle" class="w-4 h-4 text-slate-400"></i> Help & Support</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+            </button>
+            <button onclick="showToast('Terms & Conditions opened')" class="w-full py-2.5 flex items-center justify-between text-slate-700 hover:text-brand-600 transition">
+              <span class="flex items-center gap-2.5"><i data-lucide="file-text" class="w-4 h-4 text-slate-400"></i> Terms & Conditions</span>
+              <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+            </button>
+            <button onclick="showToast('Logged out successfully (Mock)')" class="w-full py-2.5 flex items-center justify-center gap-1.5 text-rose-600 font-bold hover:bg-rose-50 rounded-xl transition mt-1">
+              <i data-lucide="log-out" class="w-4 h-4"></i> Log Out
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= FIXED BOTTOM NAVIGATION BAR ================= -->
+    <nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-slate-100 px-3 py-2 flex items-center justify-around z-40 shadow-lg">
+      <!-- 1. Home Tab -->
+      <button onclick="switchTab('screen-home')" id="tab-screen-home" class="nav-btn flex flex-col items-center gap-1 text-brand-600 transition active:scale-95 flex-1">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[10px] font-bold">Home</span>
+      </button>
+
+      <!-- 2. QR Scan Tab -->
+      <button onclick="switchTab('screen-scan')" id="tab-screen-scan" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition active:scale-95 flex-1">
+        <i data-lucide="scan" class="w-5 h-5"></i>
+        <span class="text-[10px] font-medium">QR Scan</span>
+      </button>
+
+      <!-- 3. My Stamps Tab -->
+      <button onclick="switchTab('screen-stamps')" id="tab-screen-stamps" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition active:scale-95 flex-1 relative">
+        <i data-lucide="star" class="w-5 h-5"></i>
+        <span class="text-[10px] font-medium">My Stamps</span>
+        <span id="stampsBadge" class="absolute top-0 right-5 w-2 h-2 bg-amber-500 rounded-full"></span>
+      </button>
+
+      <!-- 4. Profile Tab -->
+      <button onclick="switchTab('screen-profile')" id="tab-screen-profile" class="nav-btn flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition active:scale-95 flex-1">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] font-medium">Profile</span>
+      </button>
+    </nav>
+
+    <!-- ================= MODALS & TOAST NOTIFICATIONS ================= -->
+    <!-- Toast Popup Notification -->
+    <div id="toastMessage" class="absolute top-14 left-4 right-4 z-50 bg-slate-900/90 backdrop-blur-sm text-white px-4 py-2.5 rounded-xl text-xs font-semibold shadow-2xl flex items-center justify-between translate-y-[-100px] opacity-0 transition-all duration-300 pointer-events-none">
+      <span id="toastText">Notification</span>
+      <i data-lucide="info" class="w-4 h-4 text-brand-400"></i>
     </div>
-   </form>
+
+    <!-- Stamp Success Celebratory Modal -->
+    <div id="stampSuccessModal" class="absolute inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-6">
+      <div class="bg-white rounded-3xl p-6 w-full max-w-[320px] text-center shadow-2xl animate-bounce-short">
+        <div class="w-16 h-16 rounded-full bg-amber-100 text-amber-500 flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i data-lucide="award" class="w-9 h-9"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Stamp Collected!</h3>
+        <p id="modalStoreName" class="text-xs text-slate-600 mt-1">Vishal Mega Mart has credited 1 Loyalty Stamp to your account.</p>
+        
+        <div class="mt-4 p-3 bg-amber-50 rounded-2xl border border-amber-200/60 flex items-center justify-center gap-1 text-amber-600 font-bold text-sm">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> +1 Digital Stamp Added
+        </div>
+
+        <button onclick="closeStampModal()" class="w-full mt-5 py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl shadow-md transition active:scale-95">
+          View My Stamps
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Camera Snap Modal (for Profile Photo capture) -->
+    <div id="cameraModal" class="absolute inset-0 z-50 bg-slate-950 flex flex-col p-4 hidden text-white">
+      <div class="flex items-center justify-between mb-2">
+        <h4 class="text-xs font-bold">Take Profile Photo</h4>
+        <button onclick="closeCameraModal()" class="p-1 rounded-lg bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="flex-1 bg-black rounded-2xl overflow-hidden relative flex items-center justify-center">
+        <video id="profileCameraVideo" autoplay playsinline class="w-full h-full object-cover"></video>
+        <canvas id="photoCanvas" class="hidden"></canvas>
+      </div>
+      <div class="py-4 flex justify-center">
+        <button onclick="snapProfilePhoto()" class="w-14 h-14 rounded-full border-4 border-white bg-brand-600 flex items-center justify-center shadow-lg active:scale-90 transition">
+          <i data-lucide="camera" class="w-6 h-6 text-white"></i>
+        </button>
+      </div>
+    </div>
+
   </div>
 
-  <div class="card">
-   <h2>📋 Manage Businesses</h2>
-   <input id="adminSearch" type="search" placeholder="Search business list...">
-   <div id="businessList" style="margin-top:10px"></div>
-  </div>
- </section>
-</main>
+  <script>
+    /* State Management */
+    const appState = {
+      user: {
+        name: 'Rahul Sharma',
+        phone: '+91 98765 43210',
+        email: 'rahul@example.com',
+        address: 'Flat 4B, Emerald Green Residency, MG Road',
+        location: 'Agartala, Tripura, India',
+        coordinates: '23.8315° N, 91.2868° E',
+        avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&h=200&q=80'
+      },
+      partners: [
+        {
+          id: 'vishal',
+          name: 'Vishal Mega Mart',
+          category: 'Shopping Mall',
+          logoText: 'VISHAL',
+          logoBg: 'bg-rose-50 text-rose-600 border border-rose-200',
+          stamps: 4,
+          maxStamps: 5,
+          daysLeft: '20 Days Left',
+          isOffer: true
+        },
+        {
+          id: 'dominos',
+          name: "Domino's",
+          category: 'Restaurant & Pizza',
+          logoText: 'DOMINO',
+          logoBg: 'bg-blue-50 text-blue-600 border border-blue-200',
+          stamps: 2,
+          maxStamps: 5,
+          daysLeft: '1 Day Left',
+          isOffer: true
+        },
+        {
+          id: 'kfc',
+          name: 'KFC',
+          category: 'Restaurant',
+          logoText: 'KFC',
+          logoBg: 'bg-red-50 text-red-600 border border-red-200',
+          stamps: 3,
+          maxStamps: 5,
+          daysLeft: '24 Hours Left',
+          isOffer: true
+        },
+        {
+          id: 'reliance',
+          name: 'Reliance Smart',
+          category: 'Supermarket Store',
+          logoText: 'SMART',
+          logoBg: 'bg-orange-50 text-orange-600 border border-orange-200',
+          stamps: 1,
+          maxStamps: 5,
+          daysLeft: 'Expired',
+          isOffer: false
+        },
+        {
+          id: 'pantaloons',
+          name: 'Pantaloons',
+          category: 'Fashion Store',
+          logoText: 'PANTALOONS',
+          logoBg: 'bg-teal-50 text-teal-600 border border-teal-200',
+          stamps: 0,
+          maxStamps: 5,
+          daysLeft: '15 Days Left',
+          isOffer: false
+        }
+      ]
+    };
 
-<script>
-(function(){
-"use strict";
+    let cameraStream = null;
+    let profileStream = null;
 
-const KEY = "mainLoyaltyBusinesses_v2";
-const starter = [
- {id:"demo1",name:"Vishal Mega Mart",category:"Mall",location:"Belonia, South Tripura",icon:"🛍️",description:"Shopping destination"},
- {id:"demo2",name:"Example Restaurant",category:"Food",location:"Add location",icon:"🍽️",description:"Restaurant listing example"},
- {id:"demo3",name:"Example Grocery Store",category:"Grocery",location:"Add location",icon:"🛒",description:"Grocery listing example"},
- {id:"demo4",name:"Example Fashion Shop",category:"Shop",location:"Add location",icon:"👕",description:"Fashion and clothing"}
-];
+    /* Initialize Clock */
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('deviceClock').innerText = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-const $ = id => document.getElementById(id);
-let businesses = load();
-let activeCategory = "All";
+    /* Render Partners on Home Screen */
+    function renderHomePartners() {
+      const container = document.getElementById('partnersContainer');
+      container.innerHTML = '';
 
-function load(){
- try{
-  const saved = localStorage.getItem(KEY);
-  if(saved !== null){
-   const data = JSON.parse(saved);
-   if(Array.isArray(data)) return data;
-  }
- }catch(e){console.error(e);}
- return starter.map(x=>({...x}));
-}
+      appState.partners.forEach(partner => {
+        const card = document.createElement('div');
+        card.className = "bg-white p-3.5 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between active:scale-[0.99] transition cursor-pointer hover:border-blue-200";
+        card.onclick = () => {
+          switchTab('screen-stamps');
+        };
 
-function save(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(businesses));
-  return true;
- }catch(e){
-  alert("Could not save. Browser storage may be unavailable.");
-  return false;
- }
-}
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-xl ${partner.logoBg} flex items-center justify-center font-black text-xs tracking-tighter">
+              ${partner.logoText}
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-slate-800">${partner.name}</h4>
+              <p class="text-[11px] text-slate-400">${partner.category}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-md ${partner.stamps >= 4 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}">
+              ${partner.stamps}/${partner.maxStamps} Stamps
+            </span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"></i>
+          </div>
+        `;
+        container.appendChild(card);
+      });
 
-function safe(s){
- return String(s ?? "").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- })[c]);
-}
+      if (window.lucide) lucide.createIcons();
+    }
 
-function categoryLabel(c){
- return {Mall:"Shopping Mall",Shop:"Shop",Food:"Food & Restaurant",Grocery:"Grocery"}[c] || c;
-}
+    /* Render My Stamps List */
+    function renderStampsList(filter = 'all') {
+      const container = document.getElementById('stampsListContainer');
+      container.innerHTML = '';
 
-function renderHome(){
- const q=$("searchBox").value.trim().toLowerCase();
- const list=businesses.filter(b=>
-  (activeCategory==="All" || b.category===activeCategory) &&
-  (b.name+" "+b.category+" "+b.location+" "+b.description).toLowerCase().includes(q)
- );
- $("count").textContent=list.length+" business(es) found";
- $("businessGrid").innerHTML=list.length ? list.map(b=>`
-  <article class="business">
-   <div class="emoji">${safe(b.icon||"🏪")}</div>
-   <p><span class="pill">${safe(categoryLabel(b.category))}</span></p>
-   <h3>${safe(b.name)}</h3>
-   <p class="muted">📍 ${safe(b.location||"Location not added")}</p>
-   <p>${safe(b.description||"")}</p>
-  </article>`).join("") :
-  '<div class="empty">No businesses found.</div>';
-}
+      const filtered = filter === 'active' 
+        ? appState.partners.filter(p => p.isOffer && p.daysLeft !== 'Expired')
+        : appState.partners;
 
-function renderAdmin(){
- $("total").textContent=businesses.length;
- $("malls").textContent=businesses.filter(b=>b.category==="Mall").length;
- $("shops").textContent=businesses.filter(b=>b.category==="Shop").length;
- $("other").textContent=businesses.filter(b=>["Food","Grocery"].includes(b.category)).length;
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-12 text-slate-400 text-xs">
+            No active stamps found in this tab.
+          </div>
+        `;
+        return;
+      }
 
- const q=$("adminSearch").value.trim().toLowerCase();
- const list=businesses.filter(b=>
-  (b.name+" "+b.category+" "+b.location).toLowerCase().includes(q)
- );
- $("businessList").innerHTML=list.length ? list.map(b=>`
-  <div class="row">
-   <div><strong>${safe(b.icon||"🏪")} ${safe(b.name)}</strong>
-    <div class="muted">${safe(categoryLabel(b.category))} · ${safe(b.location||"No location")}</div>
-   </div>
-   <div class="actions">
-    <button class="secondary" type="button" data-edit="${safe(b.id)}">Edit</button>
-    <button class="danger" type="button" data-remove="${safe(b.id)}">Remove</button>
-   </div>
-  </div>`).join("") : '<div class="empty">No businesses found.</div>';
-}
+      filtered.forEach(partner => {
+        // Generate Star badges
+        let starsHtml = '';
+        for (let i = 1; i <= partner.maxStamps; i++) {
+          if (i <= partner.stamps) {
+            starsHtml += `
+              <div class="w-6 h-6 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-current"></i>
+              </div>
+            `;
+          } else {
+            starsHtml += `
+              <div class="w-6 h-6 rounded-full bg-slate-100 text-slate-300 flex items-center justify-center border border-slate-200">
+                <i data-lucide="star" class="w-3.5 h-3.5"></i>
+              </div>
+            `;
+          }
+        }
 
-function refresh(){renderHome();renderAdmin();}
+        const remaining = partner.maxStamps - partner.stamps;
+        const statusMsg = remaining === 0 
+          ? `<span class="text-emerald-600 font-bold flex items-center gap-1"><i data-lucide="gift" class="w-3.5 h-3.5"></i> Reward Unlocked! Tap to redeem</span>`
+          : `<span class="text-brand-600 font-semibold flex items-center gap-1"><i data-lucide="gift" class="w-3.5 h-3.5"></i> Get ${remaining} more stamp${remaining > 1 ? 's' : ''} to unlock reward</span>`;
 
-function showAdmin(){
- $("homePage").classList.add("hidden");
- $("adminPage").classList.remove("hidden");
- window.scrollTo(0,0);
- renderAdmin();
-}
-function showHome(){
- $("adminPage").classList.add("hidden");
- $("homePage").classList.remove("hidden");
- window.scrollTo(0,0);
- renderHome();
-}
+        const card = document.createElement('div');
+        card.className = "bg-white p-4 rounded-2xl shadow-sm border border-slate-100 space-y-3";
+        card.innerHTML = `
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl ${partner.logoBg} flex items-center justify-center font-extrabold text-[10px]">
+                ${partner.logoText}
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-slate-900">${partner.name}</h4>
+                <p class="text-[11px] font-semibold text-slate-400">${partner.stamps} / ${partner.maxStamps} Stamps Collected</p>
+              </div>
+            </div>
 
-function resetForm(){
- $("businessForm").reset();
- $("editId").value="";
- $("businessIcon").value="🏪";
- $("formTitle").textContent="➕ Add a Business";
- $("saveButton").textContent="Save Business";
- $("cancelEdit").classList.add("hidden");
-}
+            <!-- Expiry countdown badge -->
+            <div class="flex flex-col items-end">
+              <span class="px-2 py-1 rounded-lg text-[10px] font-bold ${partner.daysLeft === 'Expired' ? 'bg-slate-100 text-slate-400' : 'bg-amber-50 text-amber-700 border border-amber-200'} flex items-center gap-1">
+                <i data-lucide="clock" class="w-3 h-3"></i> ${partner.daysLeft}
+              </span>
+            </div>
+          </div>
 
-$("adminToggle").addEventListener("click",showAdmin);
-$("backHome").addEventListener("click",showHome);
-$("searchBox").addEventListener("input",renderHome);
-$("adminSearch").addEventListener("input",renderAdmin);
+          <!-- Visual Star Icons -->
+          <div class="flex items-center gap-2 pt-1">
+            ${starsHtml}
+          </div>
 
-$("filters").addEventListener("click",e=>{
- const button=e.target.closest("[data-category]");
- if(!button)return;
- activeCategory=button.dataset.category;
- document.querySelectorAll(".filter").forEach(b=>
-  b.classList.toggle("active",b===button)
- );
- renderHome();
-});
+          <!-- Bottom status line -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+            ${statusMsg}
+            <button onclick="switchTab('screen-scan')" class="text-[10px] font-bold px-2 py-1 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-md transition">
+              + Scan
+            </button>
+          </div>
+        `;
 
-$("businessForm").addEventListener("submit",e=>{
- e.preventDefault();
- const id=$("editId").value;
- const old=businesses.find(b=>b.id===id);
- const item={
-  id:old ? old.id : "biz-"+Date.now()+"-"+Math.random().toString(36).slice(2,8),
-  name:$("businessName").value.trim(),
-  category:$("businessCategory").value,
-  location:$("businessLocation").value.trim(),
-  icon:$("businessIcon").value.trim()||"🏪",
-  description:$("businessDescription").value.trim()
- };
- if(!item.name){alert("Enter a business name.");return;}
+        container.appendChild(card);
+      });
 
- const previous=businesses.map(b=>({...b}));
- if(old) businesses=businesses.map(b=>b.id===id?item:b);
- else businesses.push(item);
+      if (window.lucide) lucide.createIcons();
+    }
 
- if(!save()){businesses=previous;return;}
- resetForm();
- refresh();
- alert(old?"Business updated!":"Business added!");
-});
+    /* Filter Stamps */
+    function filterStamps(type) {
+      const allBtn = document.getElementById('filterAll');
+      const activeBtn = document.getElementById('filterActive');
 
-$("cancelEdit").addEventListener("click",resetForm);
+      if (type === 'all') {
+        allBtn.className = "flex-1 py-1.5 rounded-lg bg-brand-600 text-white shadow-sm transition";
+        activeBtn.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+        renderStampsList('all');
+      } else {
+        activeBtn.className = "flex-1 py-1.5 rounded-lg bg-brand-600 text-white shadow-sm transition";
+        allBtn.className = "flex-1 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition";
+        renderStampsList('active');
+      }
+    }
 
-$("businessList").addEventListener("click",e=>{
- const edit=e.target.closest("[data-edit]");
- const remove=e.target.closest("[data-remove]");
+    /* Tab Switching System */
+    function switchTab(screenId) {
+      // Hide all screens
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.add('hidden'));
+      // Show selected screen
+      const activeScreen = document.getElementById(screenId);
+      if (activeScreen) activeScreen.classList.remove('hidden');
 
- if(edit){
-  const b=businesses.find(x=>x.id===edit.dataset.edit);
-  if(!b)return;
-  $("editId").value=b.id;
-  $("businessName").value=b.name;
-  $("businessCategory").value=b.category;
-  $("businessLocation").value=b.location||"";
-  $("businessIcon").value=b.icon||"🏪";
-  $("businessDescription").value=b.description||"";
-  $("formTitle").textContent="✏️ Edit Business";
-  $("saveButton").textContent="Update Business";
-  $("cancelEdit").classList.remove("hidden");
-  $("businessForm").scrollIntoView({behavior:"smooth"});
- }
+      // Update Bottom Navigation Highlights
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('text-brand-600');
+        btn.classList.add('text-slate-400');
+        const span = btn.querySelector('span');
+        if (span) span.classList.replace('font-bold', 'font-medium');
+      });
 
- if(remove){
-  const b=businesses.find(x=>x.id===remove.dataset.remove);
-  if(!b || !confirm('Remove "'+b.name+'" from this browser?'))return;
-  const previous=businesses.map(x=>({...x}));
-  businesses=businesses.filter(x=>x.id!==b.id);
-  if(!save()){businesses=previous;return;}
-  resetForm();
-  refresh();
- }
-});
+      const currentTab = document.getElementById(`tab-${screenId}`);
+      if (currentTab) {
+        currentTab.classList.remove('text-slate-400');
+        currentTab.classList.add('text-brand-600');
+        const span = currentTab.querySelector('span');
+        if (span) span.classList.replace('font-medium', 'font-bold');
+      }
 
-refresh();
-})();
-</script>
+      // Stop camera if moving away from scan screen
+      if (screenId !== 'screen-scan' && cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+        document.getElementById('cameraVideo').classList.add('hidden');
+        document.getElementById('cameraFallback').classList.remove('hidden');
+      }
+
+      window.scrollTo(0, 0);
+    }
+
+    /* Start Device Camera on Scanner */
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        cameraStream = stream;
+        const video = document.getElementById('cameraVideo');
+        video.srcObject = stream;
+        video.classList.remove('hidden');
+        document.getElementById('cameraFallback').classList.add('hidden');
+        showToast('Camera accessed successfully');
+      } catch (err) {
+        showToast('Camera access blocked. Use the button below to test.');
+      }
+    }
+
+    function toggleTorch() {
+      showToast('Flashlight toggled');
+    }
+
+    /* Simulate Successful QR Scan */
+    function simulateScanSuccess() {
+      // Find a partner that has open stamps
+      const targetPartner = appState.partners.find(p => p.stamps < p.maxStamps) || appState.partners[0];
+      if (targetPartner.stamps < targetPartner.maxStamps) {
+        targetPartner.stamps += 1;
+      }
+
+      document.getElementById('modalStoreName').innerText = `${targetPartner.name} has credited 1 Loyalty Stamp to your account.`;
+      document.getElementById('stampSuccessModal').classList.remove('hidden');
+
+      // Re-render data
+      renderHomePartners();
+      renderStampsList('all');
+    }
+
+    function closeStampModal() {
+      document.getElementById('stampSuccessModal').classList.add('hidden');
+      switchTab('screen-stamps');
+    }
+
+    /* User Profile Form Management */
+    function saveUserProfile(e) {
+      e.preventDefault();
+      appState.user.name = document.getElementById('custName').value;
+      appState.user.phone = document.getElementById('custPhone').value;
+      appState.user.email = document.getElementById('custEmail').value;
+      appState.user.address = document.getElementById('custAddress').value;
+
+      // Update displays
+      document.getElementById('profileNameDisplay').innerText = appState.user.name;
+      document.getElementById('profilePhoneDisplay').innerHTML = `<i data-lucide="phone" class="w-3 h-3 text-brand-600"></i> ${appState.user.phone}`;
+      document.getElementById('profileEmailDisplay').innerHTML = `<i data-lucide="mail" class="w-3 h-3 text-brand-600"></i> ${appState.user.email}`;
+      document.getElementById('homeUserGreeting').innerText = `Hello, ${appState.user.name.split(' ')[0]}`;
+
+      if (window.lucide) lucide.createIcons();
+      showToast('Profile updated successfully!');
+    }
+
+    /* GPS / Geolocation Detection */
+    function detectGPSLocation() {
+      const locInput = document.getElementById('custLocation');
+      const coordsText = document.getElementById('gpsCoordinates');
+
+      if (!navigator.geolocation) {
+        locInput.value = "Agartala, Tripura (Default)";
+        coordsText.innerText = "Coordinates: 23.8315° N, 91.2868° E";
+        showToast('GPS is not supported on this browser');
+        return;
+      }
+
+      locInput.value = "Detecting GPS location...";
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude.toFixed(4);
+          const lng = position.coords.longitude.toFixed(4);
+          locInput.value = `Verified GPS Location`;
+          coordsText.innerText = `Coordinates: ${lat}° N, ${lng}° E (Live GPS)`;
+          showToast('GPS coordinates fetched accurately!');
+        },
+        (error) => {
+          // Graceful fallback to user's location
+          locInput.value = "Agartala, Tripura, India";
+          coordsText.innerText = "Coordinates: 23.8315° N, 91.2868° E";
+          showToast('Defaulting to local area GPS.');
+        },
+        { timeout: 8000 }
+      );
+    }
+
+    /* Live Camera for Profile Picture */
+    async function triggerProfileCamera() {
+      const modal = document.getElementById('cameraModal');
+      const video = document.getElementById('profileCameraVideo');
+      modal.classList.remove('hidden');
+
+      try {
+        profileStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = profileStream;
+      } catch (err) {
+        showToast('Unable to open selfie camera. Use the upload icon.');
+        closeCameraModal();
+      }
+    }
+
+    function snapProfilePhoto() {
+      const video = document.getElementById('profileCameraVideo');
+      const canvas = document.getElementById('photoCanvas');
+      canvas.width = video.videoWidth || 320;
+      canvas.height = video.videoHeight || 320;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const photoUrl = canvas.toDataURL('image/png');
+      document.getElementById('avatarImage').src = photoUrl;
+      closeCameraModal();
+      showToast('New profile photo captured!');
+    }
+
+    function closeCameraModal() {
+      if (profileStream) {
+        profileStream.getTracks().forEach(t => t.stop());
+        profileStream = null;
+      }
+      document.getElementById('cameraModal').classList.add('hidden');
+    }
+
+    /* File input handler for avatar */
+    function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('avatarImage').src = e.target.result;
+          showToast('Photo uploaded from device!');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    /* Toast Notification Helper */
+    function showToast(message) {
+      const toast = document.getElementById('toastMessage');
+      const text = document.getElementById('toastText');
+      text.innerText = message;
+      toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-[-100px]', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 2500);
+    }
+
+    /* Bootstrap Application */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderHomePartners();
+      renderStampsList('all');
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
 </body>
 </html>
