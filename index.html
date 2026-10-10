@@ -2,761 +2,672 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b75">
-  <title>Main Loyalty Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#1a4499">
+  <title>Stampora - Loyalty Platform</title>
 
   <style>
     :root {
-      --blue: #174ea6;
-      --dark: #123b75;
-      --light: #eef4ff;
-      --bg: #f5f7fb;
-      --text: #1d2939;
-      --muted: #667085;
-      --border: #e4e7ec;
-      --white: #ffffff;
-      --green: #16845b;
-      --red: #c43232;
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #eff6ff;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --gold: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0f172a;
       color: var(--text);
-    }
-
-    button, input, select {
-      font: inherit;
-    }
-
-    button { cursor: pointer; }
-
-    .topbar {
-      background: linear-gradient(120deg, var(--dark), #2474d8);
-      color: white;
-      padding: 20px;
-    }
-
-    .top-inner {
-      max-width: 1200px;
-      margin: auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      flex-wrap: wrap;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-    .brand {
-      font-size: 23px;
-      font-weight: 800;
-    }
-
-    .tagline {
-      margin-top: 5px;
-      font-size: 13px;
-      opacity: .88;
-    }
-
-    .admin-button {
-      background: white;
-      color: var(--dark);
-      border: 0;
-      border-radius: 10px;
-      padding: 12px 16px;
-      font-weight: 700;
-    }
-
-    .container {
-      max-width: 1200px;
-      padding: 20px;
-      margin: auto;
-    }
-
-    .welcome {
-      background: white;
-      padding: 23px;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { font-size: 27px; margin-bottom: 8px; }
-    h2 { font-size: 22px; }
-    .muted { color: var(--muted); }
-    .small { font-size: 13px; }
-
-    .search {
+    /* Mobile Frame */
+    .app-viewport {
       width: 100%;
-      padding: 14px;
-      border: 1px solid #d0d5dd;
-      border-radius: 12px;
-      margin: 15px 0;
-      background: white;
-    }
-
-    .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-      margin-bottom: 22px;
-    }
-
-    .filter {
-      padding: 10px 15px;
-      border: 1px solid var(--border);
-      background: white;
-      color: var(--text);
-      border-radius: 25px;
-    }
-
-    .filter.active {
-      background: var(--blue);
-      color: white;
-      border-color: var(--blue);
-    }
-
-    .business-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-
-    .business-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      min-width: 0;
-      box-shadow: 0 3px 12px #10182808;
-    }
-
-    .business-icon {
-      width: 54px;
-      height: 54px;
-      display: grid;
-      place-items: center;
-      border-radius: 14px;
-      background: var(--light);
-      font-size: 28px;
-      margin-bottom: 15px;
-    }
-
-    .business-card h3 {
-      margin-bottom: 7px;
-      overflow-wrap: anywhere;
-    }
-
-    .pill {
-      display: inline-block;
-      background: #edf2ff;
-      color: var(--blue);
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-
-    .section-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 28px 0 16px;
-    }
-
-    .panel {
-      background: white;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      margin-bottom: 20px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 14px;
-      margin: 20px 0;
-    }
-
-    .stat {
-      padding: 20px;
-      background: var(--light);
-      border-radius: 14px;
-    }
-
-    .stat-number {
-      font-size: 30px;
-      font-weight: 800;
-      color: var(--blue);
-      margin-top: 8px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .field {
+      max-width: 440px;
+      background: var(--bg);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      position: relative;
+      box-shadow: 0 0 35px rgba(0,0,0,0.3);
+      padding-bottom: 75px; /* bottom bar space */
     }
 
-    .field.full { grid-column: 1 / -1; }
+    button, input, select { font: inherit; outline: none; }
+    button { cursor: pointer; border: none; background: none; }
 
-    .field label {
-      font-size: 14px;
-      font-weight: 700;
+    /* Top App Bar */
+    .app-header {
+      background: linear-gradient(135deg, var(--primary-dark), #2563eb);
+      color: white;
+      padding: 24px 20px 20px;
+      border-radius: 0 0 24px 24px;
     }
 
-    .field input, .field select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d0d5dd;
-      border-radius: 10px;
-      background: white;
-    }
-
-    .btn {
-      border: 0;
-      border-radius: 9px;
-      padding: 11px 15px;
-      font-weight: 700;
-    }
-
-    .primary { background: var(--blue); color: white; }
-    .secondary { background: #e9eef8; color: var(--dark); }
-    .danger { background: #fee4e2; color: var(--red); }
-    .success { background: #dff7e9; color: #126b45; }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .business-row {
-      border-top: 1px solid var(--border);
-      padding: 16px 0;
+    .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .hidden { display: none !important; }
-
-    .notice {
-      background: #fff7df;
-      border: 1px solid #f1d78c;
-      padding: 13px;
-      border-radius: 10px;
-      color: #775b13;
-      font-size: 13px;
-      line-height: 1.5;
       margin-bottom: 16px;
     }
 
-    .empty {
-      padding: 25px;
-      text-align: center;
+    .greeting h2 { font-size: 22px; font-weight: 800; }
+    .greeting p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+
+    .header-actions { display: flex; gap: 10px; }
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s;
+    }
+    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .search-bar {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 13px 16px 13px 44px;
       background: white;
-      border-radius: 12px;
+      border: none;
+      border-radius: 14px;
+      font-size: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    }
+
+    .search-bar .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
       color: var(--muted);
     }
 
-    footer {
+    /* Screen Container */
+    .screen {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 0.15s ease-out;
+    }
+    .screen.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Banner */
+    .promo-banner {
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      border-radius: var(--radius);
+      padding: 20px;
+      color: white;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.22);
+    }
+
+    .promo-banner h3 { font-size: 18px; font-weight: 800; line-height: 1.25; }
+    .promo-banner p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+    .banner-art { font-size: 42px; }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-header h3 { font-size: 17px; font-weight: 700; color: #1e293b; }
+
+    /* Partner List */
+    .partner-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .partner-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: transform 0.15s;
+    }
+    .partner-card:active { transform: scale(0.98); }
+
+    .partner-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .partner-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .partner-details h4 { font-size: 15px; font-weight: 700; }
+    .partner-details p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    .arrow-icon { color: #94a3b8; font-size: 18px; font-weight: bold; }
+
+    /* QR Scan Screen */
+    .qr-view-container {
+      background: #0b132b;
+      border-radius: 24px;
+      padding: 40px 20px;
       text-align: center;
-      padding: 25px 15px;
-      color: var(--muted);
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .qr-box {
+      width: 210px;
+      height: 210px;
+      border: 3px dashed #60a5fa;
+      border-radius: 20px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      background: rgba(255,255,255,0.04);
+      position: relative;
+    }
+
+    .how-it-works {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+    }
+    .how-it-works h4 { font-size: 16px; margin-bottom: 14px; }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
       font-size: 13px;
     }
+    .step-item p { font-size: 13px; font-weight: 600; color: #334155; }
 
-    @media (max-width: 600px) {
-      .container { padding: 13px; }
-      .topbar { padding: 16px; }
-      h1 { font-size: 23px; }
-      .form-grid { grid-template-columns: 1fr; }
-      .field.full { grid-column: auto; }
-      .panel { padding: 16px; }
-      .admin-button { width: 100%; }
+    /* Stamps Screen */
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
     }
+    .filter-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .filter-tab.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .stamp-reward-card {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.02);
+    }
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .stars-row {
+      display: flex;
+      gap: 8px;
+      margin: 14px 0 10px;
+    }
+    .star-slot {
+      flex: 1;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      background: #f1f5f9;
+      color: #94a3b8;
+    }
+    .star-slot.earned {
+      background: #eff6ff;
+      color: var(--primary);
+      font-weight: bold;
+    }
+    .card-status {
+      font-size: 12px;
+      color: #d97706;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Profile Screen */
+    .profile-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #dbeafe;
+      display: grid;
+      place-items: center;
+      font-size: 38px;
+      margin: 0 auto 12px;
+    }
+    .stats-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .profile-stat-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .profile-stat-box span { font-size: 12px; color: var(--muted); }
+    .profile-stat-box h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-top: 4px; }
+
+    .menu-links {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .menu-link-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+    }
+    .menu-link-item:last-child { border-bottom: none; }
+
+    /* Admin View */
+    .admin-container {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-top: 10px;
+    }
+    .form-group { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
+    .form-group label { font-size: 12px; font-weight: 700; color: #475569; }
+    .form-group input, .form-group select {
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .btn-action {
+      background: var(--primary);
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      width: 100%;
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 440px;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0 12px;
+      z-index: 1000;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .nav-item .nav-icon { font-size: 20px; }
+    .nav-item.active { color: var(--primary); }
+
+    .hidden { display: none !important; }
   </style>
 </head>
-
 <body>
-  <header class="topbar">
-    <div class="top-inner">
-      <div>
-        <div class="brand">⭐ Main Loyalty Platform</div>
-        <div class="tagline">One platform. Many businesses. More rewards.</div>
-      </div>
-      <button class="admin-button" id="adminToggle">
-        ⚙️ Main Admin Panel
-      </button>
-    </div>
-  </header>
 
-  <main class="container">
-
-    <!-- HOME PAGE -->
-    <section id="homePage">
-      <div class="welcome">
-        <h1>Discover businesses near you</h1>
-        <p class="muted">Explore malls, shops, restaurants and grocery stores.</p>
-
-        <input
-          id="searchBox"
-          class="search"
-          type="search"
-          placeholder="🔎 Search business name or category..."
-          aria-label="Search businesses"
-        />
-
-        <div class="filters" id="filters">
-          <button class="filter active" data-category="All">All</button>
-          <button class="filter" data-category="Mall">Shopping Malls</button>
-          <button class="filter" data-category="Shop">Shops</button>
-          <button class="filter" data-category="Food">Food & Restaurants</button>
-          <button class="filter" data-category="Grocery">Grocery</button>
+  <div class="app-viewport">
+    
+    <!-- HEADER -->
+    <header class="app-header" id="mainHeader">
+      <div class="header-top">
+        <div class="greeting">
+          <h2>Hello, Rahul 👋</h2>
+          <p>Collect Stamps • Get Rewards</p>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="openAdminBtn" title="Admin Settings">⚙️</button>
         </div>
       </div>
 
-      <div class="section-title">
-        <h2>Explore Businesses</h2>
-        <span class="muted small" id="businessCount"></span>
+      <div class="search-bar" id="topSearchWrap">
+        <span class="search-icon">🔍</span>
+        <input type="search" id="partnerSearch" placeholder="Search malls, restaurants & shops..." />
       </div>
+    </header>
 
-      <div class="business-grid" id="businessGrid"></div>
-    </section>
-
-    <!-- ADMIN PAGE -->
-    <section id="adminPage" class="hidden">
-      <div class="section-title">
+    <!-- 1. HOME SCREEN -->
+    <main class="screen active" id="screenHome">
+      <div class="promo-banner">
         <div>
-          <h1>Main Admin Dashboard</h1>
-          <p class="muted">Manage the business directory.</p>
+          <h3>Shop More<br>Collect More</h3>
+          <p>Get Rewards on 10 visits</p>
         </div>
-        <button class="btn secondary" id="backHome">← Back to Home</button>
+        <div class="banner-art">🛍️</div>
       </div>
 
-      <div class="notice">
-        <strong>Prototype notice:</strong> This admin panel is not protected by
-        a real login. Anyone who can open this page may be able to edit the
-        businesses stored in this browser. Do not enter private customer data.
-        We will add secure authentication and a shared database in a later step.
+      <div class="section-header">
+        <h3>Our Partners</h3>
+        <span style="font-size:12px; color:var(--muted);" id="partnerCount"></span>
       </div>
 
-      <div class="stats">
-        <div class="stat">
-          <div class="muted">Total Businesses</div>
-          <div class="stat-number" id="totalBusinesses">0</div>
+      <div class="partner-list" id="partnerList"></div>
+    </main>
+
+    <!-- 2. QR SCAN SCREEN -->
+    <main class="screen" id="screenQR">
+      <div class="qr-view-container">
+        <h3>Scan QR Code</h3>
+        <div class="qr-box">📷</div>
+        <p style="font-size:13px; opacity:0.85;">Point your camera at store QR code to collect stamp</p>
+      </div>
+
+      <div class="how-it-works">
+        <h4>How it works?</h4>
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <p>Scan the QR code at checkout</p>
         </div>
-        <div class="stat">
-          <div class="muted">Shopping Malls</div>
-          <div class="stat-number" id="mallTotal">0</div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <p>Staff verifies and awards stamp</p>
         </div>
-        <div class="stat">
-          <div class="muted">Shops</div>
-          <div class="stat-number" id="shopTotal">0</div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <p>Complete 10 stamps & unlock rewards</p>
         </div>
-        <div class="stat">
-          <div class="muted">Food & Grocery</div>
-          <div class="stat-number" id="foodGroceryTotal">0</div>
+      </div>
+    </main>
+
+    <!-- 3. MY STAMPS SCREEN -->
+    <main class="screen" id="screenStamps">
+      <div class="filter-tabs">
+        <div class="filter-tab active">All Partners</div>
+        <div class="filter-tab">Active Offers</div>
+      </div>
+
+      <div id="stampsDisplayList"></div>
+    </main>
+
+    <!-- 4. PROFILE SCREEN -->
+    <main class="screen" id="screenProfile">
+      <div class="profile-card">
+        <div class="avatar">👤</div>
+        <h3 style="font-size:18px;">Rahul Sharma</h3>
+        <p style="font-size:13px; color:var(--muted); margin-top:4px;">📞 +91 98765 43210</p>
+        <p style="font-size:12px; color:var(--muted);">✉️ rahul@example.com</p>
+      </div>
+
+      <div class="stats-card-grid">
+        <div class="profile-stat-box">
+          <span>Total Spent</span>
+          <h3>₹ 12,450</h3>
+        </div>
+        <div class="profile-stat-box">
+          <span>Your Rank</span>
+          <h3>#12</h3>
         </div>
       </div>
 
-      <div class="panel">
-        <h2 id="formHeading">➕ Add a Business</h2>
-        <p class="muted small">
-          Add a business to your directory. You can edit or remove it later.
-        </p>
+      <div class="menu-links">
+        <div class="menu-link-item"><span>🛍️ Purchase History</span> <span>›</span></div>
+        <div class="menu-link-item"><span>❓ Help & Support</span> <span>›</span></div>
+        <div class="menu-link-item"><span>📄 Terms & Conditions</span> <span>›</span></div>
+        <div class="menu-link-item" style="color:var(--red); cursor:pointer;"><span>🚪 Log Out</span></div>
+      </div>
+    </main>
 
-        <form id="businessForm">
-          <input type="hidden" id="editId" />
+    <!-- 5. ADMIN PANEL SCREEN -->
+    <main class="screen" id="screenAdmin">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-size:18px;">⚙️ Admin Dashboard</h3>
+        <button id="closeAdminBtn" style="color:var(--primary); font-weight:700;">← Back</button>
+      </div>
 
-          <div class="form-grid">
-            <div class="field">
-              <label for="businessName">Business Name *</label>
-              <input id="businessName" maxlength="80" required
-                placeholder="e.g. Vishal Mega Mart" />
-            </div>
-
-            <div class="field">
-              <label for="businessCategory">Category *</label>
-              <select id="businessCategory" required>
-                <option value="Mall">Shopping Mall</option>
-                <option value="Shop">Shop</option>
-                <option value="Food">Food & Restaurant</option>
-                <option value="Grocery">Grocery</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="businessLocation">Location</label>
-              <input id="businessLocation" maxlength="100"
-                placeholder="e.g. Belonia, South Tripura" />
-            </div>
-
-            <div class="field">
-              <label for="businessIcon">Icon / Emoji</label>
-              <input id="businessIcon" maxlength="8"
-                placeholder="e.g. 🛍️" value="🏪" />
-            </div>
-
-            <div class="field full">
-              <label for="businessDescription">Short Description</label>
-              <input id="businessDescription" maxlength="160"
-                placeholder="Write a short business description" />
-            </div>
+      <div class="admin-container">
+        <h4 style="margin-bottom:12px;">Add Business</h4>
+        <form id="adminAddForm">
+          <div class="form-group">
+            <label>Business Name</label>
+            <input type="text" id="admName" placeholder="e.g. Vishal Mega Mart" required>
           </div>
-
-          <div class="actions">
-            <button type="submit" class="btn primary" id="saveBusiness">
-              Save Business
-            </button>
-            <button type="button" class="btn secondary hidden" id="cancelEdit">
-              Cancel Edit
-            </button>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="admCategory">
+              <option value="Shopping Mall">Shopping Mall</option>
+              <option value="Restaurant">Restaurant</option>
+              <option value="Grocery">Grocery</option>
+              <option value="Fashion Store">Fashion Store</option>
+            </select>
           </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" id="admLocation" placeholder="Belonia, South Tripura">
+          </div>
+          <div class="form-group">
+            <label>Emoji Icon</label>
+            <input type="text" id="admIcon" value="🏪" maxlength="4">
+          </div>
+          <button type="submit" class="btn-action">Save to Platform</button>
         </form>
       </div>
 
-      <div class="panel">
-        <div class="section-title">
-          <h2>📋 Manage Businesses</h2>
-          <input id="adminSearch" class="search"
-            style="max-width:300px;margin:0"
-            placeholder="Search your business list..." />
-        </div>
-        <div id="adminBusinessList"></div>
+      <div class="admin-container" style="margin-top:16px;">
+        <h4 style="margin-bottom:12px;">Registered Stores</h4>
+        <div id="adminStoresList"></div>
       </div>
+    </main>
 
-      <div class="panel">
-        <h2>🔐 Next Development Steps</h2>
-        <p>After testing this panel, we can build these features one by one:</p>
-        <ul>
-          <li>Secure Main Admin login and permissions</li>
-          <li>Business owner and staff accounts</li>
-          <li>Customer accounts and loyalty stamps</li>
-          <li>QR scan and staff approval</li>
-          <li>Rewards, offers and reports</li>
-          <li>Shared online database and backups</li>
-        </ul>
-      </div>
-    </section>
+    <!-- BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" id="bottomNavBar">
+      <button class="nav-item active" data-screen="screenHome">
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-item" data-screen="screenQR">
+        <span class="nav-icon">📷</span>
+        <span>QR Scan</span>
+      </button>
+      <button class="nav-item" data-screen="screenStamps">
+        <span class="nav-icon">⭐</span>
+        <span>My Stamps</span>
+      </button>
+      <button class="nav-item" data-screen="screenProfile">
+        <span class="nav-icon">👤</span>
+        <span>Profile</span>
+      </button>
+    </nav>
 
-  </main>
-
-  <footer>
-    Main Loyalty Platform · Early Development Version
-  </footer>
+  </div>
 
   <script>
-    const STORAGE_KEY = "mainLoyaltyBusinesses_v1";
+    const STORAGE_KEY = "stampora_stores_v2";
+    const STAMPS_KEY = "stampora_stamps_v2";
 
-    const starterBusinesses = [
-      {
-        id: "demo-vishal",
-        name: "Vishal Mega Mart",
-        category: "Mall",
-        location: "Belonia, South Tripura",
-        icon: "🛍️",
-        description: "A shopping destination in Belonia."
-      },
-      {
-        id: "demo-restaurant",
-        name: "Example Restaurant",
-        category: "Food",
-        location: "Add location in Admin Panel",
-        icon: "🍽️",
-        description: "Restaurant listing example."
-      },
-      {
-        id: "demo-grocery",
-        name: "Example Grocery Store",
-        category: "Grocery",
-        location: "Add location in Admin Panel",
-        icon: "🛒",
-        description: "Grocery listing example."
-      },
-      {
-        id: "demo-shop",
-        name: "Example Fashion Shop",
-        category: "Shop",
-        location: "Add location in Admin Panel",
-        icon: "👕",
-        description: "Shop listing example."
-      }
+    // Default business data
+    const defaultStores = [
+      { id: "vishal-1", name: "Vishal Mega Mart", category: "Shopping Mall", location: "Belonia, South Tripura", icon: "🛍️" },
+      { id: "misti-1", name: "Misti Mokh", category: "Restaurant", location: "Belonia, No 1 Bazar", icon: "🍽️" },
+      { id: "dominos-1", name: "Domino's", category: "Restaurant", location: "City Center", icon: "🍕" },
+      { id: "kfc-1", name: "KFC", category: "Restaurant", location: "Mall Road", icon: "🍗" },
+      { id: "reliance-1", name: "Reliance Smart", category: "Shopping Mall", location: "Station Road", icon: "🛒" }
     ];
 
-    let businesses = loadBusinesses();
-    let activeCategory = "All";
+    let stores = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultStores;
+    let userStamps = JSON.parse(localStorage.getItem(STAMPS_KEY)) || { "vishal-1": 4, "misti-1": 2, "dominos-1": 3 };
 
-    function loadBusinesses() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved !== null) {
-          const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed)) return parsed;
-        }
-      } catch (error) {
-        console.error("Could not load saved businesses.", error);
-      }
-
-      return starterBusinesses.map(item => ({ ...item }));
+    function saveStores() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(stores));
     }
 
-    function saveBusinesses() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(businesses));
-        return true;
-      } catch (error) {
-        alert("Could not save data in this browser. Check browser storage.");
-        console.error(error);
-        return false;
-      }
+    function saveStamps() {
+      localStorage.setItem(STAMPS_KEY, JSON.stringify(userStamps));
     }
 
-    function escapeHTML(value) {
-      return String(value ?? "").replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[character]);
-    }
-
-    function categoryName(category) {
-      return {
-        Mall: "Shopping Mall",
-        Shop: "Shop",
-        Food: "Food & Restaurant",
-        Grocery: "Grocery"
-      }[category] || category;
-    }
-
-    function renderHome() {
-      const searchBox = document.getElementById("searchBox");
-      const query = searchBox ? searchBox.value.trim().toLowerCase() : "";
-
-      const filtered = businesses.filter(business => {
-        const matchesCategory =
-          activeCategory === "All" || business.category === activeCategory;
-
-        const searchable =
-          `${business.name} ${business.category} ${business.location} ${business.description}`
-            .toLowerCase();
-
-        return matchesCategory && searchable.includes(query);
-      });
-
-      const countEl = document.getElementById("businessCount");
-      if (countEl) {
-        countEl.textContent = `${filtered.length} business${filtered.length === 1 ? "" : "es"}`;
-      }
-
-      const grid = document.getElementById("businessGrid");
-      if (!grid) return;
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="empty">No businesses found. Try another search.</div>';
-        return;
-      }
-
-      grid.innerHTML = filtered.map(business => `
-        <article class="business-card">
-          <div class="business-icon">${escapeHTML(business.icon || "🏪")}</div>
-          <span class="pill">${escapeHTML(categoryName(business.category))}</span>
-          <h3>${escapeHTML(business.name)}</h3>
-          <p class="muted small">📍 ${escapeHTML(business.location || "Location not added")}</p>
-          <p class="small">${escapeHTML(business.description || "")}</p>
-        </article>
-      `).join("");
-    }
-
-    function renderAdmin() {
-      document.getElementById("totalBusinesses").textContent = businesses.length;
-      document.getElementById("mallTotal").textContent =
-        businesses.filter(b => b.category === "Mall").length;
-      document.getElementById("shopTotal").textContent =
-        businesses.filter(b => b.category === "Shop").length;
-      document.getElementById("foodGroceryTotal").textContent =
-        businesses.filter(b => ["Food", "Grocery"].includes(b.category)).length;
-
-      const adminSearch = document.getElementById("adminSearch");
-      const query = adminSearch ? adminSearch.value.trim().toLowerCase() : "";
-
-      const filtered = businesses.filter(b =>
-        `${b.name} ${b.category} ${b.location}`.toLowerCase().includes(query)
-      );
-
-      const list = document.getElementById("adminBusinessList");
-      if (!list) return;
-
-      if (filtered.length === 0) {
-        list.innerHTML = '<div class="empty">No businesses in this list.</div>';
-        return;
-      }
-
-      list.innerHTML = filtered.map(business => `
-        <div class="business-row">
-          <div>
-            <strong>${escapeHTML(business.icon || "🏪")} ${escapeHTML(business.name)}</strong>
-            <div class="muted small">
-              ${escapeHTML(categoryName(business.category))} ·
-              ${escapeHTML(business.location || "No location")}
+    // Render Home Partner List
+    function renderHome(query = "") {
+      const list = document.getElementById("partnerList");
+      const filtered = stores.filter(s => s.name.toLowerCase().includes(query.toLowerCase()) || s.category.toLowerCase().includes(query.toLowerCase()));
+      
+      document.getElementById("partnerCount").textContent = `${filtered.length} partners`;
+      
+      list.innerHTML = filtered.map(store => `
+        <div class="partner-card" onclick="addDemoStamp('${store.id}')">
+          <div class="partner-info">
+            <div class="partner-icon">${store.icon || '🏪'}</div>
+            <div class="partner-details">
+              <h4>${store.name}</h4>
+              <p>${store.category} • ${store.location}</p>
             </div>
           </div>
-          <div class="actions" style="margin-top:0">
-            <button class="btn secondary" data-edit="${escapeHTML(business.id)}">
-              Edit
-            </button>
-            <button class="btn danger" data-delete="${escapeHTML(business.id)}">
-              Remove
-            </button>
-          </div>
+          <span class="arrow-icon">›</span>
         </div>
       `).join("");
     }
 
-    function refresh() {
-      renderHome();
-      renderAdmin();
-    }
-
-    function resetForm() {
-      document.getElementById("businessForm").reset();
-      document.getElementById("editId").value = "";
-      document.getElementById("businessIcon").value = "🏪";
-      document.getElementById("formHeading").textContent = "➕ Add a Business";
-      document.getElementById("saveBusiness").textContent = "Save Business";
-      document.getElementById("cancelEdit").classList.add("hidden");
-    }
-
-    document.getElementById("searchBox").addEventListener("input", renderHome);
-    document.getElementById("adminSearch").addEventListener("input", renderAdmin);
-
-    document.getElementById("filters").addEventListener("click", event => {
-      const button = event.target.closest("button[data-category]");
-      if (!button) return;
-
-      activeCategory = button.dataset.category;
-
-      document.querySelectorAll(".filter").forEach(item => {
-        item.classList.toggle("active", item === button);
-      });
-
-      renderHome();
-    });
-
-    document.getElementById("adminToggle").addEventListener("click", () => {
-      document.getElementById("homePage").classList.add("hidden");
-      document.getElementById("adminPage").classList.remove("hidden");
-      document.getElementById("adminSearch").value = "";
-      refresh();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    document.getElementById("backHome").addEventListener("click", () => {
-      document.getElementById("adminPage").classList.add("hidden");
-      document.getElementById("homePage").classList.remove("hidden");
-      renderHome();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    document.getElementById("businessForm").addEventListener("submit", event => {
-      event.preventDefault();
-
-      const editId = document.getElementById("editId").value;
-      const existing = businesses.find(b => b.id === editId);
-
-      const business = {
-        id: existing ? existing.id : (
-          window.crypto && crypto.randomUUID
-            ? crypto.randomUUID()
-            : "biz-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8)
-        ),
-        name: document.getElementById("businessName").value.trim(),
-        category: document.getElementById("businessCategory").value,
-        location: document.getElementById("businessLocation").value.trim(),
-        icon: document.getElementById("businessIcon").value.trim() || "🏪",
-        description: document.getElementById("businessDescription").value.trim()
-      };
-
-      if (!business.name) {
-        alert("Please enter a business name.");
-        return;
-      }
-
-      const previous = businesses.map(item => ({ ...item }));
-
-      if (existing) {
-        businesses = businesses.map(item => item.id === editId ? business : item);
-      } else {
-        businesses.push(business);
-      }
-
-      if (!saveBusinesses()) {
-        businesses = previous;
-        return;
-      }
-
-      resetForm();
-      refresh();
-    });
-
-    document.getElementById("cancelEdit").addEventListener("click", resetForm);
-
-    document.getElementById("adminBusinessList").addEventListener("click", event => {
-      const editBtn = event.target.closest("button[data-edit]");
-      const deleteBtn = event.target.closest("button[data-delete]");
-
-      if (editBtn) {
-        const id = editBtn.dataset.edit;
-        const target = businesses.find(b => b.id === id);
-        if (!target) return;
-
-        document.getElementById("editId").value = target.id;
-        document.getElementById("businessName").value = target.name;
-        document.getElementById("businessCategory").value = target.category;
-        document.getElementById("businessLocation").value = target.location || "";
-        document.getElementById("businessIcon").value = target.icon || "🏪";
-        document.getElementById("businessDescription").value = target.description || "";
-
-        document.getElementById("formHeading").textContent = "✏️ Edit Business";
-        document.getElementById("saveBusiness").textContent = "Update Business";
-        document.getElementById("cancelEdit").classList.remove("hidden");
-        document.getElementById("businessName").focus();
-      }
-
-      if (deleteBtn) {
-        const id = deleteBtn.dataset.delete;
-        const target = businesses.find(b => b.id === id);
-        if (!target) return;
-
-        if (confirm(`Remove "${target.name}"?`)) {
-          businesses = businesses.filter(b => b.id !== id);
-          saveBusinesses();
-          refresh();
+    // Render My Stamps Screen
+    function renderStamps() {
+      const display = document.getElementById("stampsDisplayList");
+      display.innerHTML = stores.map(store => {
+        const count = userStamps[store.id] || 0;
+        let starsHTML = "";
+        for (let i = 1; i <= 5; i++) {
+          starsHTML += `<div class="star-slot ${i <= count ? 'earned' : ''}">★</div>`;
         }
-      }
-    });
 
-    // Initial render
-    refresh();
-  </script>
-</body>
-</html>
+        return `
+          <div class="stamp-reward-card">
+            <div class="card-top">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-size:24px;">${store.icon || '🏪'}</span>
+                <div>
+                  <h4 style="font-size:15px; font-weight:700;">${store.name}</h4>
+                  <p style="font-size:12px; color:var(--muted);">${count}/5 Stamps Collected</p>
+                </div>
+              </div>
+              <button onclick="addDemoStamp('${store.id}')" style="font-size:11px; background:#eff6ff; color:#1d4ed8; font-weight:700; padding:6px 10px; border-radius:8px;">+ Stamp</button>
+            </div>
+            <div class="stars-row">${starsHTML}</div>
+            <div class="card-status">
+              <span>🎁</span>
+              <span>${count >= 5 ? '🎉 Reward unlocked! Show at counter.' : `Collect ${5 - count} more stamps for reward.`}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Admin List
+    function renderAdminList() {
+      const el = document.getElementById("adminStoresList");
+      el.innerHTML = stores.map(s => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #e2e8f0;">
+          <div>
+            <strong>${s.icon} ${s.name}</strong>
+            <p style="font-size:11px; color:#64748b;">${s.location}</p>
+          </div>
+          <button onclick="deleteStore('${s.id}')" style="color:#ef4444; font-size:12px; font-weight:700;">Delete</button>
+        </div>
+      `).join("");
+    }
+
+    // Add Stamp (Click Simulation)
+    window.addDemoStamp = function(id) {
+      userStam
