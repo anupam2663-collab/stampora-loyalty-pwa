@@ -2,528 +2,1058 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#1a4499">
-  <title>Stampora - Loyalty Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b75">
+  <title>Main Loyalty Platform</title>
 
   <style>
     :root {
-      --primary: #1d4ed8;
-      --primary-dark: #123b75;
-      --primary-light: #eff6ff;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --radius: 18px;
+      --blue: #174ea6;
+      --dark: #123b75;
+      --light: #eef4ff;
+      --bg: #f5f7fb;
+      --text: #1d2939;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --white: #ffffff;
+      --green: #16845b;
+      --red: #c43232;
+      --gold: #f59e0b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #0f172a;
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .app-viewport {
-      width: 100%;
-      max-width: 440px;
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      box-shadow: 0 0 35px rgba(0,0,0,0.3);
-      padding-bottom: 75px;
+      color: var(--text);
     }
 
-    button, input { font: inherit; outline: none; }
-    button { cursor: pointer; border: none; background: none; }
+    button, input, select {
+      font: inherit;
+    }
 
-    /* Top App Bar */
-    .app-header {
-      background: linear-gradient(135deg, var(--primary-dark), #2563eb);
+    button { cursor: pointer; }
+
+    .topbar {
+      background: linear-gradient(120deg, var(--dark), #2474d8);
       color: white;
-      padding: 24px 20px 20px;
-      border-radius: 0 0 24px 24px;
+      padding: 20px;
     }
 
-    .header-top {
+    .top-inner {
+      max-width: 1200px;
+      margin: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .tagline {
+      margin-top: 5px;
+      font-size: 13px;
+      opacity: .88;
+    }
+
+    .admin-button {
+      background: white;
+      color: var(--dark);
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1200px;
+      padding: 20px;
+      margin: auto;
+    }
+
+    .welcome {
+      background: white;
+      padding: 23px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 27px; margin-bottom: 8px; }
+    h2 { font-size: 22px; }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+
+    .search {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d0d5dd;
+      border-radius: 12px;
+      margin: 15px 0;
+      background: white;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 22px;
+    }
+
+    .filter {
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 25px;
+    }
+
+    .filter.active {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .business-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0;
+      box-shadow: 0 3px 12px #10182808;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .business-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px #10182815;
+    }
+
+    .business-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--light);
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .business-card h3 {
+      margin-bottom: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #edf2ff;
+      color: var(--blue);
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card-footer {
+      margin-top: 15px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 28px 0 16px;
+    }
+
+    .panel {
+      background: white;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .stat {
+      padding: 20px;
+      background: var(--light);
+      border-radius: 14px;
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--blue);
+      margin-top: 8px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 15px;
+      font-weight: 700;
+    }
+
+    .primary { background: var(--blue); color: white; }
+    .secondary { background: #e9eef8; color: var(--dark); }
+    .danger { background: #fee4e2; color: var(--red); }
+    .success { background: #dff7e9; color: #126b45; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .business-row {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hidden { display: none !important; }
+
+    .notice {
+      background: #fff7df;
+      border: 1px solid #f1d78c;
+      padding: 13px;
+      border-radius: 10px;
+      color: #775b13;
+      font-size: 13px;
+      line-height: 1.5;
       margin-bottom: 16px;
     }
 
-    .greeting h2 { font-size: 22px; font-weight: 800; }
-    .greeting p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
-
-    .header-actions { display: flex; gap: 10px; }
-    .icon-btn {
-      background: rgba(255, 255, 255, 0.18);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-    }
-
-    .search-bar { position: relative; width: 100%; }
-    .search-bar input {
-      width: 100%;
-      padding: 13px 16px 13px 44px;
-      background: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
-    }
-    .search-bar .search-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 16px;
-      color: var(--muted);
-    }
-
-    /* Screen Management */
-    .screen { display: none; padding: 20px; }
-    .screen.active { display: block; }
-
-    /* Promo Banner */
-    .promo-banner {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      border-radius: var(--radius);
-      padding: 20px;
-      color: white;
-      margin-bottom: 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 8px 20px rgba(37,99,235,0.22);
-    }
-    .promo-banner h3 { font-size: 18px; font-weight: 800; line-height: 1.25; }
-    .promo-banner p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-    .banner-art { font-size: 42px; }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-    .section-header h3 { font-size: 17px; font-weight: 700; color: #1e293b; }
-
-    .empty-state {
-      background: white;
-      border: 1px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 30px 20px;
+    .empty {
+      padding: 25px;
       text-align: center;
+      background: white;
+      border-radius: 12px;
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
     }
 
-    /* Partner List */
-    .partner-list { display: flex; flex-direction: column; gap: 12px; }
-    .partner-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
+    /* Loyalty Stamp Card UI */
+    .loyalty-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .loyalty-icon {
+      font-size: 44px;
+      background: var(--light);
+      padding: 12px;
       border-radius: 16px;
-      padding: 14px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .partner-info { display: flex; align-items: center; gap: 14px; }
-    .partner-icon {
-      width: 48px;
-      height: 48px;
-      background: var(--primary-light);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
     }
 
-    /* QR Scan Screen */
-    .qr-view-container {
-      background: #0b132b;
-      border-radius: 24px;
-      padding: 30px 20px;
-      text-align: center;
-      color: white;
-      margin-bottom: 20px;
-    }
-    .qr-box {
-      width: 220px;
-      height: 220px;
-      border: 3px dashed #60a5fa;
-      border-radius: 20px;
-      margin: 18px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255,255,255,0.03);
-      position: relative;
-      overflow: hidden;
-    }
-    #cameraVideo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-    }
-
-    .how-it-works {
-      background: white;
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid var(--border);
-    }
-    .how-it-works h4 { font-size: 16px; margin-bottom: 14px; }
-    .step-item { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-    .step-number {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .step-item p { font-size: 13px; font-weight: 600; color: #334155; }
-
-    /* Profile / Customer Details */
-    .profile-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 24px;
-      text-align: center;
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-    .avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #dbeafe;
+    .stamps-grid {
       display: grid;
-      place-items: center;
-      font-size: 38px;
-      margin: 0 auto 12px;
-    }
-    .profile-info-list {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    .info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #f1f5f9;
-      font-size: 14px;
-    }
-    .info-row:last-child { border-bottom: none; }
-    .info-label { color: var(--muted); font-weight: 600; }
-    .info-val { font-weight: 700; color: #1e293b; }
-
-    .btn-block {
-      background: var(--primary);
-      color: white;
-      padding: 13px;
-      border-radius: 12px;
-      font-weight: 700;
-      width: 100%;
-      text-align: center;
-      margin-top: 10px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 22px 0;
     }
 
-    /* Bottom Navigation Bar */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      max-width: 440px;
-      background: white;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0 12px;
-      z-index: 1000;
-    }
-    .nav-item {
+    .stamp-slot {
+      aspect-ratio: 1;
+      border: 2px dashed #cbd5e1;
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
       color: #94a3b8;
-      font-size: 11px;
-      font-weight: 700;
+      background: #f8fafc;
+      transition: all 0.2s ease;
     }
-    .nav-item .nav-icon { font-size: 20px; }
-    .nav-item.active { color: var(--primary); }
+
+    .stamp-slot.stamped {
+      border-style: solid;
+      border-color: var(--blue);
+      background: #eef4ff;
+      color: var(--blue);
+      transform: scale(1.03);
+    }
+
+    .stamp-slot.reward-slot {
+      border-color: var(--gold);
+      background: #fffbeb;
+      color: var(--gold);
+    }
+
+    .stamp-slot.reward-slot.stamped {
+      background: #fef3c7;
+      border-style: solid;
+    }
+
+    .stamp-mark {
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .progress-banner {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .reward-banner {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 13px; }
+      .topbar { padding: 16px; }
+      h1 { font-size: 23px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .panel { padding: 16px; }
+      .admin-button { width: 100%; }
+      .stamps-grid { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+      .stamp-slot { font-size: 12px; }
+      .stamp-mark { font-size: 20px; }
+    }
   </style>
 </head>
+
 <body>
+  <header class="topbar">
+    <div class="top-inner">
+      <div>
+        <div class="brand" id="brandTitle">⭐ Main Loyalty Platform</div>
+        <div class="tagline">One platform. Many businesses. More rewards.</div>
+      </div>
+      <button class="admin-button" id="adminToggle">
+        ⚙️ Main Admin Panel
+      </button>
+    </div>
+  </header>
 
-  <div class="app-viewport">
-    
-    <!-- TOP HEADER -->
-    <header class="app-header">
-      <div class="header-top">
-        <div class="greeting">
-          <h2 id="topNameGreeting">Hello, Rahul 👋</h2>
-          <p>Collect Stamps • Get Rewards</p>
-        </div>
-        <div class="header-actions">
-          <button class="icon-btn" onclick="alert('No new notifications')">🔔</button>
+  <main class="container">
+
+    <!-- HOME PAGE -->
+    <section id="homePage">
+      <div class="welcome">
+        <h1>Discover businesses near you</h1>
+        <p class="muted">Explore malls, shops, restaurants and grocery stores. Tap any business to open your stamp card.</p>
+
+        <input
+          id="searchBox"
+          class="search"
+          type="search"
+          placeholder="🔎 Search business name or category..."
+          aria-label="Search businesses"
+        />
+
+        <div class="filters" id="filters">
+          <button class="filter active" data-category="All">All</button>
+          <button class="filter" data-category="Mall">Shopping Malls</button>
+          <button class="filter" data-category="Shop">Shops</button>
+          <button class="filter" data-category="Food">Food & Restaurants</button>
+          <button class="filter" data-category="Grocery">Grocery</button>
         </div>
       </div>
 
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="search" id="homeSearch" placeholder="Search malls, restaurants & shops..." />
+      <div class="section-title">
+        <h2>Explore Businesses</h2>
+        <span class="muted small" id="businessCount"></span>
       </div>
-    </header>
 
-    <!-- 1. HOME SCREEN -->
-    <main class="screen active" id="screenHome">
-      <div class="promo-banner">
+      <div class="business-grid" id="businessGrid"></div>
+    </section>
+
+    <!-- CUSTOMER LOYALTY CARD VIEW -->
+    <section id="loyaltyPage" class="hidden">
+      <div class="section-title">
+        <button class="btn secondary" id="backHomeFromLoyalty">← Back to Explore</button>
+        <span class="pill" id="loyaltyCategoryPill"></span>
+      </div>
+
+      <div class="panel">
+        <div class="loyalty-header">
+          <div class="loyalty-icon" id="loyaltyIcon">🏪</div>
+          <div>
+            <h1 id="loyaltyBusinessName" style="margin-bottom:4px;">Business Name</h1>
+            <p class="muted small" id="loyaltyBusinessLocation">Location</p>
+          </div>
+        </div>
+
+        <p class="small" id="loyaltyBusinessDesc" style="margin-bottom:20px;"></p>
+
+        <div id="loyaltyStatusBanner" class="progress-banner">
+          <span>🎯</span>
+          <span id="loyaltyStatusText">0 stamps collected — 10 remaining.</span>
+        </div>
+
+        <h3 style="margin-bottom:10px;">Digital Stamp Card (10 Visits Target)</h3>
+        <p class="muted small">Collect 10 stamps on qualifying purchases to unlock your special reward.</p>
+
+        <div class="stamps-grid" id="stampsGrid"></div>
+
+        <div class="notice">
+          <strong>Demo simulation:</strong> In the real system, a stamp will only be added after you scan the business QR code and the staff approves the purchase (₹300+). Use the buttons below to test how it works.
+        </div>
+
+        <div class="actions">
+          <button class="btn primary" id="simulateStampBtn">
+            ✨ Simulate Stamp Scan (+1 Stamp)
+          </button>
+          <button class="btn secondary" id="resetStampsBtn">
+            🔄 Reset Stamp Card
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN PAGE -->
+    <section id="adminPage" class="hidden">
+      <div class="section-title">
         <div>
-          <h3>Shop More<br>Collect More</h3>
-          <p>Get Rewards on qualifying visits</p>
+          <h1>Main Admin Dashboard</h1>
+          <p class="muted">Manage the business directory.</p>
         </div>
-        <div class="banner-art">🛍️</div>
+        <button class="btn secondary" id="backHome">← Back to Home</button>
       </div>
 
-      <div class="section-header">
-        <h3>Our Partners</h3>
+      <div class="notice">
+        <strong>Prototype notice:</strong> This admin panel is not protected by
+        a real login. Anyone who can open this page may be able to edit the
+        businesses stored in this browser. Do not enter private customer data.
+        We will add secure authentication and a shared database in a later step.
       </div>
 
-      <div id="partnerListContainer">
-        <div class="empty-state">
-          🏪 <strong>No stores registered yet</strong><br>
-          Newly registered stores will appear here once onboarded.
+      <div class="stats">
+        <div class="stat">
+          <div class="muted">Total Businesses</div>
+          <div class="stat-number" id="totalBusinesses">0</div>
         </div>
-      </div>
-    </main>
-
-    <!-- 2. QR SCAN SCREEN -->
-    <main class="screen" id="screenQR">
-      <div class="qr-view-container">
-        <h3>Scan QR Code</h3>
-        <div class="qr-box">
-          <span id="qrPlaceholder" style="font-size:50px;">📷</span>
-          <video id="cameraVideo" playsinline autoplay></video>
+        <div class="stat">
+          <div class="muted">Shopping Malls</div>
+          <div class="stat-number" id="mallTotal">0</div>
         </div>
-        <p style="font-size:13px; opacity:0.85;">Point your camera at the QR code to collect stamp</p>
-        <button id="toggleCamBtn" class="btn-block" style="margin-top:14px; background:#2563eb;">Start Camera</button>
-      </div>
-
-      <div class="how-it-works">
-        <h4>How it works?</h4>
-        <div class="step-item">
-          <div class="step-number">1</div>
-          <p>Scan the QR code at the store</p>
+        <div class="stat">
+          <div class="muted">Shops</div>
+          <div class="stat-number" id="shopTotal">0</div>
         </div>
-        <div class="step-item">
-          <div class="step-number">2</div>
-          <p>Get your stamp instantly</p>
-        </div>
-        <div class="step-item">
-          <div class="step-number">3</div>
-          <p>Complete stamps & unlock rewards</p>
-        </div>
-      </div>
-    </main>
-
-    <!-- 3. MY STAMPS SCREEN -->
-    <main class="screen" id="screenStamps">
-      <div class="section-header">
-        <h3>My Stamps</h3>
-      </div>
-      <div class="empty-state">
-        ⭐ <strong>No active stamp cards</strong><br>
-        Visit a participating shop and scan a QR code to start earning stamps.
-      </div>
-    </main>
-
-    <!-- 4. PROFILE SCREEN -->
-    <main class="screen" id="screenProfile">
-      <div class="profile-card">
-        <div class="avatar">👤</div>
-        <h3 id="cardName" style="font-size:18px;">Rahul Sharma</h3>
-        <p id="cardPhone" style="font-size:13px; color:var(--muted); margin-top:4px;">📞 +91 98765 43210</p>
-      </div>
-
-      <div class="profile-info-list">
-        <div class="info-row">
-          <span class="info-label">Full Name</span>
-          <span class="info-val" id="dispName">Rahul Sharma</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Mobile Number</span>
-          <span class="info-val" id="dispPhone">+91 98765 43210</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Location / Address</span>
-          <span class="info-val" id="dispLocation">Belonia, South Tripura</span>
-        </div>
-        <div class="info-row">
-          <span class="info-label">Email ID</span>
-          <span class="info-val" id="dispEmail">rahul@example.com</span>
+        <div class="stat">
+          <div class="muted">Food & Grocery</div>
+          <div class="stat-number" id="foodGroceryTotal">0</div>
         </div>
       </div>
 
-      <button class="btn-block" onclick="updateCustomerDetails()">✏️ Edit Profile Info</button>
-    </main>
+      <div class="panel">
+        <h2 id="formHeading">➕ Add a Business</h2>
+        <p class="muted small">
+          Add a business to your directory. You can edit or remove it later.
+        </p>
 
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav">
-      <button class="nav-item active" data-screen="screenHome">
-        <span class="nav-icon">🏠</span>
-        <span>Home</span>
-      </button>
-      <button class="nav-item" data-screen="screenQR">
-        <span class="nav-icon">📷</span>
-        <span>QR Scan</span>
-      </button>
-      <button class="nav-item" data-screen="screenStamps">
-        <span class="nav-icon">⭐</span>
-        <span>My Stamps</span>
-      </button>
-      <button class="nav-item" data-screen="screenProfile">
-        <span class="nav-icon">👤</span>
-        <span>Profile</span>
-      </button>
-    </nav>
+        <form id="businessForm">
+          <input type="hidden" id="editId" />
 
-  </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="businessName">Business Name *</label>
+              <input id="businessName" maxlength="80" required
+                placeholder="e.g. Vishal Mega Mart" />
+            </div>
+
+            <div class="field">
+              <label for="businessCategory">Category *</label>
+              <select id="businessCategory" required>
+                <option value="Mall">Shopping Mall</option>
+                <option value="Shop">Shop</option>
+                <option value="Food">Food & Restaurant</option>
+                <option value="Grocery">Grocery</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="businessLocation">Location</label>
+              <input id="businessLocation" maxlength="100"
+                placeholder="e.g. Belonia, South Tripura" />
+            </div>
+
+            <div class="field">
+              <label for="businessIcon">Icon / Emoji</label>
+              <input id="businessIcon" maxlength="8"
+                placeholder="e.g. 🛍️" value="🏪" />
+            </div>
+
+            <div class="field full">
+              <label for="businessDescription">Short Description</label>
+              <input id="businessDescription" maxlength="160"
+                placeholder="Write a short business description" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn primary" id="saveBusiness">
+              Save Business
+            </button>
+            <button type="button" class="btn secondary hidden" id="cancelEdit">
+              Cancel Edit
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <h2>📋 Manage Businesses</h2>
+          <input id="adminSearch" class="search"
+            style="max-width:300px;margin:0"
+            placeholder="Search your business list..." />
+        </div>
+        <div id="adminBusinessList"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🔐 Next Development Steps</h2>
+        <p>After testing this panel, we can build these features one by one:</p>
+        <ul>
+          <li>Secure Main Admin login and permissions</li>
+          <li>Business owner and staff accounts</li>
+          <li>Customer accounts and loyalty stamps</li>
+          <li>QR scan and staff approval</li>
+          <li>Rewards, offers and reports</li>
+          <li>Shared online database and backups</li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Main Loyalty Platform · Early Development Version
+  </footer>
 
   <script>
-    const PROFILE_KEY = "stampora_user_profile";
+    const STORAGE_KEY = "mainLoyaltyBusinesses_v1";
+    const STAMPS_STORAGE_KEY = "mainLoyaltyStamps_v1";
+    const TARGET_STAMPS = 10;
 
-    let profile = JSON.parse(localStorage.getItem(PROFILE_KEY)) || {
-      name: "Rahul Sharma",
-      phone: "+91 98765 43210",
-      location: "Belonia, South Tripura",
-      email: "rahul@example.com"
-    };
+    const starterBusinesses = [
+      {
+        id: "demo-vishal",
+        name: "Vishal Mega Mart",
+        category: "Mall",
+        location: "Belonia, South Tripura",
+        icon: "🛍️",
+        description: "A shopping destination in Belonia."
+      },
+      {
+        id: "demo-restaurant",
+        name: "Example Restaurant",
+        category: "Food",
+        location: "Add location in Admin Panel",
+        icon: "🍽️",
+        description: "Restaurant listing example."
+      },
+      {
+        id: "demo-grocery",
+        name: "Example Grocery Store",
+        category: "Grocery",
+        location: "Add location in Admin Panel",
+        icon: "🛒",
+        description: "Grocery listing example."
+      },
+      {
+        id: "demo-shop",
+        name: "Example Fashion Shop",
+        category: "Shop",
+        location: "Add location in Admin Panel",
+        icon: "👕",
+        description: "Shop listing example."
+      }
+    ];
 
-    function renderProfile() {
-      document.getElementById("topNameGreeting").textContent = `Hello, ${profile.name.split(' ')[0]} 👋`;
-      document.getElementById("cardName").textContent = profile.name;
-      document.getElementById("cardPhone").textContent = `📞 ${profile.phone}`;
-      document.getElementById("dispName").textContent = profile.name;
-      document.getElementById("dispPhone").textContent = profile.phone;
-      document.getElementById("dispLocation").textContent = profile.location;
-      document.getElementById("dispEmail").textContent = profile.email;
+    let businesses = loadBusinesses();
+    let activeCategory = "All";
+    let selectedBusinessId = null;
+
+    function loadBusinesses() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved !== null) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (error) {
+        console.error("Could not load saved businesses.", error);
+      }
+      return starterBusinesses.map(item => ({ ...item }));
     }
 
-    function updateCustomerDetails() {
-      const newName = prompt("Enter Name:", profile.name);
-      if (newName) profile.name = newName;
-
-      const newPhone = prompt("Enter Phone Number:", profile.phone);
-      if (newPhone) profile.phone = newPhone;
-
-      const newLoc = prompt("Enter Location / Town:", profile.location);
-      if (newLoc) profile.location = newLoc;
-
-      const newEmail = prompt("Enter Email ID:", profile.email);
-      if (newEmail) profile.email = newEmail;
-
-      localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-      renderProfile();
+    function saveBusinesses() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(businesses));
+        return true;
+      } catch (error) {
+        alert("Could not save data in this browser.");
+        console.error(error);
+        return false;
+      }
     }
 
-    // Tab Navigation
-    const screens = document.querySelectorAll(".screen");
-    const navItems = document.querySelectorAll(".nav-item");
-
-    function switchScreen(targetId) {
-      if (targetId !== "screenQR") stopCameraStream();
-
-      screens.forEach(s => s.classList.remove("active"));
-      navItems.forEach(n => n.classList.remove("active"));
-
-      const target = document.getElementById(targetId);
-      if (target) target.classList.add("active");
-
-      const btn = document.querySelector(`[data-screen="${targetId}"]`);
-      if (btn) btn.classList.add("active");
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    function loadStampCounts() {
+      try {
+        const saved = localStorage.getItem(STAMPS_STORAGE_KEY);
+        if (saved !== null) return JSON.parse(saved);
+      } catch (e) {
+        console.error("Could not load stamp counts", e);
+      }
+      return {};
     }
 
-    navItems.forEach(btn => {
-      btn.addEventListener("click", () => switchScreen(btn.dataset.screen));
-    });
+    function saveStampCounts(counts) {
+      try {
+        localStorage.setItem(STAMPS_STORAGE_KEY, JSON.stringify(counts));
+      } catch (e) {
+        console.error("Could not save stamp counts", e);
+      }
+    }
 
-    // Native Camera Controller
-    let cameraStream = null;
-    const videoEl = document.getElementById("cameraVideo");
-    const camBtn = document.getElementById("toggleCamBtn");
-    const qrPlaceholder = document.getElementById("qrPlaceholder");
+    function getStampsForBusiness(bizId) {
+      const counts = loadStampCounts();
+      return counts[bizId] || 0;
+    }
 
-    async function toggleCamera() {
-      if (cameraStream) {
-        stopCameraStream();
+    function setStampsForBusiness(bizId, count) {
+      const counts = loadStampCounts();
+      counts[bizId] = count;
+      saveStampCounts(counts);
+    }
+
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function categoryName(category) {
+      return {
+        Mall: "Shopping Mall",
+        Shop: "Shop",
+        Food: "Food & Restaurant",
+        Grocery: "Grocery"
+      }[category] || category;
+    }
+
+    function renderHome() {
+      const searchBox = document.getElementById("searchBox");
+      const query = searchBox ? searchBox.value.trim().toLowerCase() : "";
+
+      const filtered = businesses.filter(business => {
+        const matchesCategory =
+          activeCategory === "All" || business.category === activeCategory;
+
+        const searchable =
+          `${business.name} ${business.category} ${business.location} ${business.description}`
+            .toLowerCase();
+
+        return matchesCategory && searchable.includes(query);
+      });
+
+      const countEl = document.getElementById("businessCount");
+      if (countEl) {
+        countEl.textContent = `${filtered.length} business${filtered.length === 1 ? "" : "es"}`;
+      }
+
+      const grid = document.getElementById("businessGrid");
+      if (!grid) return;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '<div class="empty">No businesses found. Try another search.</div>';
         return;
       }
 
-      try {
-        camBtn.textContent = "Accessing Camera...";
-        cameraStream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }
-        });
-        videoEl.srcObject = cameraStream;
-        videoEl.style.display = "block";
-        qrPlaceholder.style.display = "none";
-        camBtn.textContent = "Stop Camera";
-        camBtn.style.background = "#ef4444";
-      } catch (err) {
-        alert("Camera permission denied or camera unavailable on this device.");
-        stopCameraStream();
+      grid.innerHTML = filtered.map(business => {
+        const stamps = getStampsForBusiness(business.id);
+        return `
+        <article class="business-card" data-bizid="${escapeHTML(business.id)}">
+          <div class="business-icon">${escapeHTML(business.icon || "🏪")}</div>
+          <span class="pill">${escapeHTML(categoryName(business.category))}</span>
+          <h3>${escapeHTML(business.name)}</h3>
+          <p class="muted small">📍 ${escapeHTML(business.location || "Location not added")}</p>
+          <p class="small">${escapeHTML(business.description || "")}</p>
+          <div class="card-footer">
+            <span>⭐ ${stamps}/${TARGET_STAMPS} Stamps</span>
+            <span>Open Card →</span>
+          </div>
+        </article>
+      `}).join("");
+    }
+
+    function renderAdmin() {
+      document.getElementById("totalBusinesses").textContent = businesses.length;
+      document.getElementById("mallTotal").textContent =
+        businesses.filter(b => b.category === "Mall").length;
+      document.getElementById("shopTotal").textContent =
+        businesses.filter(b => b.category === "Shop").length;
+      document.getElementById("foodGroceryTotal").textContent =
+        businesses.filter(b => ["Food", "Grocery"].includes(b.category)).length;
+
+      const adminSearch = document.getElementById("adminSearch");
+      const query = adminSearch ? adminSearch.value.trim().toLowerCase() : "";
+
+      const filtered = businesses.filter(b =>
+        `${b.name} ${b.category} ${b.location}`.toLowerCase().includes(query)
+      );
+
+      const list = document.getElementById("adminBusinessList");
+      if (!list) return;
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty">No businesses in this list.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(business => `
+        <div class="business-row">
+          <div>
+            <strong>${escapeHTML(business.icon || "🏪")} ${escapeHTML(business.name)}</strong>
+            <div class="muted small">
+              ${escapeHTML(categoryName(business.category))} ·
+              ${escapeHTML(business.location || "No location")}
+            </div>
+          </div>
+          <div class="actions" style="margin-top:0">
+            <button class="btn secondary" data-edit="${escapeHTML(business.id)}">
+              Edit
+            </button>
+            <button class="btn danger" data-delete="${escapeHTML(business.id)}">
+              Remove
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openLoyaltyPage(bizId) {
+      const biz = businesses.find(b => b.id === bizId);
+      if (!biz) return;
+
+      selectedBusinessId = bizId;
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("adminPage").classList.add("hidden");
+      document.getElementById("loyaltyPage").classList.remove("hidden");
+
+      document.getElementById("loyaltyBusinessName").textContent = biz.name;
+      document.getElementById("loyaltyBusinessLocation").textContent = "📍 " + (biz.location || "Location not specified");
+      document.getElementById("loyaltyBusinessDesc").textContent = biz.description || "Earn stamps on every qualifying visit.";
+      document.getElementById("loyaltyIcon").textContent = biz.icon || "🏪";
+      document.getElementById("loyaltyCategoryPill").textContent = categoryName(biz.category);
+
+      renderLoyaltyStamps();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderLoyaltyStamps() {
+      if (!selectedBusinessId) return;
+
+      const current = getStampsForBusiness(selectedBusinessId);
+      const remaining = Math.max(0, TARGET_STAMPS - current);
+
+      const banner = document.getElementById("loyaltyStatusBanner");
+      const bannerText = document.getElementById("loyaltyStatusText");
+
+      if (current >= TARGET_STAMPS) {
+        banner.className = "reward-banner";
+        bannerText.innerHTML = `🎉 <strong>Congratulations!</strong> You have collected all 10 stamps! Claim your reward at the counter.`;
+      } else if (remaining === 1) {
+        banner.className = "progress-banner";
+        bannerText.textContent = `⚡ 9 stamps collected — Only 1 more qualifying visit to unlock your reward!`;
+      } else {
+        banner.className = "progress-banner";
+        bannerText.textContent = `🎯 ${current} stamps collected — ${remaining} remaining.`;
+      }
+
+      const grid = document.getElementById("stampsGrid");
+      let slotsHTML = "";
+
+      for (let i = 1; i <= TARGET_STAMPS; i++) {
+        const isStamped = i <= current;
+        const isReward = i === TARGET_STAMPS;
+
+        slotsHTML += `
+          <div class="stamp-slot ${isStamped ? 'stamped' : ''} ${isReward ? 'reward-slot' : ''}">
+            <span class="stamp-mark">${isStamped ? '⭐' : (isReward ? '🎁' : i)}</span>
+            <span>${isReward ? 'Reward' : `Visit ${i}`}</span>
+          </div>
+        `;
+      }
+
+      grid.innerHTML = slotsHTML;
+    }
+
+    function refresh() {
+      renderHome();
+      renderAdmin();
+      if (!document.getElementById("loyaltyPage").classList.contains("hidden")) {
+        renderLoyaltyStamps();
       }
     }
 
-    function stopCameraStream() {
-      if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
-        cameraStream = null;
-      }
-      if (videoEl) videoEl.style.display = "none";
-      if (qrPlaceholder) qrPlaceholder.style.display = "block";
-      if (camBtn) {
-        camBtn.textContent = "Start Camera";
-        camBtn.style.background = "#2563eb";
-      }
+    function resetForm() {
+      document.getElementById("businessForm").reset();
+      document.getElementById("editId").value = "";
+      document.getElementById("businessIcon").value = "🏪";
+      document.getElementById("formHeading").textContent = "➕ Add a Business";
+      document.getElementById("saveBusiness").textContent = "Save Business";
+      document.getElementById("cancelEdit").classList.add("hidden");
     }
 
-    camBtn.addEventListener("click", toggleCamera);
+    // Event Listeners
+    document.getElementById("searchBox").addEventListener("input", renderHome);
+    document.getElementById("adminSearch").addEventListener("input", renderAdmin);
 
-    // Initial Load
-    renderProfile();
+    document.getElementById("filters").addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+
+      activeCategory = button.dataset.category;
+
+      document.querySelectorAll(".filter").forEach(item => {
+        item.classList.toggle("active", item === button);
+      });
+
+      renderHome();
+    });
+
+    // Business Card Click -> Open Loyalty
+    document.getElementById("businessGrid").addEventListener("click", event => {
+      const card = event.target.closest(".business-card");
+      if (!card) return;
+      const bizId = card.dataset.bizid;
+      if (bizId) openLoyaltyPage(bizId);
+    });
+
+    document.getElementById("brandTitle").addEventListener("click", () => {
+      document.getElementById("adminPage").classList.add("hidden");
+      document.getElementById("loyaltyPage").classList.add("hidden");
+      document.getElementById("homePage").classList.remove("hidden");
+      renderHome();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("adminToggle").addEventListener("click", () => {
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("loyaltyPage").classList.add("hidden");
+      document.getElementById("adminPage").classList.remove("hidden");
+      document.getElementById("adminSearch").value = "";
+      refresh();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("backHome").addEventListener("click", () => {
+      document.getElementById("adminPage").classList.add("hidden");
+      document.getElementById("loyaltyPage").classList.add("hidden");
+      document.getElementById("homePage").classList.remove("hidden");
+      renderHome();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("backHomeFromLoyalty").addEventListener("click", () => {
+      document.getElementById("loyaltyPage").classList.add("hidden");
+      document.getElementById("homePage").classList.remove("hidden");
+      renderHome();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // Stamp Simulation Actions
+    document.getElementById("simulateStampBtn").addEventListener("click", () => {
+      if (!selectedBusinessId) return;
+      let current = getStampsForBusiness(selectedBusinessId);
+      if (current < TARGET_STAMPS) {
+        current += 1;
+        setStampsForBusiness(selectedBusinessId, current);
+        renderLoyaltyStamps();
+        renderHome();
+      } else {
+        alert("This card is already full (10/10)! You have earned your reward.");
+      }
+    });
+
+    document.getElementById("resetStampsBtn").addEventListener("click", () => {
+      if (!selectedBusinessId) return;
+      if (confirm("Reset stamps for this business back to 0?")) {
+        setStampsForBusiness(selectedBusinessId, 0);
+        renderLoyaltyStamps();
+        renderHome();
+      }
+    });
+
+    document.getElementById("businessForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const editId = document.getElementById("editId").value;
+      const existing = businesses.find(b => b.id === editId);
+
+      const business = {
+        id: existing ? existing.id : (
+          window.crypto && crypto.randomUUID
+            ? crypto.randomUUID()
+            : "biz-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8)
+        ),
+        name: document.getElementById("businessName").value.trim(),
+        category: document.getElementById("businessCategory").value,
+        location: document.getElementById("businessLocation").value.trim(),
+        icon: document.getElementById("businessIcon").value.trim() || "🏪",
+        description: document.getElementById("businessDescription").value.trim()
+      };
+
+      if (!business.name) {
+        alert("Please enter a business name.");
+        return;
+      }
+
+      const previous = businesses.map(item => ({ ...item }));
+
+      if (existing) {
+        businesses = businesses.map(item => item.id === editId ? business : item);
+      } else {
+        businesses.push(business);
+      }
+
+      if (!saveBusinesses()) {
+        businesses = previous;
+        return;
+      }
+
+      resetForm();
+      refresh();
+    });
+
+    document.getElementById("cancelEdit").addEventListener("click", resetForm);
+
+    document.getElementById("adminBusinessList").addEventListener("click", event => {
+      const editBtn = event.target.closest("button[data-edit]");
+      const deleteBtn = event.target.closest("button[data-delete]");
+
+      if (editBtn) {
+        const id = editBtn.dataset.edit;
+        const target = businesses.find(b => b.id === id);
+        if (!target) return;
+
+        document.getElementById("editId").value = target.id;
+        document.getElementById("businessName").value = target.name;
+        document.getElementById("businessCategory").value = target.category;
+        document.getElementById("businessLocation").value = target.location || "";
+        document.getElementById("businessIcon").value = target.icon || "🏪";
+        document.getElementById("businessDescription").value = target.description || "";
+
+        document.getElementById("formHeading").textContent = "✏️ Edit Business";
+        document.getElementById("saveBusiness").textContent = "Update Business";
+        document.getElementById("cancelEdit").classList.remove("hidden");
+        document.getElementById("businessName").focus();
+      }
+
+      if (deleteBtn) {
+        const id = deleteBtn.dataset.delete;
+        const target = businesses.find(b => b.id === id);
+        if (!target) return;
+
+        if (confirm(`Remove "${target.name}"?`)) {
+          businesses = businesses.filter(b => b.id !== id);
+          saveBusinesses();
+          refresh();
+        }
+      }
+    });
+
+    // Initial render
+    refresh();
   </script>
 </body>
 </html>
