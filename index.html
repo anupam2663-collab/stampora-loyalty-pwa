@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102b61">
+  <title>LoyaltyHub | Collect Stamps, Get Rewards</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6ff;
+      color: #142d5d;
+    }
+    header {
+      background: linear-gradient(145deg, #10265b, #244bd0);
+      color: white;
+      padding: 28px 20px 24px;
+      border-radius: 0 0 25px 25px;
+    }
+    header h1 { margin: 12px 0 7px; font-size: 26px; }
+    header p { margin: 0 0 20px; }
+    .search {
+      background: white;
+      color: #657797;
+      padding: 15px;
+      border-radius: 30px;
+      font-size: 14px;
+    }
+    .container { padding: 18px 14px 95px; }
+    .banner {
+      background: linear-gradient(120deg, #0645c5, #6734c8);
+      color: white;
+      padding: 22px 18px;
+      border-radius: 17px;
+      margin-bottom: 24px;
+    }
+    .banner h2 { margin: 0 0 8px; font-size: 23px; }
+    .banner p { margin: 0; line-height: 1.5; }
+    h3 { margin: 22px 0 13px; }
+    .partner {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      padding: 15px;
+      margin-bottom: 11px;
+      background: white;
+      border: 1px solid #e0e9ff;
+      border-radius: 15px;
+      box-shadow: 0 3px 12px #183e7b0a;
+    }
+    .logo {
+      display: grid;
+      place-items: center;
+      min-width: 54px;
+      height: 54px;
+      background: #eef3ff;
+      border-radius: 12px;
+      font-size: 27px;
+    }
+    .details { flex: 1; }
+    .details strong { display: block; margin-bottom: 7px; }
+    .details small { color: #7182a2; }
+    .arrow { font-size: 23px; color: #5474bc; }
+    .bottom {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-around;
+      background: white;
+      border-top: 1px solid #dce5fa;
+      padding: 12px 3px 18px;
+      box-shadow: 0 -5px 20px #183e7b0c;
+    }
+    .bottom button {
+      border: 0;
+      background: transparent;
+      color: #6b7c9e;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .bottom button span {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 5px;
+    }
+    .bottom button.active { color: #0757f9; font-weight: bold; }
+    #message {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      display: none;
+      margin-top: 15px;
+    }
+    @media(min-width:700px) {
+      .container { max-width: 850px; margin: auto; }
+      header { padding-left: max(25px, calc((100% - 810px)/2)); }
+      .partners-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>✨ Your rewards, all in one place</div>
+    <h1>Hello, Welcome! 👋</h1>
+    <p>Collect Stamps · Get Rewards</p>
+    <div class="search">🔍 Search malls, restaurants & shops</div>
+  </header>
 
+  <main class="container">
+    <section class="banner">
+      <h2>🛍️ Shop More, Collect More!</h2>
+      <p>Discover your favourite shops and unlock exciting rewards.</p>
+    </section>
+
+    <h3>Our Partners</h3>
+    <div class="partners-grid">
+      <div class="partner">
+        <div class="logo">🏬</div>
+        <div class="details">
+          <strong>Vishal Mega Mart</strong>
+          <small>Shopping Mall</small>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="partner">
+        <div class="logo">🍕</div>
+        <div class="details">
+          <strong>Restaurants</strong>
+          <small>Food & Dining</small>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="partner">
+        <div class="logo">🛒</div>
+        <div class="details">
+          <strong>Grocery Stores</strong>
+          <small>Groceries & Essentials</small>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+      <div class="partner">
+        <div class="logo">👗</div>
+        <div class="details">
+          <strong>Fashion & Clothing</strong>
+          <small>Shopping & Lifestyle</small>
+        </div>
+        <div class="arrow">›</div>
+      </div>
+    </div>
+
+    <div id="message"></div>
+  </main>
+
+  <nav class="bottom">
+    <button class="active" onclick="showPage('Home')">
+      <span>⌂</span>Home
+    </button>
+    <button onclick="showPage('QR Scan')">
+      <span>▦</span>QR Scan
+    </button>
+    <button onclick="showPage('My Stamps')">
+      <span>☆</span>My Stamps
+    </button>
+    <button onclick="showPage('Profile')">
+      <span>♙</span>Profile
+    </button>
+  </nav>
+
+  <script>
+    function showPage(page) {
+      document.querySelectorAll('.bottom button').forEach(button => {
+        button.classList.toggle(
+          'active',
+          button.textContent.includes(page)
+        );
+      });
+
+      const message = document.getElementById('message');
+      message.style.display = 'block';
+      message.textContent = page === 'Home'
+        ? 'Welcome to your rewards platform!'
+        : page + ' screen will be added in the next steps.';
+      message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>
