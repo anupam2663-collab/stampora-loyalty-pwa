@@ -1,0 +1,1 @@
+# stampora-loyalty-pwa
