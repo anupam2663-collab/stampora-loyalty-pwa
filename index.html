@@ -112,7 +112,12 @@
     <div>✨ Your rewards, all in one place</div>
     <h1>Hello, Welcome! 👋</h1>
     <p>Collect Stamps · Get Rewards</p>
-    <div class="search">🔍 Search malls, restaurants & shops</div>
+    <input
+  type="search"
+  id="searchBox"
+  class="search"
+  placeholder="🔍 Search malls, restaurants & shops"
+/>
   </header>
 
   <main class="container">
@@ -191,6 +196,17 @@
         : page + ' screen will be added in the next steps.';
       message.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+    const searchBox = document.getElementById('searchBox');
+
+searchBox.addEventListener('input', function () {
+  const query = this.value.toLowerCase().trim();
+
+  document.querySelectorAll('.partner').forEach(function (item) {
+    item.style.display = item.textContent
+      .toLowerCase()
+      .includes(query) ? 'flex' : 'none';
+  });
+});
   </script>
 </body>
 </html>
