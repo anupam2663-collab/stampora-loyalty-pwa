@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#1a4499">
-  <title>Stampora - Loyalty Platform</title>
+  <title>Stampora - Loyalty & Billing Platform</title>
+
+  <!-- Lightweight QR Scanner -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
   <style>
     :root {
@@ -19,97 +22,99 @@
       --gold: #f59e0b;
       --green: #10b981;
       --red: #ef4444;
-      --radius: 18px;
+      --radius: 14px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: #0f172a;
+      background: var(--bg);
       color: var(--text);
-      display: flex;
-      justify-content: center;
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Mobile Frame */
-    .app-viewport {
+    /* Universal Responsive Container */
+    .app-shell {
       width: 100%;
-      max-width: 440px;
-      background: var(--bg);
+      max-width: 1200px;
+      margin: 0 auto;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       position: relative;
-      box-shadow: 0 0 35px rgba(0,0,0,0.3);
-      padding-bottom: 75px; /* bottom bar space */
+      background: var(--bg);
+      padding-bottom: 80px;
     }
 
     button, input, select { font: inherit; outline: none; }
     button { cursor: pointer; border: none; background: none; }
 
-    /* Top App Bar */
+    /* Top Navigation Bar */
     .app-header {
       background: linear-gradient(135deg, var(--primary-dark), #2563eb);
       color: white;
-      padding: 24px 20px 20px;
-      border-radius: 0 0 24px 24px;
+      padding: 18px 24px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
     }
 
     .header-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
-    .greeting h2 { font-size: 22px; font-weight: 800; }
-    .greeting p { font-size: 13px; opacity: 0.85; margin-top: 2px; }
+    .brand-group h2 { font-size: 22px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+    .brand-group p { font-size: 13px; opacity: 0.88; margin-top: 2px; }
 
-    .header-actions { display: flex; gap: 10px; }
-    .icon-btn {
+    .header-actions { display: flex; align-items: center; gap: 10px; }
+
+    .header-btn {
       background: rgba(255, 255, 255, 0.18);
       color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      padding: 9px 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      gap: 6px;
       transition: background 0.2s;
     }
-    .icon-btn:hover { background: rgba(255, 255, 255, 0.3); }
+    .header-btn:hover { background: rgba(255, 255, 255, 0.3); }
 
-    .search-bar {
+    .search-box-wrap {
+      margin-top: 14px;
       position: relative;
-      width: 100%;
+      max-width: 600px;
     }
-
-    .search-bar input {
+    .search-box-wrap input {
       width: 100%;
-      padding: 13px 16px 13px 44px;
+      padding: 12px 18px 12px 42px;
       background: white;
-      border: none;
-      border-radius: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
       font-size: 14px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-
-    .search-bar .search-icon {
+    .search-icon-pos {
       position: absolute;
-      left: 15px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
       font-size: 16px;
       color: var(--muted);
     }
 
-    /* Screen Container */
+    /* Screen Management */
     .screen {
       display: none;
-      padding: 20px;
+      padding: 24px;
       animation: fadeIn 0.15s ease-out;
     }
     .screen.active { display: block; }
@@ -119,169 +124,176 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Banner */
+    /* Banners & Highlights */
     .promo-banner {
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      background: linear-gradient(135deg, #1d4ed8, #3b82f6);
       border-radius: var(--radius);
-      padding: 20px;
+      padding: 22px 28px;
       color: white;
       margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 8px 20px rgba(37,99,235,0.22);
+      box-shadow: 0 6px 18px rgba(37,99,235,0.18);
     }
+    .promo-banner h3 { font-size: 20px; font-weight: 800; }
+    .promo-banner p { font-size: 14px; opacity: 0.9; margin-top: 4px; }
+    .promo-icon { font-size: 46px; }
 
-    .promo-banner h3 { font-size: 18px; font-weight: 800; line-height: 1.25; }
-    .promo-banner p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-    .banner-art { font-size: 42px; }
-
-    .section-header {
+    .section-title-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-    .section-header h3 { font-size: 17px; font-weight: 700; color: #1e293b; }
+    .section-title-row h3 { font-size: 18px; font-weight: 700; color: #1e293b; }
 
-    /* Partner List */
-    .partner-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    /* Partners Grid (Tablet & Desktop friendly) */
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
 
     .partner-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 14px 16px;
+      border-radius: var(--radius);
+      padding: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      transition: all 0.2s ease;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
-      transition: transform 0.15s;
     }
-    .partner-card:active { transform: scale(0.98); }
-
-    .partner-info {
-      display: flex;
-      align-items: center;
-      gap: 14px;
+    .partner-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
     }
-
-    .partner-icon {
-      width: 48px;
-      height: 48px;
+    .partner-flex { display: flex; align-items: center; gap: 14px; }
+    .partner-icon-box {
+      width: 50px;
+      height: 50px;
       background: var(--primary-light);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 26px;
+    }
+    .partner-meta h4 { font-size: 15px; font-weight: 700; }
+    .partner-meta p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* Cashier / POS Billing Screen */
+    .billing-panel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
 
-    .partner-details h4 { font-size: 15px; font-weight: 700; }
-    .partner-details p { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-    .arrow-icon { color: #94a3b8; font-size: 18px; font-weight: bold; }
-
-    /* QR Scan Screen */
-    .qr-view-container {
-      background: #0b132b;
-      border-radius: 24px;
-      padding: 40px 20px;
-      text-align: center;
-      color: white;
-      margin-bottom: 24px;
+    @media (max-width: 768px) {
+      .billing-panel-grid { grid-template-columns: 1fr; }
     }
 
-    .qr-box {
-      width: 210px;
-      height: 210px;
-      border: 3px dashed #60a5fa;
-      border-radius: 20px;
-      margin: 20px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 64px;
-      background: rgba(255,255,255,0.04);
-      position: relative;
-    }
-
-    .how-it-works {
+    .pos-box {
       background: white;
-      border-radius: var(--radius);
-      padding: 20px;
       border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.03);
     }
-    .how-it-works h4 { font-size: 16px; margin-bottom: 14px; }
-    .step-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 12px;
-    }
-    .step-number {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--primary-light);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 13px;
-    }
-    .step-item p { font-size: 13px; font-weight: 600; color: #334155; }
+    .pos-box h4 { font-size: 17px; margin-bottom: 14px; color: #1e293b; }
 
-    /* Stamps Screen */
-    .filter-tabs {
+    .pos-field {
+      margin-bottom: 14px;
       display: flex;
-      gap: 8px;
-      margin-bottom: 18px;
+      flex-direction: column;
+      gap: 6px;
     }
-    .filter-tab {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 700;
-      background: #e2e8f0;
-      color: #475569;
+    .pos-field label { font-size: 12px; font-weight: 700; color: #475569; }
+    .pos-field input, .pos-field select {
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      background: #f8fafc;
     }
-    .filter-tab.active {
+    .pos-field input:focus, .pos-field select:focus {
+      background: white;
+      border-color: var(--primary);
+    }
+
+    .pos-btn {
       background: var(--primary);
       color: white;
+      font-weight: 700;
+      padding: 13px;
+      border-radius: 10px;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      transition: background 0.15s;
     }
+    .pos-btn:hover { background: var(--primary-dark); }
 
-    .stamp-reward-card {
-      background: white;
-      border-radius: 18px;
+    /* Receipts Log */
+    .receipt-item {
+      padding: 12px 14px;
       border: 1px solid var(--border);
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.02);
-    }
-    .card-top {
+      border-radius: 10px;
+      margin-bottom: 10px;
+      background: #fafafa;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      font-size: 13px;
     }
-    .stars-row {
-      display: flex;
-      gap: 8px;
-      margin: 14px 0 10px;
+    .badge-paid {
+      background: #dcfce7;
+      color: #15803d;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 11px;
     }
+
+    /* QR Scan View */
+    .qr-container-box {
+      max-width: 500px;
+      margin: 0 auto 24px;
+      background: #0b132b;
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      color: white;
+    }
+    #reader {
+      width: 100% !important;
+      border-radius: 14px;
+      overflow: hidden;
+      border: none !important;
+      margin: 14px auto 0;
+    }
+
+    /* Stamps Screen */
+    .stamps-grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .stamp-reward-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .stars-row { display: flex; gap: 8px; margin: 12px 0; }
     .star-slot {
       flex: 1;
       aspect-ratio: 1;
-      border-radius: 10px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -289,27 +301,16 @@
       background: #f1f5f9;
       color: #94a3b8;
     }
-    .star-slot.earned {
-      background: #eff6ff;
-      color: var(--primary);
-      font-weight: bold;
-    }
-    .card-status {
-      font-size: 12px;
-      color: #d97706;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .star-slot.earned { background: #eff6ff; color: var(--primary); font-weight: bold; }
 
-    /* Profile Screen */
+    /* Profile Layout */
+    .profile-max-wrap { max-width: 640px; margin: 0 auto; }
     .profile-card {
       background: white;
-      border-radius: var(--radius);
-      padding: 24px;
-      text-align: center;
       border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      text-align: center;
       margin-bottom: 20px;
     }
     .avatar {
@@ -322,114 +323,76 @@
       font-size: 38px;
       margin: 0 auto 12px;
     }
-    .stats-card-grid {
+    .profile-stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
       margin-bottom: 20px;
     }
     .profile-stat-box {
       background: white;
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: var(--radius);
       padding: 16px;
     }
-    .profile-stat-box span { font-size: 12px; color: var(--muted); }
-    .profile-stat-box h3 { font-size: 18px; font-weight: 800; color: var(--primary); margin-top: 4px; }
 
-    .menu-links {
-      background: white;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      overflow: hidden;
-    }
-    .menu-link-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
-      font-weight: 600;
-      color: #334155;
-    }
-    .menu-link-item:last-child { border-bottom: none; }
-
-    /* Admin View */
-    .admin-container {
-      background: white;
-      border-radius: var(--radius);
-      padding: 20px;
-      border: 1px solid var(--border);
-      margin-top: 10px;
-    }
-    .form-group { margin-bottom: 12px; display: flex; flex-direction: column; gap: 4px; }
-    .form-group label { font-size: 12px; font-weight: 700; color: #475569; }
-    .form-group input, .form-group select {
-      padding: 10px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 13px;
-    }
-    .btn-action {
-      background: var(--primary);
-      color: white;
-      padding: 12px;
-      border-radius: 10px;
-      font-weight: 700;
-      width: 100%;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    /* Bottom Navigation Bar */
+    /* Bottom Navigation Bar (Mobile / Compact) */
     .bottom-nav {
       position: fixed;
       bottom: 0;
-      width: 100%;
-      max-width: 440px;
+      left: 0;
+      right: 0;
       background: white;
       border-top: 1px solid var(--border);
       display: flex;
-      justify-content: space-around;
-      padding: 10px 0 12px;
+      justify-content: center;
+      padding: 8px 0;
       z-index: 1000;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
     }
-
+    .bottom-nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-around;
+    }
     .nav-item {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
       color: #94a3b8;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 8px;
     }
     .nav-item .nav-icon { font-size: 20px; }
-    .nav-item.active { color: var(--primary); }
+    .nav-item.active { color: var(--primary); background: #eff6ff; }
 
     .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-  <div class="app-viewport">
+  <div class="app-shell">
     
     <!-- HEADER -->
-    <header class="app-header" id="mainHeader">
+    <header class="app-header">
       <div class="header-top">
-        <div class="greeting">
-          <h2>Hello, Rahul 👋</h2>
-          <p>Collect Stamps • Get Rewards</p>
+        <div class="brand-group">
+          <h2>⭐ Stampora</h2>
+          <p>Multi-Store Loyalty & POS Billing</p>
         </div>
         <div class="header-actions">
-          <button class="icon-btn" id="openAdminBtn" title="Admin Settings">⚙️</button>
+          <button class="header-btn" id="openBillingBtn">🧾 Counter Billing</button>
+          <button class="header-btn" id="openAdminBtn">⚙️ Admin</button>
         </div>
       </div>
 
-      <div class="search-bar" id="topSearchWrap">
-        <span class="search-icon">🔍</span>
-        <input type="search" id="partnerSearch" placeholder="Search malls, restaurants & shops..." />
+      <div class="search-box-wrap" id="searchWrap">
+        <span class="search-icon-pos">🔍</span>
+        <input type="search" id="partnerSearch" placeholder="Search store name, location or category..." />
       </div>
     </header>
 
@@ -437,151 +400,177 @@
     <main class="screen active" id="screenHome">
       <div class="promo-banner">
         <div>
-          <h3>Shop More<br>Collect More</h3>
-          <p>Get Rewards on 10 visits</p>
+          <h3>Shop More, Collect More</h3>
+          <p>Collect digital stamps & get discounts at your favourite Belonia shops.</p>
         </div>
-        <div class="banner-art">🛍️</div>
+        <div class="promo-icon">🛍️</div>
       </div>
 
-      <div class="section-header">
-        <h3>Our Partners</h3>
-        <span style="font-size:12px; color:var(--muted);" id="partnerCount"></span>
+      <div class="section-title-row">
+        <h3>Registered Partner Outlets</h3>
+        <span id="partnerCount" style="font-size:13px; color:var(--muted);"></span>
       </div>
 
-      <div class="partner-list" id="partnerList"></div>
+      <div class="partners-grid" id="partnerList"></div>
     </main>
 
-    <!-- 2. QR SCAN SCREEN -->
+    <!-- 2. COUNTER BILLING SCREEN (Cashier / POS) -->
+    <main class="screen" id="screenBilling">
+      <div class="section-title-row">
+        <h3>🧾 Store Checkout & Bill Verification</h3>
+        <button class="header-btn" style="background:#e2e8f0; color:#334155;" onclick="switchScreen('screenHome')">← Back</button>
+      </div>
+
+      <div class="billing-panel-grid">
+        <div class="pos-box">
+          <h4>Issue Stamp On Purchase</h4>
+          <form id="posBillingForm">
+            <div class="pos-field">
+              <label>Select Outlet / Shop</label>
+              <select id="billStoreSelect" required></select>
+            </div>
+            <div class="pos-field">
+              <label>Customer Mobile Number</label>
+              <input type="tel" id="billCustomerPhone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="pos-field">
+              <label>Invoice / Bill Number</label>
+              <input type="text" id="billInvoiceNo" placeholder="INV-2026-001" required />
+            </div>
+            <div class="pos-field">
+              <label>Bill Amount (₹)</label>
+              <input type="number" id="billAmount" placeholder="Min ₹300 for stamp" min="1" required />
+            </div>
+            <button type="submit" class="pos-btn">✅ Approve Bill & Award Stamp</button>
+          </form>
+        </div>
+
+        <div class="pos-box">
+          <h4>Recent Counter Invoices & Approvals</h4>
+          <div id="recentBillsList">
+            <p style="font-size:13px; color:var(--muted);">No invoices generated yet.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 3. QR SCAN SCREEN -->
     <main class="screen" id="screenQR">
-      <div class="qr-view-container">
-        <h3>Scan QR Code</h3>
-        <div class="qr-box">📷</div>
-        <p style="font-size:13px; opacity:0.85;">Point your camera at store QR code to collect stamp</p>
-      </div>
-
-      <div class="how-it-works">
-        <h4>How it works?</h4>
-        <div class="step-item">
-          <div class="step-number">1</div>
-          <p>Scan the QR code at checkout</p>
-        </div>
-        <div class="step-item">
-          <div class="step-number">2</div>
-          <p>Staff verifies and awards stamp</p>
-        </div>
-        <div class="step-item">
-          <div class="step-number">3</div>
-          <p>Complete 10 stamps & unlock rewards</p>
-        </div>
+      <div class="qr-container-box">
+        <h3>Scan Store QR Voucher</h3>
+        <p style="font-size:13px; opacity:0.85; margin-top:4px;">Works on smartphones, laptop webcams & tablet cameras</p>
+        <div id="reader"></div>
+        <button id="toggleCameraBtn" class="pos-btn" style="margin-top:16px;">📷 Start Camera</button>
       </div>
     </main>
 
-    <!-- 3. MY STAMPS SCREEN -->
+    <!-- 4. MY STAMPS SCREEN -->
     <main class="screen" id="screenStamps">
-      <div class="filter-tabs">
-        <div class="filter-tab active">All Partners</div>
-        <div class="filter-tab">Active Offers</div>
+      <div class="section-title-row">
+        <h3>My Active Loyalty Cards</h3>
       </div>
-
-      <div id="stampsDisplayList"></div>
+      <div class="stamps-grid-view" id="stampsDisplayList"></div>
     </main>
 
-    <!-- 4. PROFILE SCREEN -->
+    <!-- 5. PROFILE SCREEN -->
     <main class="screen" id="screenProfile">
-      <div class="profile-card">
-        <div class="avatar">👤</div>
-        <h3 style="font-size:18px;">Rahul Sharma</h3>
-        <p style="font-size:13px; color:var(--muted); margin-top:4px;">📞 +91 98765 43210</p>
-        <p style="font-size:12px; color:var(--muted);">✉️ rahul@example.com</p>
-      </div>
-
-      <div class="stats-card-grid">
-        <div class="profile-stat-box">
-          <span>Total Spent</span>
-          <h3>₹ 12,450</h3>
+      <div class="profile-max-wrap">
+        <div class="profile-card">
+          <div class="avatar">👤</div>
+          <h3 id="profileName" style="font-size:20px;">Rahul Sharma</h3>
+          <p id="profilePhone" style="font-size:14px; color:var(--muted); margin-top:4px;">📞 +91 98765 43210</p>
+          <p id="profileEmail" style="font-size:13px; color:var(--muted);">✉️ rahul@example.com</p>
         </div>
-        <div class="profile-stat-box">
-          <span>Your Rank</span>
-          <h3>#12</h3>
-        </div>
-      </div>
 
-      <div class="menu-links">
-        <div class="menu-link-item"><span>🛍️ Purchase History</span> <span>›</span></div>
-        <div class="menu-link-item"><span>❓ Help & Support</span> <span>›</span></div>
-        <div class="menu-link-item"><span>📄 Terms & Conditions</span> <span>›</span></div>
-        <div class="menu-link-item" style="color:var(--red); cursor:pointer;"><span>🚪 Log Out</span></div>
+        <div class="profile-stats-grid">
+          <div class="profile-stat-box">
+            <span style="font-size:12px; color:var(--muted);">Total Purchases</span>
+            <h3 id="profTotalSpent" style="font-size:20px; font-weight:800; color:var(--primary); margin-top:4px;">₹ 12,450</h3>
+          </div>
+          <div class="profile-stat-box">
+            <span style="font-size:12px; color:var(--muted);">Customer Ranking</span>
+            <h3 style="font-size:20px; font-weight:800; color:var(--primary); margin-top:4px;">#12</h3>
+          </div>
+        </div>
       </div>
     </main>
 
-    <!-- 5. ADMIN PANEL SCREEN -->
+    <!-- 6. ADMIN DASHBOARD -->
     <main class="screen" id="screenAdmin">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <h3 style="font-size:18px;">⚙️ Admin Dashboard</h3>
-        <button id="closeAdminBtn" style="color:var(--primary); font-weight:700;">← Back</button>
+      <div class="section-title-row">
+        <h3>⚙️ Platform Administration</h3>
+        <button class="header-btn" style="background:#e2e8f0; color:#334155;" onclick="switchScreen('screenHome')">← Back</button>
       </div>
 
-      <div class="admin-container">
-        <h4 style="margin-bottom:12px;">Add Business</h4>
-        <form id="adminAddForm">
-          <div class="form-group">
-            <label>Business Name</label>
-            <input type="text" id="admName" placeholder="e.g. Vishal Mega Mart" required>
-          </div>
-          <div class="form-group">
-            <label>Category</label>
-            <select id="admCategory">
-              <option value="Shopping Mall">Shopping Mall</option>
-              <option value="Restaurant">Restaurant</option>
-              <option value="Grocery">Grocery</option>
-              <option value="Fashion Store">Fashion Store</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Location</label>
-            <input type="text" id="admLocation" placeholder="Belonia, South Tripura">
-          </div>
-          <div class="form-group">
-            <label>Emoji Icon</label>
-            <input type="text" id="admIcon" value="🏪" maxlength="4">
-          </div>
-          <button type="submit" class="btn-action">Save to Platform</button>
-        </form>
-      </div>
+      <div class="billing-panel-grid">
+        <div class="pos-box">
+          <h4>Register New Business</h4>
+          <form id="adminAddStoreForm">
+            <div class="pos-field">
+              <label>Business Name</label>
+              <input type="text" id="admName" placeholder="e.g. Vishal Mega Mart" required />
+            </div>
+            <div class="pos-field">
+              <label>Category</label>
+              <select id="admCategory">
+                <option value="Shopping Mall">Shopping Mall</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Grocery">Grocery</option>
+                <option value="Fashion Store">Fashion Store</option>
+              </select>
+            </div>
+            <div class="pos-field">
+              <label>Location</label>
+              <input type="text" id="admLocation" placeholder="Belonia, South Tripura" required />
+            </div>
+            <div class="pos-field">
+              <label>Emoji Symbol</label>
+              <input type="text" id="admIcon" value="🏪" maxlength="4" />
+            </div>
+            <button type="submit" class="pos-btn">Save Business</button>
+          </form>
+        </div>
 
-      <div class="admin-container" style="margin-top:16px;">
-        <h4 style="margin-bottom:12px;">Registered Stores</h4>
-        <div id="adminStoresList"></div>
+        <div class="pos-box">
+          <h4>Manage Outlets</h4>
+          <div id="adminOutletsList"></div>
+        </div>
       </div>
     </main>
 
     <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav" id="bottomNavBar">
-      <button class="nav-item active" data-screen="screenHome">
-        <span class="nav-icon">🏠</span>
-        <span>Home</span>
-      </button>
-      <button class="nav-item" data-screen="screenQR">
-        <span class="nav-icon">📷</span>
-        <span>QR Scan</span>
-      </button>
-      <button class="nav-item" data-screen="screenStamps">
-        <span class="nav-icon">⭐</span>
-        <span>My Stamps</span>
-      </button>
-      <button class="nav-item" data-screen="screenProfile">
-        <span class="nav-icon">👤</span>
-        <span>Profile</span>
-      </button>
+    <nav class="bottom-nav">
+      <div class="bottom-nav-inner">
+        <button class="nav-item active" data-screen="screenHome">
+          <span class="nav-icon">🏠</span>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" data-screen="screenBilling">
+          <span class="nav-icon">🧾</span>
+          <span>Billing</span>
+        </button>
+        <button class="nav-item" data-screen="screenQR">
+          <span class="nav-icon">📷</span>
+          <span>QR Scan</span>
+        </button>
+        <button class="nav-item" data-screen="screenStamps">
+          <span class="nav-icon">⭐</span>
+          <span>Stamps</span>
+        </button>
+        <button class="nav-item" data-screen="screenProfile">
+          <span class="nav-icon">👤</span>
+          <span>Profile</span>
+        </button>
+      </div>
     </nav>
 
   </div>
 
   <script>
-    const STORAGE_KEY = "stampora_stores_v2";
-    const STAMPS_KEY = "stampora_stamps_v2";
+    const STORES_KEY = "stampora_stores_v3";
+    const STAMPS_KEY = "stampora_stamps_v3";
+    const BILLS_KEY = "stampora_bills_v3";
 
-    // Default business data
     const defaultStores = [
       { id: "vishal-1", name: "Vishal Mega Mart", category: "Shopping Mall", location: "Belonia, South Tripura", icon: "🛍️" },
       { id: "misti-1", name: "Misti Mokh", category: "Restaurant", location: "Belonia, No 1 Bazar", icon: "🍽️" },
@@ -590,84 +579,241 @@
       { id: "reliance-1", name: "Reliance Smart", category: "Shopping Mall", location: "Station Road", icon: "🛒" }
     ];
 
-    let stores = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultStores;
+    let stores = JSON.parse(localStorage.getItem(STORES_KEY)) || defaultStores;
     let userStamps = JSON.parse(localStorage.getItem(STAMPS_KEY)) || { "vishal-1": 4, "misti-1": 2, "dominos-1": 3 };
+    let billRecords = JSON.parse(localStorage.getItem(BILLS_KEY)) || [];
 
-    function saveStores() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(stores));
-    }
+    function saveStores() { localStorage.setItem(STORES_KEY, JSON.stringify(stores)); }
+    function saveStamps() { localStorage.setItem(STAMPS_KEY, JSON.stringify(userStamps)); }
+    function saveBills() { localStorage.setItem(BILLS_KEY, JSON.stringify(billRecords)); }
 
-    function saveStamps() {
-      localStorage.setItem(STAMPS_KEY, JSON.stringify(userStamps));
-    }
-
-    // Render Home Partner List
+    // Render Home Outlets
     function renderHome(query = "") {
-      const list = document.getElementById("partnerList");
-      const filtered = stores.filter(s => s.name.toLowerCase().includes(query.toLowerCase()) || s.category.toLowerCase().includes(query.toLowerCase()));
+      const container = document.getElementById("partnerList");
+      const filtered = stores.filter(s => s.name.toLowerCase().includes(query.toLowerCase()) || s.location.toLowerCase().includes(query.toLowerCase()));
       
-      document.getElementById("partnerCount").textContent = `${filtered.length} partners`;
-      
-      list.innerHTML = filtered.map(store => `
-        <div class="partner-card" onclick="addDemoStamp('${store.id}')">
-          <div class="partner-info">
-            <div class="partner-icon">${store.icon || '🏪'}</div>
-            <div class="partner-details">
+      document.getElementById("partnerCount").textContent = `${filtered.length} Outlets Available`;
+
+      container.innerHTML = filtered.map(store => `
+        <div class="partner-card" onclick="quickAddStamp('${store.id}')">
+          <div class="partner-flex">
+            <div class="partner-icon-box">${store.icon || '🏪'}</div>
+            <div class="partner-meta">
               <h4>${store.name}</h4>
               <p>${store.category} • ${store.location}</p>
             </div>
           </div>
-          <span class="arrow-icon">›</span>
+          <span style="font-weight:700; color:var(--primary); font-size:13px;">View →</span>
         </div>
       `).join("");
     }
 
-    // Render My Stamps Screen
-    function renderStamps() {
-      const display = document.getElementById("stampsDisplayList");
-      display.innerHTML = stores.map(store => {
-        const count = userStamps[store.id] || 0;
-        let starsHTML = "";
-        for (let i = 1; i <= 5; i++) {
-          starsHTML += `<div class="star-slot ${i <= count ? 'earned' : ''}">★</div>`;
-        }
+    // Populate Store Dropdown in Billing
+    function updateStoreSelect() {
+      const select = document.getElementById("billStoreSelect");
+      select.innerHTML = stores.map(s => `<option value="${s.id}">${s.name} (${s.location})</option>`).join("");
+    }
 
+    // Render Bills History
+    function renderBills() {
+      const list = document.getElementById("recentBillsList");
+      if (billRecords.length === 0) {
+        list.innerHTML = '<p style="font-size:13px; color:var(--muted);">No invoices generated yet.</p>';
+        return;
+      }
+
+      list.innerHTML = billRecords.slice(-5).reverse().map(b => `
+        <div class="receipt-item">
+          <div>
+            <strong>${b.invoice} — ₹${b.amount}</strong>
+            <p style="font-size:11px; color:var(--muted);">${b.storeName} | ${b.phone}</p>
+          </div>
+          <span class="badge-paid">Stamp Awarded</span>
+        </div>
+      `).join("");
+    }
+
+    // Render Stamps View
+    function renderStamps() {
+      const container = document.getElementById("stampsDisplayList");
+      container.innerHTML = stores.map(store => {
+        const count = userStamps[store.id] || 0;
+        let stars = "";
+        for (let i = 1; i <= 5; i++) {
+          stars += `<div class="star-slot ${i <= count ? 'earned' : ''}">★</div>`;
+        }
         return `
           <div class="stamp-reward-card">
             <div class="card-top">
               <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-size:24px;">${store.icon || '🏪'}</span>
+                <span style="font-size:26px;">${store.icon}</span>
                 <div>
                   <h4 style="font-size:15px; font-weight:700;">${store.name}</h4>
-                  <p style="font-size:12px; color:var(--muted);">${count}/5 Stamps Collected</p>
+                  <p style="font-size:12px; color:var(--muted);">${count}/5 Stamps</p>
                 </div>
               </div>
-              <button onclick="addDemoStamp('${store.id}')" style="font-size:11px; background:#eff6ff; color:#1d4ed8; font-weight:700; padding:6px 10px; border-radius:8px;">+ Stamp</button>
+              <button onclick="quickAddStamp('${store.id}')" style="font-size:11px; background:#eff6ff; color:#1d4ed8; font-weight:700; padding:6px 10px; border-radius:8px;">+ Stamp</button>
             </div>
-            <div class="stars-row">${starsHTML}</div>
-            <div class="card-status">
-              <span>🎁</span>
-              <span>${count >= 5 ? '🎉 Reward unlocked! Show at counter.' : `Collect ${5 - count} more stamps for reward.`}</span>
-            </div>
+            <div class="stars-row">${stars}</div>
+            <p style="font-size:12px; color:#d97706; font-weight:600;">
+              ${count >= 5 ? '🎉 100% Complete! Claim Reward at Counter.' : `Collect ${5 - count} more stamps for reward.`}
+            </p>
           </div>
         `;
       }).join("");
     }
 
-    // Admin List
-    function renderAdminList() {
-      const el = document.getElementById("adminStoresList");
+    // Render Admin Outlets
+    function renderAdminOutlets() {
+      const el = document.getElementById("adminOutletsList");
       el.innerHTML = stores.map(s => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #e2e8f0;">
           <div>
             <strong>${s.icon} ${s.name}</strong>
             <p style="font-size:11px; color:#64748b;">${s.location}</p>
           </div>
-          <button onclick="deleteStore('${s.id}')" style="color:#ef4444; font-size:12px; font-weight:700;">Delete</button>
+          <button onclick="deleteOutlet('${s.id}')" style="color:var(--red); font-size:12px; font-weight:700;">Delete</button>
         </div>
       `).join("");
     }
 
-    // Add Stamp (Click Simulation)
-    window.addDemoStamp = function(id) {
-      userStam
+    // POS Bill Submission
+    document.getElementById("posBillingForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const storeId = document.getElementById("billStoreSelect").value;
+      const targetStore = stores.find(s => s.id === storeId);
+      const invoice = document.getElementById("billInvoiceNo").value;
+      const amount = Number(document.getElementById("billAmount").value);
+      const phone = document.getElementById("billCustomerPhone").value;
+
+      // Add Stamp if qualifying
+      userStamps[storeId] = (userStamps[storeId] || 0) + 1;
+      if (userStamps[storeId] > 5) userStamps[storeId] = 5;
+      saveStamps();
+
+      // Record Bill
+      billRecords.push({
+        invoice: invoice,
+        amount: amount,
+        storeName: targetStore ? targetStore.name : "Outlet",
+        phone: phone,
+        time: new Date().toLocaleTimeString()
+      });
+      saveBills();
+
+      renderBills();
+      renderStamps();
+
+      alert(`✅ Bill Approved!\nInvoice: ${invoice}\nAmount: ₹${amount}\n⭐ 1 Stamp successfully credited to customer!`);
+      e.target.reset();
+    });
+
+    // Camera Management
+    let html5QrCode = null;
+    let isCameraRunning = false;
+
+    async function toggleCamera() {
+      const btn = document.getElementById("toggleCameraBtn");
+      if (isCameraRunning) {
+        if (html5QrCode) {
+          await html5QrCode.stop();
+          html5QrCode.clear();
+        }
+        isCameraRunning = false;
+        btn.textContent = "📷 Start Camera";
+        btn.style.background = "var(--primary)";
+        return;
+      }
+
+      try {
+        btn.textContent = "⏳ Accessing Lens...";
+        html5QrCode = new Html5Qrcode("reader");
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 10, qrbox: { width: 220, height: 220 } },
+          (decoded) => {
+            alert("QR Code Detected: " + decoded);
+            toggleCamera();
+          },
+          () => {}
+        );
+        isCameraRunning = true;
+        btn.textContent = "⏹️ Stop Camera";
+        btn.style.background = "var(--red)";
+      } catch (err) {
+        alert("Camera permission denied or camera device not accessible.");
+        btn.textContent = "📷 Start Camera";
+        btn.style.background = "var(--primary)";
+        isCameraRunning = false;
+      }
+    }
+    document.getElementById("toggleCameraBtn").addEventListener("click", toggleCamera);
+
+    // Screen Switching
+    function switchScreen(targetId) {
+      if (targetId !== "screenQR" && isCameraRunning) toggleCamera();
+
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+
+      const target = document.getElementById(targetId);
+      if (target) target.classList.add("active");
+
+      const navBtn = document.querySelector(`[data-screen="${targetId}"]`);
+      if (navBtn) navBtn.classList.add("active");
+
+      if (targetId === "screenStamps") renderStamps();
+      if (targetId === "screenBilling") { updateStoreSelect(); renderBills(); }
+      if (targetId === "screenAdmin") renderAdminOutlets();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".nav-item").forEach(item => {
+      item.addEventListener("click", () => switchScreen(item.dataset.screen));
+    });
+
+    document.getElementById("openBillingBtn").addEventListener("click", () => switchScreen("screenBilling"));
+    document.getElementById("openAdminBtn").addEventListener("click", () => switchScreen("screenAdmin"));
+
+    window.quickAddStamp = function(storeId) {
+      userStamps[storeId] = (userStamps[storeId] || 0) + 1;
+      if (userStamps[storeId] > 5) userStamps[storeId] = 5;
+      saveStamps();
+      renderStamps();
+      switchScreen("screenStamps");
+    };
+
+    window.deleteOutlet = function(id) {
+      stores = stores.filter(s => s.id !== id);
+      saveStores();
+      renderHome();
+      renderAdminOutlets();
+    };
+
+    // Add Store from Admin
+    document.getElementById("adminAddStoreForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      stores.push({
+        id: "store-" + Date.now(),
+        name: document.getElementById("admName").value,
+        category: document.getElementById("admCategory").value,
+        location: document.getElementById("admLocation").value,
+        icon: document.getElementById("admIcon").value || "🏪"
+      });
+      saveStores();
+      renderHome();
+      renderAdminOutlets();
+      e.target.reset();
+      alert("✅ Store Registered Successfully!");
+    });
+
+    document.getElementById("partnerSearch").addEventListener("input", (e) => {
+      renderHome(e.target.value);
+    });
+
+    // Init
+    renderHome();
+    updateStoreSelect();
+  </script>
+</body>
+</html>
