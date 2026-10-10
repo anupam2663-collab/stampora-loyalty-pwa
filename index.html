@@ -549,8 +549,8 @@
     }
 
     function renderHome() {
-      const query = document.getElementById("searchBox").value
-        .trim().toLowerCase();
+      const searchBox = document.getElementById("searchBox");
+      const query = searchBox ? searchBox.value.trim().toLowerCase() : "";
 
       const filtered = businesses.filter(business => {
         const matchesCategory =
@@ -563,14 +563,16 @@
         return matchesCategory && searchable.includes(query);
       });
 
-      document.getElementById("businessCount").textContent =
-        `${filtered.length} business${filtered.length === 1 ? "" : "es"}`;
+      const countEl = document.getElementById("businessCount");
+      if (countEl) {
+        countEl.textContent = `${filtered.length} business${filtered.length === 1 ? "" : "es"}`;
+      }
 
       const grid = document.getElementById("businessGrid");
+      if (!grid) return;
 
       if (filtered.length === 0) {
-        grid.innerHTML =
-          '<div class="empty">No businesses found. Try another search.</div>';
+        grid.innerHTML = '<div class="empty">No businesses found. Try another search.</div>';
         return;
       }
 
@@ -594,14 +596,15 @@
       document.getElementById("foodGroceryTotal").textContent =
         businesses.filter(b => ["Food", "Grocery"].includes(b.category)).length;
 
-      const query = document.getElementById("adminSearch").value
-        .trim().toLowerCase();
+      const adminSearch = document.getElementById("adminSearch");
+      const query = adminSearch ? adminSearch.value.trim().toLowerCase() : "";
 
       const filtered = businesses.filter(b =>
         `${b.name} ${b.category} ${b.location}`.toLowerCase().includes(query)
       );
 
       const list = document.getElementById("adminBusinessList");
+      if (!list) return;
 
       if (filtered.length === 0) {
         list.innerHTML = '<div class="empty">No businesses in this list.</div>';
@@ -713,3 +716,47 @@
 
       resetForm();
       refresh();
+    });
+
+    document.getElementById("cancelEdit").addEventListener("click", resetForm);
+
+    document.getElementById("adminBusinessList").addEventListener("click", event => {
+      const editBtn = event.target.closest("button[data-edit]");
+      const deleteBtn = event.target.closest("button[data-delete]");
+
+      if (editBtn) {
+        const id = editBtn.dataset.edit;
+        const target = businesses.find(b => b.id === id);
+        if (!target) return;
+
+        document.getElementById("editId").value = target.id;
+        document.getElementById("businessName").value = target.name;
+        document.getElementById("businessCategory").value = target.category;
+        document.getElementById("businessLocation").value = target.location || "";
+        document.getElementById("businessIcon").value = target.icon || "🏪";
+        document.getElementById("businessDescription").value = target.description || "";
+
+        document.getElementById("formHeading").textContent = "✏️ Edit Business";
+        document.getElementById("saveBusiness").textContent = "Update Business";
+        document.getElementById("cancelEdit").classList.remove("hidden");
+        document.getElementById("businessName").focus();
+      }
+
+      if (deleteBtn) {
+        const id = deleteBtn.dataset.delete;
+        const target = businesses.find(b => b.id === id);
+        if (!target) return;
+
+        if (confirm(`Remove "${target.name}"?`)) {
+          businesses = businesses.filter(b => b.id !== id);
+          saveBusinesses();
+          refresh();
+        }
+      }
+    });
+
+    // Initial render
+    refresh();
+  </script>
+</body>
+</html>
