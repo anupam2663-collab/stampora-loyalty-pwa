@@ -1,208 +1,715 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#10265b">
-<title>LoyaltyHub - Rewards Platform</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b75">
+  <title>Main Loyalty Platform</title>
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f3f6ff;color:#142d5d;font-family:Arial,sans-serif}
-header{background:linear-gradient(145deg,#10265b,#3158dc);color:white;padding:25px 18px 23px;border-radius:0 0 25px 25px}
-.brand{font-size:14px;font-weight:bold;letter-spacing:1px}
-header h1{font-size:26px;margin:18px 0 7px}
-header p{margin:0 0 20px;color:#e2e9ff}
-.search-wrap{display:flex;align-items:center;background:white;border-radius:14px;padding:0 13px;color:#567}
-.search-wrap span{font-size:19px}
-#searchBox{width:100%;min-width:0;border:0;outline:0;padding:15px 10px;font-size:15px;background:transparent;color:#142d5d}
-main{max-width:950px;margin:auto;padding:18px 14px 100px}
-.banner{background:linear-gradient(120deg,#0645c5,#7136c9);color:white;padding:23px 18px;border-radius:18px;margin-bottom:23px}
-.banner .tag{font-size:12px;letter-spacing:1px;color:#e2e9ff}
-.banner h2{font-size:24px;margin:10px 0}
-.banner p{line-height:1.5;margin:0}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
-h3{margin:22px 0 13px}
-.section-head button{border:0;background:transparent;color:#3158dc;font-weight:bold;cursor:pointer}
-.categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:14px 0 24px}
-.category{border:1px solid #e0e8fc;background:white;border-radius:14px;padding:13px 3px;color:#243d70;cursor:pointer;font-size:12px}
-.category span{display:block;font-size:24px;margin-bottom:7px}
-.category.active{background:#e5edff;border-color:#4268df;color:#1745c4}
-.partners{display:grid;grid-template-columns:1fr;gap:11px}
-.partner{display:flex;align-items:center;gap:13px;background:white;border:1px solid #e2e9f8;border-radius:16px;padding:14px;box-shadow:0 4px 15px #173b7508}
-.logo{width:55px;height:55px;flex-shrink:0;display:grid;place-items:center;background:#edf2ff;border-radius:14px;font-size:28px}
-.details{flex:1;min-width:0}
-.details strong{display:block;font-size:15px;margin-bottom:7px}
-.details small{color:#7382a0}
-.arrow{font-size:26px;color:#3158dc}
-.status{display:inline-block;margin-top:8px;background:#eef5ff;color:#3158dc;padding:5px 8px;border-radius:8px;font-size:11px}
-#empty{display:none;text-align:center;background:white;border-radius:14px;padding:25px;color:#71809c}
-#notice{display:none;background:#fff;border:1px solid #e0e8fc;border-radius:14px;padding:16px;margin-top:18px;line-height:1.5}
-.bottom{position:fixed;z-index:5;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#fff;border-top:1px solid #e1e8f7;padding:9px 2px max(12px,env(safe-area-inset-bottom));box-shadow:0 -5px 20px #183e7b0c}
-.bottom button{flex:1;border:0;background:transparent;color:#72809d;font-size:11px;cursor:pointer;padding:5px 0}
-.bottom button span{display:block;font-size:22px;margin-bottom:5px}
-.bottom button.active{color:#1754e8;font-weight:bold}
-button:focus-visible,input:focus-visible{outline:2px solid #4774ee;outline-offset:2px}
-@media(min-width:650px){header{padding:28px max(25px,calc((100% - 920px)/2))}main{padding-top:24px}.partners{grid-template-columns:1fr 1fr}.banner{padding:30px}.category{padding:16px 8px;font-size:14px}}
-</style>
+  <style>
+    :root {
+      --blue: #174ea6;
+      --dark: #123b75;
+      --light: #eef4ff;
+      --bg: #f5f7fb;
+      --text: #1d2939;
+      --muted: #667085;
+      --border: #e4e7ec;
+      --white: #ffffff;
+      --green: #16845b;
+      --red: #c43232;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button { cursor: pointer; }
+
+    .topbar {
+      background: linear-gradient(120deg, var(--dark), #2474d8);
+      color: white;
+      padding: 20px;
+    }
+
+    .top-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 23px;
+      font-weight: 800;
+    }
+
+    .tagline {
+      margin-top: 5px;
+      font-size: 13px;
+      opacity: .88;
+    }
+
+    .admin-button {
+      background: white;
+      color: var(--dark);
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1200px;
+      padding: 20px;
+      margin: auto;
+    }
+
+    .welcome {
+      background: white;
+      padding: 23px;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 27px; margin-bottom: 8px; }
+    h2 { font-size: 22px; }
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+
+    .search {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d0d5dd;
+      border-radius: 12px;
+      margin: 15px 0;
+      background: white;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 22px;
+    }
+
+    .filter {
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 25px;
+    }
+
+    .filter.active {
+      background: var(--blue);
+      color: white;
+      border-color: var(--blue);
+    }
+
+    .business-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .business-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      min-width: 0;
+      box-shadow: 0 3px 12px #10182808;
+    }
+
+    .business-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--light);
+      font-size: 28px;
+      margin-bottom: 15px;
+    }
+
+    .business-card h3 {
+      margin-bottom: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #edf2ff;
+      color: var(--blue);
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 28px 0 16px;
+    }
+
+    .panel {
+      background: white;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+      margin: 20px 0;
+    }
+
+    .stat {
+      padding: 20px;
+      background: var(--light);
+      border-radius: 14px;
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--blue);
+      margin-top: 8px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    .field label {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field input, .field select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d0d5dd;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 9px;
+      padding: 11px 15px;
+      font-weight: 700;
+    }
+
+    .primary { background: var(--blue); color: white; }
+    .secondary { background: #e9eef8; color: var(--dark); }
+    .danger { background: #fee4e2; color: var(--red); }
+    .success { background: #dff7e9; color: #126b45; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .business-row {
+      border-top: 1px solid var(--border);
+      padding: 16px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hidden { display: none !important; }
+
+    .notice {
+      background: #fff7df;
+      border: 1px solid #f1d78c;
+      padding: 13px;
+      border-radius: 10px;
+      color: #775b13;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .empty {
+      padding: 25px;
+      text-align: center;
+      background: white;
+      border-radius: 12px;
+      color: var(--muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 13px; }
+      .topbar { padding: 16px; }
+      h1 { font-size: 23px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .panel { padding: 16px; }
+      .admin-button { width: 100%; }
+    }
+  </style>
 </head>
 
 <body>
-<header>
-  <div class="brand">✦ LOYALTYHUB</div>
-  <h1>Hello, Welcome! 👋</h1>
-  <p>Your favourite places. More rewards.</p>
-  <label class="search-wrap">
-    <span>⌕</span>
-    <input id="searchBox" type="search" placeholder="Search malls, shops, food..." aria-label="Search businesses">
-  </label>
-</header>
-
-<main>
-  <section class="banner">
-    <div class="tag">YOUR REWARDS JOURNEY STARTS HERE</div>
-    <h2>Shop More, Collect More! 🎁</h2>
-    <p>Discover stores, explore offers and enjoy rewards from your favourite businesses.</p>
-  </section>
-
-  <div class="section-head">
-    <h3>Explore Categories</h3>
-    <button id="showAll">View all</button>
-  </div>
-
-  <section class="categories" aria-label="Business categories">
-    <button class="category active" data-category="All"><span>✨</span>All</button>
-    <button class="category" data-category="Mall"><span>🏬</span>Malls</button>
-    <button class="category" data-category="Food"><span>🍕</span>Food</button>
-    <button class="category" data-category="Grocery"><span>🛒</span>Grocery</button>
-  </section>
-
-  <div class="section-head">
-    <h3>Our Partners</h3>
-    <span id="resultCount" style="font-size:12px;color:#71809c">4 businesses</span>
-  </div>
-
-  <section class="partners" id="partnerList">
-    <article class="partner" data-category="Mall">
-      <div class="logo">🏬</div>
-      <div class="details">
-        <strong>Vishal Mega Mart</strong>
-        <small>Shopping · Belonia</small><br>
-        <span class="status">Partner showcase</span>
+  <header class="topbar">
+    <div class="top-inner">
+      <div>
+        <div class="brand">⭐ Main Loyalty Platform</div>
+        <div class="tagline">One platform. Many businesses. More rewards.</div>
       </div>
-      <span class="arrow">›</span>
-    </article>
+      <button class="admin-button" id="adminToggle">
+        ⚙️ Main Admin Panel
+      </button>
+    </div>
+  </header>
 
-    <article class="partner" data-category="Food">
-      <div class="logo">🍕</div>
-      <div class="details">
-        <strong>Restaurants</strong>
-        <small>Food &amp; Dining</small><br>
-        <span class="status">Explore category</span>
+  <main class="container">
+
+    <!-- HOME PAGE -->
+    <section id="homePage">
+      <div class="welcome">
+        <h1>Discover businesses near you</h1>
+        <p class="muted">Explore malls, shops, restaurants and grocery stores.</p>
+
+        <input
+          id="searchBox"
+          class="search"
+          type="search"
+          placeholder="🔎 Search business name or category..."
+          aria-label="Search businesses"
+        />
+
+        <div class="filters" id="filters">
+          <button class="filter active" data-category="All">All</button>
+          <button class="filter" data-category="Mall">Shopping Malls</button>
+          <button class="filter" data-category="Shop">Shops</button>
+          <button class="filter" data-category="Food">Food & Restaurants</button>
+          <button class="filter" data-category="Grocery">Grocery</button>
+        </div>
       </div>
-      <span class="arrow">›</span>
-    </article>
 
-    <article class="partner" data-category="Grocery">
-      <div class="logo">🛒</div>
-      <div class="details">
-        <strong>Grocery Stores</strong>
-        <small>Groceries &amp; Essentials</small><br>
-        <span class="status">Explore category</span>
+      <div class="section-title">
+        <h2>Explore Businesses</h2>
+        <span class="muted small" id="businessCount"></span>
       </div>
-      <span class="arrow">›</span>
-    </article>
 
-    <article class="partner" data-category="Mall">
-      <div class="logo">👗</div>
-      <div class="details">
-        <strong>Fashion &amp; Clothing</strong>
-        <small>Shopping &amp; Lifestyle</small><br>
-        <span class="status">Explore category</span>
+      <div class="business-grid" id="businessGrid"></div>
+    </section>
+
+    <!-- ADMIN PAGE -->
+    <section id="adminPage" class="hidden">
+      <div class="section-title">
+        <div>
+          <h1>Main Admin Dashboard</h1>
+          <p class="muted">Manage the business directory.</p>
+        </div>
+        <button class="btn secondary" id="backHome">← Back to Home</button>
       </div>
-      <span class="arrow">›</span>
-    </article>
-  </section>
 
-  <div id="empty">No matching businesses found. Try another search.</div>
-  <div id="notice" role="status"></div>
-</main>
+      <div class="notice">
+        <strong>Prototype notice:</strong> This admin panel is not protected by
+        a real login. Anyone who can open this page may be able to edit the
+        businesses stored in this browser. Do not enter private customer data.
+        We will add secure authentication and a shared database in a later step.
+      </div>
 
-<nav class="bottom" aria-label="Main navigation">
-  <button class="active" data-page="Home"><span>⌂</span>Home</button>
-  <button data-page="QR Scan"><span>▦</span>QR Scan</button>
-  <button data-page="My Stamps"><span>☆</span>My Stamps</button>
-  <button data-page="Profile"><span>♙</span>Profile</button>
-</nav>
+      <div class="stats">
+        <div class="stat">
+          <div class="muted">Total Businesses</div>
+          <div class="stat-number" id="totalBusinesses">0</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Shopping Malls</div>
+          <div class="stat-number" id="mallTotal">0</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Shops</div>
+          <div class="stat-number" id="shopTotal">0</div>
+        </div>
+        <div class="stat">
+          <div class="muted">Food & Grocery</div>
+          <div class="stat-number" id="foodGroceryTotal">0</div>
+        </div>
+      </div>
 
-<script>
-const searchBox = document.getElementById('searchBox');
-const partners = [...document.querySelectorAll('.partner')];
-const categories = [...document.querySelectorAll('.category')];
-const empty = document.getElementById('empty');
-const count = document.getElementById('resultCount');
-const notice = document.getElementById('notice');
+      <div class="panel">
+        <h2 id="formHeading">➕ Add a Business</h2>
+        <p class="muted small">
+          Add a business to your directory. You can edit or remove it later.
+        </p>
 
-let selectedCategory = 'All';
+        <form id="businessForm">
+          <input type="hidden" id="editId" />
 
-function filterBusinesses() {
-  const query = searchBox.value.toLowerCase().trim();
-  let visible = 0;
+          <div class="form-grid">
+            <div class="field">
+              <label for="businessName">Business Name *</label>
+              <input id="businessName" maxlength="80" required
+                placeholder="e.g. Vishal Mega Mart" />
+            </div>
 
-  partners.forEach(function(card) {
-    const matchesText = card.textContent.toLowerCase().includes(query);
-    const matchesCategory = selectedCategory === 'All' ||
-      card.dataset.category === selectedCategory;
-    const show = matchesText && matchesCategory;
+            <div class="field">
+              <label for="businessCategory">Category *</label>
+              <select id="businessCategory" required>
+                <option value="Mall">Shopping Mall</option>
+                <option value="Shop">Shop</option>
+                <option value="Food">Food & Restaurant</option>
+                <option value="Grocery">Grocery</option>
+              </select>
+            </div>
 
-    card.style.display = show ? 'flex' : 'none';
-    if (show) visible++;
-  });
+            <div class="field">
+              <label for="businessLocation">Location</label>
+              <input id="businessLocation" maxlength="100"
+                placeholder="e.g. Belonia, South Tripura" />
+            </div>
 
-  empty.style.display = visible ? 'none' : 'block';
-  count.textContent = visible + (visible === 1 ? ' business' : ' businesses');
-}
+            <div class="field">
+              <label for="businessIcon">Icon / Emoji</label>
+              <input id="businessIcon" maxlength="8"
+                placeholder="e.g. 🛍️" value="🏪" />
+            </div>
 
-searchBox.addEventListener('input', filterBusinesses);
+            <div class="field full">
+              <label for="businessDescription">Short Description</label>
+              <input id="businessDescription" maxlength="160"
+                placeholder="Write a short business description" />
+            </div>
+          </div>
 
-categories.forEach(function(button) {
-  button.addEventListener('click', function() {
-    selectedCategory = button.dataset.category;
-    categories.forEach(function(item) {
-      item.classList.toggle('active', item === button);
-    });
-    filterBusinesses();
-  });
-});
+          <div class="actions">
+            <button type="submit" class="btn primary" id="saveBusiness">
+              Save Business
+            </button>
+            <button type="button" class="btn secondary hidden" id="cancelEdit">
+              Cancel Edit
+            </button>
+          </div>
+        </form>
+      </div>
 
-document.getElementById('showAll').addEventListener('click', function() {
-  selectedCategory = 'All';
-  searchBox.value = '';
-  categories.forEach(function(item) {
-    item.classList.toggle('active', item.dataset.category === 'All');
-  });
-  filterBusinesses();
-});
+      <div class="panel">
+        <div class="section-title">
+          <h2>📋 Manage Businesses</h2>
+          <input id="adminSearch" class="search"
+            style="max-width:300px;margin:0"
+            placeholder="Search your business list..." />
+        </div>
+        <div id="adminBusinessList"></div>
+      </div>
 
-document.querySelectorAll('.bottom button').forEach(function(button) {
-  button.addEventListener('click', function() {
-    const page = button.dataset.page;
-    document.querySelectorAll('.bottom button').forEach(function(item) {
-      item.classList.toggle('active', item === button);
-    });
+      <div class="panel">
+        <h2>🔐 Next Development Steps</h2>
+        <p>After testing this panel, we can build these features one by one:</p>
+        <ul>
+          <li>Secure Main Admin login and permissions</li>
+          <li>Business owner and staff accounts</li>
+          <li>Customer accounts and loyalty stamps</li>
+          <li>QR scan and staff approval</li>
+          <li>Rewards, offers and reports</li>
+          <li>Shared online database and backups</li>
+        </ul>
+      </div>
+    </section>
 
-    if (page === 'Home') {
-      notice.style.display = 'none';
-      return;
+  </main>
+
+  <footer>
+    Main Loyalty Platform · Early Development Version
+  </footer>
+
+  <script>
+    const STORAGE_KEY = "mainLoyaltyBusinesses_v1";
+
+    const starterBusinesses = [
+      {
+        id: "demo-vishal",
+        name: "Vishal Mega Mart",
+        category: "Mall",
+        location: "Belonia, South Tripura",
+        icon: "🛍️",
+        description: "A shopping destination in Belonia."
+      },
+      {
+        id: "demo-restaurant",
+        name: "Example Restaurant",
+        category: "Food",
+        location: "Add location in Admin Panel",
+        icon: "🍽️",
+        description: "Restaurant listing example."
+      },
+      {
+        id: "demo-grocery",
+        name: "Example Grocery Store",
+        category: "Grocery",
+        location: "Add location in Admin Panel",
+        icon: "🛒",
+        description: "Grocery listing example."
+      },
+      {
+        id: "demo-shop",
+        name: "Example Fashion Shop",
+        category: "Shop",
+        location: "Add location in Admin Panel",
+        icon: "👕",
+        description: "Shop listing example."
+      }
+    ];
+
+    let businesses = loadBusinesses();
+    let activeCategory = "All";
+
+    function loadBusinesses() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved !== null) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed)) return parsed;
+        }
+      } catch (error) {
+        console.error("Could not load saved businesses.", error);
+      }
+
+      return starterBusinesses.map(item => ({ ...item }));
     }
 
-    notice.style.display = 'block';
-    notice.textContent = page + ' screen is not built yet. We will add it in a later step.';
-    notice.scrollIntoView({behavior:'smooth', block:'nearest'});
-  });
-});
+    function saveBusinesses() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(businesses));
+        return true;
+      } catch (error) {
+        alert("Could not save data in this browser. Check browser storage.");
+        console.error(error);
+        return false;
+      }
+    }
 
-filterBusinesses();
-</script>
-</body>
-</html>
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function categoryName(category) {
+      return {
+        Mall: "Shopping Mall",
+        Shop: "Shop",
+        Food: "Food & Restaurant",
+        Grocery: "Grocery"
+      }[category] || category;
+    }
+
+    function renderHome() {
+      const query = document.getElementById("searchBox").value
+        .trim().toLowerCase();
+
+      const filtered = businesses.filter(business => {
+        const matchesCategory =
+          activeCategory === "All" || business.category === activeCategory;
+
+        const searchable =
+          `${business.name} ${business.category} ${business.location} ${business.description}`
+            .toLowerCase();
+
+        return matchesCategory && searchable.includes(query);
+      });
+
+      document.getElementById("businessCount").textContent =
+        `${filtered.length} business${filtered.length === 1 ? "" : "es"}`;
+
+      const grid = document.getElementById("businessGrid");
+
+      if (filtered.length === 0) {
+        grid.innerHTML =
+          '<div class="empty">No businesses found. Try another search.</div>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(business => `
+        <article class="business-card">
+          <div class="business-icon">${escapeHTML(business.icon || "🏪")}</div>
+          <span class="pill">${escapeHTML(categoryName(business.category))}</span>
+          <h3>${escapeHTML(business.name)}</h3>
+          <p class="muted small">📍 ${escapeHTML(business.location || "Location not added")}</p>
+          <p class="small">${escapeHTML(business.description || "")}</p>
+        </article>
+      `).join("");
+    }
+
+    function renderAdmin() {
+      document.getElementById("totalBusinesses").textContent = businesses.length;
+      document.getElementById("mallTotal").textContent =
+        businesses.filter(b => b.category === "Mall").length;
+      document.getElementById("shopTotal").textContent =
+        businesses.filter(b => b.category === "Shop").length;
+      document.getElementById("foodGroceryTotal").textContent =
+        businesses.filter(b => ["Food", "Grocery"].includes(b.category)).length;
+
+      const query = document.getElementById("adminSearch").value
+        .trim().toLowerCase();
+
+      const filtered = businesses.filter(b =>
+        `${b.name} ${b.category} ${b.location}`.toLowerCase().includes(query)
+      );
+
+      const list = document.getElementById("adminBusinessList");
+
+      if (filtered.length === 0) {
+        list.innerHTML = '<div class="empty">No businesses in this list.</div>';
+        return;
+      }
+
+      list.innerHTML = filtered.map(business => `
+        <div class="business-row">
+          <div>
+            <strong>${escapeHTML(business.icon || "🏪")} ${escapeHTML(business.name)}</strong>
+            <div class="muted small">
+              ${escapeHTML(categoryName(business.category))} ·
+              ${escapeHTML(business.location || "No location")}
+            </div>
+          </div>
+          <div class="actions" style="margin-top:0">
+            <button class="btn secondary" data-edit="${escapeHTML(business.id)}">
+              Edit
+            </button>
+            <button class="btn danger" data-delete="${escapeHTML(business.id)}">
+              Remove
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function refresh() {
+      renderHome();
+      renderAdmin();
+    }
+
+    function resetForm() {
+      document.getElementById("businessForm").reset();
+      document.getElementById("editId").value = "";
+      document.getElementById("businessIcon").value = "🏪";
+      document.getElementById("formHeading").textContent = "➕ Add a Business";
+      document.getElementById("saveBusiness").textContent = "Save Business";
+      document.getElementById("cancelEdit").classList.add("hidden");
+    }
+
+    document.getElementById("searchBox").addEventListener("input", renderHome);
+    document.getElementById("adminSearch").addEventListener("input", renderAdmin);
+
+    document.getElementById("filters").addEventListener("click", event => {
+      const button = event.target.closest("button[data-category]");
+      if (!button) return;
+
+      activeCategory = button.dataset.category;
+
+      document.querySelectorAll(".filter").forEach(item => {
+        item.classList.toggle("active", item === button);
+      });
+
+      renderHome();
+    });
+
+    document.getElementById("adminToggle").addEventListener("click", () => {
+      document.getElementById("homePage").classList.add("hidden");
+      document.getElementById("adminPage").classList.remove("hidden");
+      document.getElementById("adminSearch").value = "";
+      refresh();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("backHome").addEventListener("click", () => {
+      document.getElementById("adminPage").classList.add("hidden");
+      document.getElementById("homePage").classList.remove("hidden");
+      renderHome();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    document.getElementById("businessForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      const editId = document.getElementById("editId").value;
+      const existing = businesses.find(b => b.id === editId);
+
+      const business = {
+        id: existing ? existing.id : (
+          window.crypto && crypto.randomUUID
+            ? crypto.randomUUID()
+            : "biz-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8)
+        ),
+        name: document.getElementById("businessName").value.trim(),
+        category: document.getElementById("businessCategory").value,
+        location: document.getElementById("businessLocation").value.trim(),
+        icon: document.getElementById("businessIcon").value.trim() || "🏪",
+        description: document.getElementById("businessDescription").value.trim()
+      };
+
+      if (!business.name) {
+        alert("Please enter a business name.");
+        return;
+      }
+
+      const previous = businesses.map(item => ({ ...item }));
+
+      if (existing) {
+        businesses = businesses.map(item => item.id === editId ? business : item);
+      } else {
+        businesses.push(business);
+      }
+
+      if (!saveBusinesses()) {
+        businesses = previous;
+        return;
+      }
+
+      resetForm();
+      refresh();
