@@ -1,282 +1,219 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#101827">
-
-  <title>StampX | Smart Loyalty Platform</title>
+  <title>StampX | Smart Loyalty</title>
+  <meta name="description" content="Discover local shopping, food and grocery businesses with StampX.">
 
   <style>
     :root {
       --bg: #f5f7fb;
-      --card: #ffffff;
+      --ink: #172033;
+      --muted: #687386;
+      --primary: #6654e8;
       --dark: #101827;
-      --text: #182235;
-      --muted: #667085;
-      --primary: #6558f5;
-      --primary-dark: #5145d8;
-      --green: #16a36a;
+      --card: #ffffff;
       --border: #e6eaf1;
-      --radius: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
     }
 
-    button, input, select, textarea {
-      font: inherit;
-    }
-
-    button, a {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    button, input { font: inherit; }
 
     .container {
       width: min(1120px, 92%);
       margin: auto;
     }
 
-    /* HEADER */
-
     header {
       background: var(--dark);
       color: white;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      padding: 18px 0;
     }
 
-    .navbar {
-      min-height: 72px;
+    .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 15px;
+      gap: 16px;
     }
 
-    .logo {
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       font-size: 25px;
-      font-weight: 900;
+      font-weight: 800;
       letter-spacing: -1px;
     }
 
-    .logo span {
-      color: #9a91ff;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: #dce2ee;
-      font-size: 14px;
-    }
-
-    .nav-links a:hover {
+    .logo {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, #8b7bff, #5c4ae5);
       color: white;
     }
 
-    /* HERO */
+    .nav-tag {
+      font-size: 12px;
+      color: #d7d2ff;
+      border: 1px solid #4d496f;
+      border-radius: 30px;
+      padding: 8px 12px;
+    }
 
     .hero {
-      background:
-        radial-gradient(circle at 85% 20%, #5145d8 0, transparent 32%),
-        linear-gradient(125deg, #101827, #25265a);
+      background: linear-gradient(130deg, #101827, #30235e);
       color: white;
-      padding: 58px 0 65px;
-    }
-
-    .hero-content {
-      max-width: 720px;
+      padding: 58px 0 62px;
     }
 
     .eyebrow {
-      color: #c5c0ff;
-      font-weight: bold;
-      font-size: 13px;
-      letter-spacing: 2px;
+      color: #c9c0ff;
       text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+      font-weight: bold;
     }
 
     h1 {
-      font-size: clamp(35px, 7vw, 60px);
+      font-size: clamp(34px, 6vw, 57px);
       line-height: 1.08;
-      margin: 16px 0;
       letter-spacing: -2px;
+      max-width: 720px;
+      margin: 18px 0;
     }
 
     .hero p {
-      color: #d9def0;
+      max-width: 600px;
+      color: #d4d8e6;
       line-height: 1.7;
-      max-width: 570px;
+      font-size: 16px;
     }
 
-    .button {
-      display: inline-block;
-      padding: 13px 18px;
+    .search-wrap {
+      max-width: 650px;
+      margin-top: 28px;
+      display: flex;
+      gap: 10px;
+      padding: 7px;
+      background: white;
+      border-radius: 15px;
+    }
+
+    .search-wrap input {
+      flex: 1;
+      min-width: 0;
       border: 0;
-      border-radius: 12px;
+      outline: 0;
+      padding: 13px;
+      color: var(--ink);
+    }
+
+    .search-wrap button {
+      border: 0;
       background: var(--primary);
       color: white;
+      border-radius: 10px;
+      padding: 0 20px;
       font-weight: bold;
       cursor: pointer;
-      text-align: center;
     }
 
-    .button:hover {
-      background: var(--primary-dark);
-    }
+    main { padding: 34px 0 55px; }
 
-    .button-light {
-      background: white;
-      color: var(--dark);
-      margin-left: 8px;
-    }
-
-    .button-light:hover {
-      background: #eeeeff;
-    }
-
-    /* SECTIONS */
-
-    section {
-      padding: 38px 0;
-    }
-
-    .section-heading {
+    .section-head {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: end;
-      gap: 15px;
-      flex-wrap: wrap;
+      gap: 12px;
       margin-bottom: 20px;
     }
 
-    .section-heading h2 {
-      margin: 0 0 7px;
-      font-size: 27px;
-    }
-
-    .section-heading p {
+    h2 {
+      font-size: 25px;
       margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
+      letter-spacing: -.5px;
     }
 
-    /* SEARCH */
-
-    .search-box {
-      display: flex;
-      gap: 10px;
-      margin: 20px 0;
-    }
-
-    .search-box input {
-      flex: 1;
-      min-width: 0;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 13px;
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      background: white;
-      color: var(--text);
-      outline: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--primary);
-    }
-
-    /* CATEGORIES */
+    .muted { color: var(--muted); }
 
     .categories {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 13px;
+      margin: 22px 0 38px;
     }
 
     .category {
-      background: white;
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: 16px;
+      background: white;
       padding: 20px 12px;
-      text-align: center;
       cursor: pointer;
-      transition: transform .2s, border-color .2s;
+      text-align: center;
+      color: var(--ink);
+      transition: .2s;
     }
 
-    .category:hover {
-      transform: translateY(-3px);
+    .category:hover, .category.active {
       border-color: var(--primary);
+      background: #efedff;
+      transform: translateY(-2px);
     }
 
-    .category-icon {
-      font-size: 30px;
-      margin-bottom: 9px;
-    }
+    .category .emoji { font-size: 29px; }
+    .category strong { display: block; margin-top: 10px; font-size: 14px; }
 
-    .category strong {
-      display: block;
-      font-size: 14px;
+    .results-info {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 16px;
     }
-
-    /* BUSINESS CARDS */
 
     .business-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 17px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
     }
 
     .business-card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: 0 5px 20px rgba(16, 24, 39, .035);
+      border-radius: 18px;
+      padding: 22px;
+      min-width: 0;
+      box-shadow: 0 5px 20px #17203306;
     }
 
     .business-top {
       display: flex;
       align-items: center;
-      gap: 13px;
-      margin-bottom: 15px;
+      gap: 14px;
     }
 
     .business-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 15px;
       display: grid;
       place-items: center;
-      background: #eeecff;
-      font-size: 27px;
+      width: 58px;
+      height: 58px;
       flex-shrink: 0;
+      border-radius: 16px;
+      background: #f0edff;
+      font-size: 30px;
     }
 
     .business-card h3 {
@@ -285,502 +222,272 @@
       overflow-wrap: anywhere;
     }
 
-    .business-card p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.5;
-      margin: 7px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .tag {
+    .pill {
       display: inline-block;
-      background: #f0efff;
-      color: #5145d8;
       border-radius: 20px;
       padding: 5px 9px;
+      background: #f0edff;
+      color: #5545c9;
       font-size: 11px;
       font-weight: bold;
     }
 
-    .empty-state {
-      background: white;
-      padding: 25px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
+    .business-card p {
       color: var(--muted);
-      text-align: center;
-      grid-column: 1 / -1;
-    }
-
-    /* LOYALTY EXPLANATION */
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .step {
-      background: white;
-      padding: 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-
-    .step-number {
-      font-size: 25px;
-      margin-bottom: 10px;
-    }
-
-    .step h3 {
-      margin: 8px 0;
-    }
-
-    .step p {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* ADMIN DEMO */
-
-    .admin-section {
-      background: #eceeff;
-    }
-
-    .notice {
-      background: #fff6d9;
-      border: 1px solid #f0dfa0;
-      color: #705716;
-      padding: 13px;
-      border-radius: 12px;
       font-size: 13px;
       line-height: 1.6;
+      margin: 16px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .location {
+      color: var(--muted);
+      font-size: 12px;
       margin-bottom: 18px;
     }
 
-    .admin-panel {
+    .card-note {
+      background: #f7f7ff;
+      border-radius: 10px;
+      padding: 11px;
+      color: #5545c9;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 45px 15px;
       background: white;
-      padding: 22px;
-      border-radius: var(--radius);
+      border: 1px dashed #cdd2df;
+      border-radius: 16px;
+      color: var(--muted);
+    }
+
+    .how {
+      margin-top: 42px;
+      padding: 28px;
+      border-radius: 20px;
+      background: white;
       border: 1px solid var(--border);
     }
 
-    .admin-form {
+    .steps {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
     }
 
-    .admin-form textarea {
-      min-height: 85px;
-      resize: vertical;
+    .step-number {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: #efedff;
+      color: var(--primary);
+      font-weight: bold;
+      margin-bottom: 12px;
     }
 
-    .full-width {
-      grid-column: 1 / -1;
-    }
-
-    .admin-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-    .delete-button {
-      background: #fff0f0;
-      color: #c62828;
-      border: 1px solid #ffd1d1;
-      border-radius: 10px;
-      padding: 8px 11px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    /* FOOTER */
+    .steps h3 { font-size: 15px; }
+    .steps p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 
     footer {
       background: var(--dark);
-      color: #d9def0;
-      padding: 28px 0;
+      color: #c8cfdd;
       text-align: center;
-      font-size: 13px;
-      line-height: 1.7;
+      padding: 25px 12px;
+      font-size: 12px;
+      line-height: 1.8;
     }
 
-    footer strong {
-      color: white;
+    #connection {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
     }
 
     @media (max-width: 760px) {
-      .navbar {
-        padding: 15px 0;
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .nav-links {
-        gap: 13px;
-      }
-
-      .hero {
-        padding: 43px 0;
-      }
-
-      .categories {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .business-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .steps {
-        grid-template-columns: 1fr;
-      }
+      .business-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .categories { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: 1fr; }
+      .hero { padding: 42px 0; }
     }
 
-    @media (max-width: 450px) {
-      .business-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .search-box {
-        flex-direction: column;
-      }
-
-      .button-light {
-        margin: 10px 0 0;
-      }
-
-      .admin-form {
-        grid-template-columns: 1fr;
-      }
-
-      .full-width {
-        grid-column: auto;
-      }
+    @media (max-width: 480px) {
+      .business-grid { grid-template-columns: 1fr; }
+      .brand { font-size: 22px; }
+      .nav-tag { font-size: 10px; }
+      .search-wrap button { padding: 0 13px; }
+      .section-head { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
 
 <body>
-
   <header>
-    <div class="container navbar">
-      <a href="#" class="logo">Stamp<span>X</span></a>
-
-      <nav class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#categories">Categories</a>
-        <a href="#businesses">Businesses</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#admin">Admin Demo</a>
-      </nav>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">S</div>
+        <span>StampX</span>
+      </div>
+      <div class="nav-tag">SMART LOYALTY PLATFORM</div>
     </div>
   </header>
 
-  <main>
-    <!-- HOME -->
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">Your local shopping companion</div>
+      <h1>Shop local.<br>Collect rewards.</h1>
+      <p>
+        Discover shopping malls, food outlets and grocery stores.
+        Your next favorite local business is just a search away.
+      </p>
 
-    <section class="hero" id="home">
-      <div class="container hero-content">
-        <div class="eyebrow">Smart Loyalty Platform</div>
-
-        <h1>Shop More.<br>Earn More Rewards.</h1>
-
-        <p>
-          Discover shopping, food and grocery businesses.
-          Collect loyalty stamps and enjoy rewards from participating businesses.
-        </p>
-
-        <a href="#businesses" class="button">Explore Businesses</a>
-        <a href="#how-it-works" class="button button-light">How It Works</a>
+      <div class="search-wrap">
+        <input id="searchInput" type="search"
+          placeholder="Search businesses or locations..."
+          aria-label="Search businesses">
+        <button id="searchButton" type="button">Search</button>
       </div>
-    </section>
+      <div id="connection">Connecting to StampX...</div>
+    </div>
+  </section>
 
-    <!-- CATEGORIES -->
+  <main class="container">
+    <div class="section-head">
+      <h2>Explore Categories</h2>
+      <span class="muted">Find your next stop</span>
+    </div>
 
-    <section id="categories">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Explore Categories</h2>
-            <p>Find the businesses you are looking for.</p>
-          </div>
+    <div class="categories">
+      <button class="category active" data-category="All" type="button">
+        <span class="emoji">✨</span>
+        <strong>All Businesses</strong>
+      </button>
+      <button class="category" data-category="Shopping Mall" type="button">
+        <span class="emoji">🛍️</span>
+        <strong>Shopping Mall</strong>
+      </button>
+      <button class="category" data-category="Food" type="button">
+        <span class="emoji">🍔</span>
+        <strong>Food</strong>
+      </button>
+      <button class="category" data-category="Grocery" type="button">
+        <span class="emoji">🛒</span>
+        <strong>Grocery</strong>
+      </button>
+    </div>
+
+    <div class="section-head">
+      <h2>Featured Businesses</h2>
+      <span class="muted">StampX directory</span>
+    </div>
+
+    <div id="resultsInfo" class="results-info">Loading businesses...</div>
+    <div id="businessGrid" class="business-grid">
+      <div class="empty">Please wait while businesses load...</div>
+    </div>
+
+    <section class="how">
+      <h2>How StampX Works</h2>
+      <p class="muted">A simpler way to discover local businesses and enjoy loyalty rewards.</p>
+
+      <div class="steps">
+        <div>
+          <div class="step-number">01</div>
+          <h3>Discover</h3>
+          <p>Search for a participating mall, food outlet or grocery store.</p>
         </div>
-
-        <div class="categories">
-          <button class="category" data-category="Shopping Mall">
-            <div class="category-icon">🏬</div>
-            <strong>Shopping Mall</strong>
-          </button>
-
-          <button class="category" data-category="Food">
-            <div class="category-icon">🍔</div>
-            <strong>Food</strong>
-          </button>
-
-          <button class="category" data-category="Grocery">
-            <div class="category-icon">🛒</div>
-            <strong>Grocery</strong>
-          </button>
-
-          <button class="category" data-category="Shop">
-            <div class="category-icon">🏪</div>
-            <strong>Other Shops</strong>
-          </button>
+        <div>
+          <div class="step-number">02</div>
+          <h3>Shop</h3>
+          <p>Visit the business and follow its purchase eligibility rules.</p>
         </div>
-      </div>
-    </section>
-
-    <!-- BUSINESS DIRECTORY -->
-
-    <section id="businesses">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Business Directory</h2>
-            <p>Discover participating businesses.</p>
-          </div>
-        </div>
-
-        <div class="search-box">
-          <input
-            type="search"
-            id="searchInput"
-            placeholder="Search business or location..."
-            aria-label="Search businesses"
-          >
-
-          <button class="button" id="searchButton">Search</button>
-        </div>
-
-        <div class="search-box">
-          <select id="categoryFilter" aria-label="Filter by category">
-            <option value="All">All Categories</option>
-            <option value="Shopping Mall">Shopping Mall</option>
-            <option value="Food">Food</option>
-            <option value="Grocery">Grocery</option>
-            <option value="Shop">Other Shops</option>
-          </select>
-        </div>
-
-        <div class="business-grid" id="businessGrid"></div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-
-    <section id="how-it-works">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>How StampX Works</h2>
-            <p>A simple loyalty experience for customers and businesses.</p>
-          </div>
-        </div>
-
-        <div class="steps">
-          <div class="step">
-            <div class="step-number">🔎</div>
-            <h3>1. Find a Business</h3>
-            <p>Explore participating shopping malls, food outlets and shops.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">📱</div>
-            <h3>2. Collect Stamps</h3>
-            <p>In the full system, eligible purchases will be verified by authorized staff.</p>
-          </div>
-
-          <div class="step">
-            <div class="step-number">🎁</div>
-            <h3>3. Earn Rewards</h3>
-            <p>Customers will be able to redeem eligible rewards according to each business's rules.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ADMIN DEMO -->
-
-    <section class="admin-section" id="admin">
-      <div class="container">
-        <div class="section-heading">
-          <div>
-            <h2>Admin Demo</h2>
-            <p>Test adding and removing businesses on this device.</p>
-          </div>
-        </div>
-
-        <div class="notice">
-          <strong>Demo only:</strong> This panel has no secure admin login.
-          Changes are saved only in this browser using local storage.
-          They are not shared with other devices and can be lost if browser
-          data is cleared. Do not enter passwords or private customer data here.
-        </div>
-
-        <div class="admin-panel">
-          <form id="businessForm" class="admin-form">
-            <input
-              id="businessName"
-              type="text"
-              placeholder="Business name"
-              required
-              maxlength="100"
-            >
-
-            <select id="businessCategory" required>
-              <option value="Shopping Mall">Shopping Mall</option>
-              <option value="Food">Food</option>
-              <option value="Grocery">Grocery</option>
-              <option value="Shop">Other Shops</option>
-            </select>
-
-            <input
-              id="businessLocation"
-              type="text"
-              placeholder="Location"
-              required
-              maxlength="150"
-            >
-
-            <input
-              id="businessIcon"
-              type="text"
-              placeholder="Icon, e.g. 🏬"
-              value="🏪"
-              maxlength="8"
-            >
-
-            <textarea
-              id="businessDescription"
-              class="full-width"
-              placeholder="Short business description"
-              maxlength="300"
-            ></textarea>
-
-            <button class="button full-width" type="submit">
-              Add Business
-            </button>
-          </form>
-
-          <div class="admin-actions">
-            <button class="button" type="button" id="resetDemo">
-              Reset Demo Data
-            </button>
-          </div>
-
-          <p id="adminMessage" aria-live="polite"></p>
+        <div>
+          <div class="step-number">03</div>
+          <h3>Collect Rewards</h3>
+          <p>Loyalty stamps and rewards will be available when the customer system is set up.</p>
         </div>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container">
-      <strong>StampX Loyalty Platform</strong><br>
-      Discover businesses. Collect stamps. Enjoy rewards.<br>
-      <span>Demo version — database and secure authentication are not connected yet.</span>
-    </div>
+    <strong>StampX</strong> — Smart Local Loyalty<br>
+    Discover local businesses. Shop smarter. Enjoy rewards.
+    <div>Early prototype · Customer accounts and stamp collection are not active yet.</div>
   </footer>
 
+  <!-- Supabase library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script>
-    "use strict";
+    // ==========================================
+    // STEP A: REPLACE THESE TWO PLACEHOLDERS
+    // ==========================================
 
-    const STORAGE_KEY = "stampx_demo_businesses_v1";
+    const SUPABASE_URL = "https://kffqxogasvavkxpnwbfw.supabase.co/rest/v1/";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-o0Rzm7QhYr9YfDFe2i2qg_W96Ayd9N";
 
-    const initialBusinesses = [
+    // Do NOT put your Supabase Secret key here.
+
+    let businesses = [];
+    let activeCategory = "All";
+
+    const demoBusinesses = [
       {
-        id: "demo-1",
         name: "Bishal Mega Mart",
         category: "Shopping Mall",
         location: "Belonia, South Tripura",
-        icon: "🏬",
-        description: "Your local shopping destination."
+        icon: "🛍️",
+        description: "Discover shopping and participating local stores."
       },
       {
-        id: "demo-2",
         name: "Food Corner",
         category: "Food",
         location: "Belonia, South Tripura",
         icon: "🍔",
-        description: "A demo listing for food businesses."
+        description: "Explore local food and dining options."
       },
       {
-        id: "demo-3",
         name: "Grocery Store",
         category: "Grocery",
         location: "Belonia, South Tripura",
         icon: "🛒",
-        description: "A demo listing for grocery businesses."
+        description: "Find everyday grocery essentials."
       }
     ];
 
+    const grid = document.getElementById("businessGrid");
+    const resultsInfo = document.getElementById("resultsInfo");
+    const connection = document.getElementById("connection");
     const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-    const categoryFilter = document.getElementById("categoryFilter");
-    const businessGrid = document.getElementById("businessGrid");
-    const businessForm = document.getElementById("businessForm");
-    const adminMessage = document.getElementById("adminMessage");
 
-    let activeCategory = "All";
-
-    function loadBusinesses() {
-      try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-
-        if (saved === null) {
-          return [...initialBusinesses];
-        }
-
-        const parsed = JSON.parse(saved);
-
-        if (!Array.isArray(parsed)) {
-          return [...initialBusinesses];
-        }
-
-        return parsed;
-      } catch (error) {
-        return [...initialBusinesses];
-      }
-    }
-
-    let businesses = loadBusinesses();
-
-    function saveBusinesses() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(businesses));
-        return true;
-      } catch (error) {
-        adminMessage.textContent =
-          "Could not save demo data in this browser.";
-        return false;
-      }
-    }
-
-    function createElement(tag, className, text) {
-      const element = document.createElement(tag);
-
-      if (className) {
-        element.className = className;
-      }
-
-      if (text !== undefined) {
-        element.textContent = text;
-      }
-
-      return element;
+    function escapeHTML(value) {
+      return String(value ?? "").replace(/[&<>"']/g, function (char) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[char];
+      });
     }
 
     function renderBusinesses() {
-      const query = searchInput.value.trim().toLowerCase();
-      const category = categoryFilter.value;
+      const term = searchInput.value.trim().toLowerCase();
 
       const filtered = businesses.filter(function (business) {
+        const matchesCategory =
+          activeCategory === "All" ||
+          String(business.category || "").toLowerCase() ===
+            activeCategory.toLowerCase();
+
         const searchableText = [
           business.name,
           business.category,
@@ -788,175 +495,105 @@
           business.description
         ].join(" ").toLowerCase();
 
-        const matchesSearch = searchableText.includes(query);
-        const matchesCategory =
-          category === "All" || business.category === category;
-
-        return matchesSearch && matchesCategory;
+        return matchesCategory && searchableText.includes(term);
       });
 
-      businessGrid.replaceChildren();
+      resultsInfo.textContent = filtered.length + " business(es) found";
 
-      if (filtered.length === 0) {
-        const empty = createElement(
-          "div",
-          "empty-state",
-          "No businesses found. Try another search or category."
-        );
-
-        businessGrid.appendChild(empty);
+      if (!filtered.length) {
+        grid.innerHTML =
+          '<div class="empty">No businesses found. Try another search or category.</div>';
         return;
       }
 
-      filtered.forEach(function (business) {
-        const card = createElement("article", "business-card");
-        const top = createElement("div", "business-top");
-        const icon = createElement(
-          "div",
-          "business-icon",
-          business.icon || "🏪"
-        );
+      grid.innerHTML = filtered.map(function (business) {
+        const icon = escapeHTML(business.icon || "🏪");
 
-        const titleArea = document.createElement("div");
-        const title = createElement("h3", "", business.name);
-        const tag = createElement("span", "tag", business.category);
-
-        titleArea.append(title, tag);
-        top.append(icon, titleArea);
-
-        const location = createElement(
-          "p",
-          "",
-          "📍 " + business.location
-        );
-
-        const description = createElement(
-          "p",
-          "",
-          business.description || "Discover this participating business."
-        );
-
-        card.append(top, location, description);
-
-        const deleteButton = createElement(
-          "button",
-          "delete-button",
-          "Remove from Demo"
-        );
-
-        deleteButton.type = "button";
-        deleteButton.addEventListener("click", function () {
-          const confirmed = window.confirm(
-            "Remove this business from the demo on this device?"
-          );
-
-          if (!confirmed) {
-            return;
-          }
-
-          businesses = businesses.filter(function (item) {
-            return item.id !== business.id;
-          });
-
-          if (saveBusinesses()) {
-            renderBusinesses();
-            adminMessage.textContent =
-              "Business removed from this browser's demo.";
-          }
-        });
-
-        card.appendChild(deleteButton);
-        businessGrid.appendChild(card);
-      });
+        return `
+          <article class="business-card">
+            <div class="business-top">
+              <div class="business-icon">${icon}</div>
+              <div>
+                <h3>${escapeHTML(business.name || "Unnamed Business")}</h3>
+                <span class="pill">${escapeHTML(business.category || "Other Shops")}</span>
+              </div>
+            </div>
+            <p>${escapeHTML(business.description || "Discover this local business on StampX.")}</p>
+            <div class="location">📍 ${escapeHTML(business.location || "Location not added")}</div>
+            <div class="card-note">✨ StampX business directory</div>
+          </article>
+        `;
+      }).join("");
     }
 
+    async function loadBusinesses() {
+      const urlReady =
+        SUPABASE_URL.startsWith("https://") &&
+        !SUPABASE_URL.includes("PASTE_YOUR");
+
+      const keyReady =
+        SUPABASE_PUBLISHABLE_KEY.length > 20 &&
+        !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR");
+
+      if (!urlReady || !keyReady) {
+        businesses = demoBusinesses;
+        connection.textContent =
+          "Demo mode: add your Supabase URL and Publishable key in the code.";
+        renderBusinesses();
+        return;
+      }
+
+      if (!window.supabase || !window.supabase.createClient) {
+        businesses = demoBusinesses;
+        connection.textContent =
+          "Could not load the Supabase library. Showing demo businesses.";
+        renderBusinesses();
+        return;
+      }
+
+      try {
+        const client = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_PUBLISHABLE_KEY
+        );
+
+        const { data, error } = await client
+          .from("businesses")
+          .select("id,name,category,location,icon,description")
+          .order("name", { ascending: true });
+
+        if (error) throw error;
+
+        businesses = data || [];
+        connection.textContent =
+          "Connected to Supabase. Showing database businesses.";
+        renderBusinesses();
+      } catch (error) {
+        console.error("StampX database error:", error);
+        businesses = demoBusinesses;
+        connection.textContent =
+          "Database connection failed. Showing demo data; check URL, key and SELECT policy.";
+        renderBusinesses();
+      }
+    }
+
+    document.getElementById("searchButton").addEventListener("click", renderBusinesses);
+
     searchInput.addEventListener("input", renderBusinesses);
-
-    searchButton.addEventListener("click", renderBusinesses);
-
-    categoryFilter.addEventListener("change", function () {
-      activeCategory = categoryFilter.value;
-      renderBusinesses();
-    });
 
     document.querySelectorAll(".category").forEach(function (button) {
       button.addEventListener("click", function () {
         activeCategory = button.dataset.category;
-        categoryFilter.value = activeCategory;
 
-        renderBusinesses();
-
-        document.getElementById("businesses").scrollIntoView({
-          behavior: "smooth"
+        document.querySelectorAll(".category").forEach(function (item) {
+          item.classList.toggle("active", item === button);
         });
-      });
-    });
 
-    businessForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      const name = document.getElementById("businessName").value.trim();
-      const category = document.getElementById("businessCategory").value;
-      const location = document.getElementById("businessLocation").value.trim();
-      const icon =
-        document.getElementById("businessIcon").value.trim() || "🏪";
-      const description =
-        document.getElementById("businessDescription").value.trim();
-
-      if (!name || !location) {
-        adminMessage.textContent = "Please enter the business name and location.";
-        return;
-      }
-
-      businesses.unshift({
-        id: "demo-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8),
-        name: name,
-        category: category,
-        location: location,
-        icon: icon,
-        description: description
-      });
-
-      if (!saveBusinesses()) {
-        businesses.shift();
-        return;
-      }
-
-      businessForm.reset();
-      document.getElementById("businessIcon").value = "🏪";
-
-      categoryFilter.value = "All";
-      activeCategory = "All";
-
-      renderBusinesses();
-
-      adminMessage.textContent =
-        "Business added to the demo on this device.";
-    });
-
-    document.getElementById("resetDemo").addEventListener("click", function () {
-      const confirmed = window.confirm(
-        "Reset the demo business list to the original examples?"
-      );
-
-      if (!confirmed) {
-        return;
-      }
-
-      businesses = [...initialBusinesses];
-
-      if (saveBusinesses()) {
-        categoryFilter.value = "All";
-        searchInput.value = "";
-        activeCategory = "All";
         renderBusinesses();
-
-        adminMessage.textContent = "Demo business list has been reset.";
-      }
+      });
     });
 
-    renderBusinesses();
+    loadBusinesses();
   </script>
-
 </body>
 </html>
