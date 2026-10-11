@@ -3,9 +3,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#10291f">
-  <title>Vishal Mega Mart | Loyalty Club</title>
+  <title>Vishal Mega Mart Loyalty Club</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -13,88 +13,117 @@
     * { box-sizing: border-box; }
     body {
       margin: 0;
+      background: #f3f6f2;
+      color: #18271e;
       font-family: Arial, sans-serif;
-      color: #17251e;
-      background: #f4f6f2;
     }
     header {
       background: #10291f;
       color: white;
-      padding: 22px 18px;
       text-align: center;
+      padding: 24px 15px;
     }
     .logo {
-      width: 58px;
-      height: 58px;
-      margin: auto auto 10px;
-      border: 2px solid #e7c879;
-      border-radius: 18px;
       display: grid;
       place-items: center;
+      width: 58px;
+      height: 58px;
+      margin: auto;
+      border: 2px solid #e7c879;
+      border-radius: 18px;
       color: #e7c879;
-      font-size: 29px;
+      font-size: 30px;
       font-weight: bold;
     }
-    header h1 { margin: 8px 0; font-size: 23px; }
-    header p { margin: 6px 0; color: #e1e9e2; font-size: 14px; }
+    header h1 { font-size: 22px; margin: 12px 0 7px; }
+    header p { color: #e1e9e2; font-size: 13px; margin: 5px; }
     main { max-width: 480px; margin: 22px auto; padding: 0 15px 30px; }
-    .hero {
-      background: linear-gradient(135deg, #fff8e5, #ffffff);
-      border: 1px solid #e8dfc8;
-      border-radius: 18px;
-      padding: 23px 20px;
-      margin-bottom: 18px;
-    }
-    .hero h2 { margin: 0 0 10px; font-size: 23px; }
-    .hero p { line-height: 1.6; color: #58645b; margin-bottom: 0; }
-    .card {
+    .hero, .card {
       background: white;
+      border-radius: 17px;
       padding: 22px;
-      border-radius: 18px;
-      box-shadow: 0 5px 22px #17251e0c;
-      margin-bottom: 18px;
+      margin-bottom: 17px;
+      box-shadow: 0 5px 20px #10291f0b;
     }
-    h2 { font-size: 21px; margin-top: 0; }
-    label { display: block; font-size: 13px; margin: 14px 0 6px; font-weight: bold; }
-    input {
+    .hero {
+      background: linear-gradient(135deg, #fff7df, #fff);
+      border: 1px solid #e8dfc8;
+    }
+    h2 { margin: 0 0 12px; font-size: 22px; }
+    .muted { color: #647168; font-size: 13px; line-height: 1.6; }
+    label.field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      margin: 15px 0 6px;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"] {
       display: block;
       width: 100%;
       padding: 13px;
-      border: 1px solid #d8dfd9;
+      border: 1px solid #d5ded6;
       border-radius: 10px;
       font-size: 16px;
-      background: #fff;
+      background: white;
     }
-    input:focus { outline: 2px solid #9cbd9f; border-color: #316b49; }
-    button {
+    input:focus { outline: 2px solid #a6c8aa; }
+    button, .switch-link {
+      display: block;
       width: 100%;
       padding: 13px;
       border: 0;
       border-radius: 10px;
-      background: #174d32;
-      color: white;
+      margin-top: 15px;
+      text-align: center;
       font-size: 15px;
       font-weight: bold;
-      margin-top: 15px;
       cursor: pointer;
     }
-    button:disabled { opacity: .6; }
-    .secondary { background: #eaf0eb; color: #174d32; }
-    .hidden { display: none !important; }
-    .message { font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
-    .success { color: #17683b; }
+    button { background: #174d32; color: white; }
+    button:disabled { opacity: .6; cursor: wait; }
+    .switch-link {
+      background: #eaf0eb;
+      color: #174d32;
+      text-decoration: none;
+    }
+    .message {
+      font-size: 14px;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
     .error { color: #b42318; }
-    .muted { color: #66736a; font-size: 13px; line-height: 1.5; }
+    .success { color: #17683b; }
+    .hidden { display: none !important; }
+
+    /* Registration/Login switching works through the checkbox and CSS. */
+    .mode-toggle {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    #registerMode:checked ~ main #loginCard { display: none; }
+    #registerMode:checked ~ main #registerCard { display: block; }
+    #registerCard { display: none; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #68746b;
+      font-size: 12px;
+    }
     .stat {
-      background: #f3f7f2;
-      border-radius: 12px;
+      background: #f1f6f0;
       padding: 15px;
+      border-radius: 12px;
       margin: 12px 0;
     }
-    footer { text-align: center; padding: 20px; color: #6c766e; font-size: 12px; }
   </style>
 </head>
-
 <body>
   <header>
     <div class="logo">V</div>
@@ -103,45 +132,67 @@
     <p>Welcome to Vishal Mega Mart Loyalty Club</p>
   </header>
 
+  <!-- The checkbox allows form switching without JavaScript. -->
+  <input type="checkbox" id="registerMode" class="mode-toggle">
+
   <main>
     <section class="hero">
       <h2>Shop. Collect. Enjoy.</h2>
-      <p>Join our customer loyalty club and keep your loyalty journey in one place.</p>
+      <p class="muted">
+        Join our customer loyalty club and keep your loyalty journey in one place.
+      </p>
     </section>
 
-    <section id="authSection" class="card">
-      <h2 id="formTitle">Customer Login</h2>
-      <p class="muted">Sign in to your account or create a new account.</p>
+    <section id="loginCard" class="card">
+      <h2>Customer Login</h2>
+      <p class="muted">Welcome back! Sign in to your account.</p>
 
-      <form id="authForm">
-        <div id="nameField" class="hidden">
-          <label for="fullName">Full Name</label>
-          <input id="fullName" type="text" maxlength="100"
-                 autocomplete="name" placeholder="Enter your full name">
-        </div>
+      <form id="loginForm">
+        <label class="field-label" for="loginEmail">Email Address</label>
+        <input id="loginEmail" type="email" required autocomplete="email"
+               placeholder="you@example.com">
 
-        <div id="mobileField" class="hidden">
-          <label for="mobile">Mobile Number</label>
-          <input id="mobile" type="tel" maxlength="15"
-                 autocomplete="tel" placeholder="Enter your mobile number">
-        </div>
+        <label class="field-label" for="loginPassword">Password</label>
+        <input id="loginPassword" type="password" required
+               autocomplete="current-password" placeholder="Your password">
 
-        <label for="email">Email Address</label>
-        <input id="email" type="email" required maxlength="254"
-               autocomplete="email" placeholder="you@example.com">
-
-        <label for="password">Password</label>
-        <input id="password" type="password" required minlength="6"
-               autocomplete="current-password" placeholder="At least 6 characters">
-
-        <button id="submitBtn" type="submit">Login</button>
+        <button id="loginButton" type="submit">Login</button>
       </form>
 
-      <button id="switchBtn" type="button" class="secondary">
+      <label for="registerMode" class="switch-link">
         New customer? Create account
-      </button>
+      </label>
+      <p id="loginMessage" class="message" role="status" aria-live="polite"></p>
+    </section>
 
-      <p id="message" class="message" role="status" aria-live="polite"></p>
+    <section id="registerCard" class="card">
+      <h2>Create Customer Account</h2>
+      <p class="muted">Register to join our loyalty club.</p>
+
+      <form id="registerForm">
+        <label class="field-label" for="fullName">Full Name</label>
+        <input id="fullName" type="text" required maxlength="100"
+               autocomplete="name" placeholder="Enter your full name">
+
+        <label class="field-label" for="mobile">Mobile Number</label>
+        <input id="mobile" type="tel" required maxlength="15"
+               autocomplete="tel" placeholder="Enter your mobile number">
+
+        <label class="field-label" for="registerEmail">Email Address</label>
+        <input id="registerEmail" type="email" required maxlength="254"
+               autocomplete="email" placeholder="you@example.com">
+
+        <label class="field-label" for="registerPassword">Create Password</label>
+        <input id="registerPassword" type="password" required minlength="6"
+               autocomplete="new-password" placeholder="At least 6 characters">
+
+        <button id="registerButton" type="submit">Create Account</button>
+      </form>
+
+      <label for="registerMode" class="switch-link">
+        Already registered? Login
+      </label>
+      <p id="registerMessage" class="message" role="status" aria-live="polite"></p>
     </section>
 
     <section id="dashboard" class="card hidden">
@@ -149,98 +200,64 @@
       <p>Welcome, <strong id="customerName">Customer</strong>!</p>
       <div class="stat">
         <strong>Vishal Mega Mart</strong>
-        <p class="muted">Your loyalty account is connected.</p>
         <p id="customerMobile" class="muted"></p>
+        <p class="muted">
+          Approved stamps and rewards will appear here after the secure staff
+          approval system is connected.
+        </p>
       </div>
-      <p class="muted">
-        Your approved stamps and rewards will appear here after the secure
-        staff approval and loyalty system is connected.
-      </p>
-      <button id="logoutBtn" type="button">Logout</button>
+      <button id="logoutButton" type="button">Logout</button>
+      <p id="dashboardMessage" class="message" role="status"></p>
     </section>
   </main>
 
   <footer>Vishal Mega Mart Loyalty Club · Belonia, Tripura</footer>
 
   <script>
-    // STEP 1: Paste your Supabase Project URL between the quotes.
-    const SUPABASE_URL = "https://kffqxogasvavkxpnwbfw.supabase.co";
-
-    // STEP 2: Paste your Supabase Publishable key between the quotes.
-    // Never use a service_role key or secret key in this website.
+    // Replace these two values with your own Supabase details.
+    const SUPABASE_URL = "https://kffqxogasvavkxpnwbfw.supabase.co/rest/v1/";
     const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_-o0Rzm7QhYr9YfDFe2i2qg_W96Ayd9N";
 
-    const authSection = document.getElementById("authSection");
-    const dashboard = document.getElementById("dashboard");
-    const form = document.getElementById("authForm");
-    const message = document.getElementById("message");
-    const submitBtn = document.getElementById("submitBtn");
-    const switchBtn = document.getElementById("switchBtn");
-    const nameField = document.getElementById("nameField");
-    const mobileField = document.getElementById("mobileField");
-    const passwordInput = document.getElementById("password");
+    const $ = (id) => document.getElementById(id);
+    const mode = $("registerMode");
+    const loginCard = $("loginCard");
+    const registerCard = $("registerCard");
+    const dashboard = $("dashboard");
 
-    let isRegister = false;
-    let supabase = null;
+    let client = null;
     let busy = false;
 
-    function showMessage(text, type = "") {
-      message.textContent = text;
-      message.className = "message" + (type ? " " + type : "");
+    function message(id, text, type = "") {
+      $(id).textContent = text;
+      $(id).className = "message" + (type ? " " + type : "");
     }
 
-    function showConfigurationError() {
-      showMessage(
-        "Setup needed: replace both Supabase placeholders in the code, then save and reload.",
-        "error"
-      );
-      submitBtn.disabled = true;
+    function showLoggedOut() {
+      dashboard.classList.add("hidden");
+      loginCard.classList.remove("hidden");
+      mode.checked = false;
     }
 
-    function setMode(register) {
-      isRegister = register;
-      nameField.classList.toggle("hidden", !register);
-      mobileField.classList.toggle("hidden", !register);
-      document.getElementById("formTitle").textContent =
-        register ? "Create Customer Account" : "Customer Login";
-      submitBtn.textContent = register ? "Create Account" : "Login";
-      switchBtn.textContent = register
-        ? "Already registered? Login"
-        : "New customer? Create account";
-      document.getElementById("fullName").required = register;
-      document.getElementById("mobile").required = register;
-      passwordInput.autocomplete = register ? "new-password" : "current-password";
-      showMessage("");
-    }
-
-    function setBusy(value) {
-      busy = value;
-      submitBtn.disabled = value;
-      switchBtn.disabled = value;
-      submitBtn.textContent = value ? "Please wait..." :
-        (isRegister ? "Create Account" : "Login");
-    }
-
-    async function saveOrLoadProfile(user) {
-      const metadata = user.user_metadata || {};
-      const { data: existing, error: readError } = await supabase
+    async function loadProfile(user) {
+      const { data: profile, error: readError } = await client
         .from("customer_profiles")
         .select("id, full_name, mobile_number")
         .eq("id", user.id)
         .maybeSingle();
 
       if (readError) throw readError;
-      if (existing) return existing;
+      if (profile) return profile;
 
-      const profile = {
+      const metadata = user.user_metadata || {};
+      const newProfile = {
         id: user.id,
         full_name: metadata.full_name || user.email || "Customer",
         mobile_number: metadata.mobile_number || null
       };
 
-      const { data, error } = await supabase
+      const { data, error } = await client
         .from("customer_profiles")
-        .insert(profile)
+        .insert(newProfile)
         .select("id, full_name, mobile_number")
         .single();
 
@@ -248,143 +265,150 @@
       return data;
     }
 
-    async function renderSession(session) {
-      if (!session) {
-        authSection.classList.remove("hidden");
-        dashboard.classList.add("hidden");
-        return;
-      }
-
-      authSection.classList.add("hidden");
+    async function showDashboard(user) {
+      loginCard.classList.add("hidden");
+      registerCard.classList.add("hidden");
       dashboard.classList.remove("hidden");
-      document.getElementById("customerName").textContent =
-        session.user.user_metadata?.full_name || session.user.email || "Customer";
-      document.getElementById("customerMobile").textContent = "";
-      showMessage("");
+      $("customerName").textContent = user.email || "Customer";
+      $("customerMobile").textContent = "";
+      message("dashboardMessage", "");
 
       try {
-        const profile = await saveOrLoadProfile(session.user);
-        document.getElementById("customerName").textContent =
-          profile.full_name || "Customer";
-        document.getElementById("customerMobile").textContent =
+        const profile = await loadProfile(user);
+        $("customerName").textContent = profile.full_name || "Customer";
+        $("customerMobile").textContent =
           profile.mobile_number ? "Mobile: " + profile.mobile_number : "";
       } catch (error) {
-        console.error("Profile error:", error);
-        showMessage(
-          "You are logged in, but your profile could not be loaded. Check the customer_profiles table and its Row Level Security policies.",
+        console.error("Customer profile error:", error);
+        message(
+          "dashboardMessage",
+          "Login succeeded, but profile loading failed. Check the customer_profiles table and its Row Level Security policies.",
           "error"
         );
       }
     }
 
-    switchBtn.addEventListener("click", () => {
-      if (busy) return;
-      setMode(!isRegister);
-    });
+    function setBusy(value, buttonId, normalText) {
+      busy = value;
+      $(buttonId).disabled = value;
+      $(buttonId).textContent = value ? "Please wait..." : normalText;
+    }
 
-    form.addEventListener("submit", async (event) => {
+    $("loginForm").addEventListener("submit", async (event) => {
       event.preventDefault();
-      if (!supabase || busy) return;
+      if (!client || busy) return;
 
-      setBusy(true);
-      showMessage("");
-
-      const email = document.getElementById("email").value.trim();
-      const password = passwordInput.value;
+      setBusy(true, "loginButton", "Login");
+      message("loginMessage", "");
 
       try {
-        if (isRegister) {
-          const fullName = document.getElementById("fullName").value.trim();
-          const mobile = document.getElementById("mobile").value.trim();
+        const { data, error } = await client.auth.signInWithPassword({
+          email: $("loginEmail").value.trim(),
+          password: $("loginPassword").value
+        });
 
-          if (!fullName || !mobile) {
-            throw new Error("Please enter your name and mobile number.");
-          }
+        if (error) throw error;
+        await showDashboard(data.user);
+      } catch (error) {
+        console.error(error);
+        message("loginMessage", error.message || "Login failed.", "error");
+      } finally {
+        setBusy(false, "loginButton", "Login");
+      }
+    });
 
-          const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-              data: {
-                full_name: fullName,
-                mobile_number: mobile
-              }
+    $("registerForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!client || busy) return;
+
+      setBusy(true, "registerButton", "Create Account");
+      message("registerMessage", "");
+
+      try {
+        const fullName = $("fullName").value.trim();
+        const mobile = $("mobile").value.trim();
+        const email = $("registerEmail").value.trim();
+        const password = $("registerPassword").value;
+
+        if (!fullName || !mobile) {
+          throw new Error("Please enter your full name and mobile number.");
+        }
+
+        const { data, error } = await client.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              mobile_number: mobile
             }
-          });
-
-          if (error) throw error;
-
-          if (data.session) {
-            await renderSession(data.session);
-          } else {
-            showMessage(
-              "Account request submitted. Check your email for a confirmation link if email confirmation is enabled. After confirming, return here and log in.",
-              "success"
-            );
           }
-        } else {
-          const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-          });
+        });
 
-          if (error) throw error;
-          await renderSession(data.session);
+        if (error) throw error;
+
+        if (data.session && data.user) {
+          await showDashboard(data.user);
+        } else {
+          message(
+            "registerMessage",
+            "Account request submitted. Check your email for the confirmation link. After confirming, return and log in.",
+            "success"
+          );
         }
       } catch (error) {
         console.error(error);
-        let text = error.message || "Something went wrong. Please try again.";
-        if (text.includes("customer_profiles") || text.includes("duplicate key")) {
-          text = "Profile save failed. Your mobile number may already be registered, or a database policy needs checking.";
-        }
-        showMessage(text, "error");
+        message("registerMessage", error.message || "Registration failed.", "error");
       } finally {
-        setBusy(false);
+        setBusy(false, "registerButton", "Create Account");
       }
     });
 
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      if (!supabase) return;
-      const { error } = await supabase.auth.signOut();
+    $("logoutButton").addEventListener("click", async () => {
+      if (!client) return;
+
+      const { error } = await client.auth.signOut();
       if (error) {
-        showMessage(error.message, "error");
+        message("dashboardMessage", error.message, "error");
         return;
       }
-      form.reset();
-      setMode(false);
-      await renderSession(null);
+
+      $("loginForm").reset();
+      $("registerForm").reset();
+      showLoggedOut();
     });
 
     if (
+      window.supabase &&
       SUPABASE_URL.startsWith("https://") &&
       !SUPABASE_URL.includes("PASTE_YOUR") &&
       SUPABASE_PUBLISHABLE_KEY &&
-      !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR") &&
-      window.supabase
+      !SUPABASE_PUBLISHABLE_KEY.includes("PASTE_YOUR")
     ) {
-      supabase = window.supabase.createClient(
+      client = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
       );
 
-      supabase.auth.onAuthStateChange((_event, session) => {
-        // Defer profile work to avoid doing additional Supabase calls
-        // inside the auth event callback.
-        setTimeout(() => renderSession(session), 0);
-      });
-
-      supabase.auth.getSession().then(({ data, error }) => {
+      client.auth.getSession().then(({ data, error }) => {
         if (error) {
-          showMessage(error.message, "error");
+          message("loginMessage", error.message, "error");
           return;
         }
-        renderSession(data.session);
+        if (data.session) showDashboard(data.session.user);
       });
     } else {
-      showConfigurationError();
+      message(
+        "loginMessage",
+        "Supabase setup incomplete. Check your Project URL and Publishable key in the code.",
+        "error"
+      );
+      message(
+        "registerMessage",
+        "Supabase setup incomplete. Check your Project URL and Publishable key in the code.",
+        "error"
+      );
     }
-
-    setMode(false);
   </script>
 </body>
 </html>
